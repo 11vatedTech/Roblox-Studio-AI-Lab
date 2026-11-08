@@ -241,7 +241,7 @@
       "acceptanceCriteria": ["Frame time, memory, network, load time, and graphics quality are measured on representative target hardware.", "Quality tiers preserve essential silhouette, readability, and gameplay while meeting recorded budgets."],
       "verificationMethod": "Profile named workloads in Roblox Studio and on a physical midrange device; record device, settings, source digest, and measured values.",
       "verificationResult": "blocked",
-      "evidenceRefs": ["evidence/environment-report.json"],
+      "evidenceRefs": [],
       "outstandingDefects": [{"severity": "high", "description": "Current performance view reports source size only; no runtime profile or target-device budget exists."}],
       "blockers": ["No physical midrange device identity or runtime profiling evidence is available."],
       "approvalRequirements": []
