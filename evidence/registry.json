@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-08T03:30:00.000Z",
+  "updatedAt": "2026-11-08T10:30:00.000-05:00",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -32,6 +32,21 @@
         "The evidence is explicitly test-only; its fixture project was removed after the run.",
         "Different MCP process and session identities are recorded, but client names are self-reported and no AI provider, model, or human identity is attested.",
         "No live Studio engine test is included."
+      ]
+    },
+    {
+      "id": "evidence.ci.lab-service-lifecycle-windows-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Windows service lifecycle and regression CI",
+      "capturedAt": "2026-11-08T05:12:57.5658364Z",
+      "project": "roblox-studio-ai-lab",
+      "scope": "Hosted Windows CI: 90/90 Node tests and two production PowerShell start, graceful-stop, process-exit, and restart cycles.",
+      "reference": "evidence/ci/service-lifecycle-windows-20261108.json",
+      "referenceSha256": "1262ec4178a6774e227db495e42d006cc05be7cd380f4d89a36a4e131089f118",
+      "limitations": [
+        "Hosted Windows CI does not replace a smoke test on the target workstation.",
+        "Does not certify live Roblox Studio/MCP behavior, multiplayer gameplay, device input, or runtime performance."
       ]
     }
   ]
