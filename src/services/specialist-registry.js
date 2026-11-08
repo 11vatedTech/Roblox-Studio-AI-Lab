@@ -19,10 +19,13 @@ function isObject(value) {
 }
 
 function comparableFilesystemPath(value) {
-  let resolved = path.resolve(value);
+  let input = String(value);
+  if (process.platform === 'win32') {
+    const namespacePrefix = String.fromCharCode(92, 92, 63, 92);
+    if (input.startsWith(namespacePrefix)) input = input.slice(namespacePrefix.length);
+  }
+  const resolved = path.resolve(input);
   if (process.platform !== 'win32') return resolved;
-  const namespacePrefix = String.fromCharCode(92, 92, 63, 92);
-  if (resolved.startsWith(namespacePrefix)) resolved = resolved.slice(namespacePrefix.length);
   return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
 }
 
