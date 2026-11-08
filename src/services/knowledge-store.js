@@ -108,12 +108,6 @@ async function recordsDirectory(rootDir) {
   return { directory: current, missing: false };
 }
 
-function sameFile(left, right) {
-  if (left.dev !== right.dev) return false;
-  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
-  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
-}
-
 
 async function verifyRealEntry(entryPath, expectedType) {
   const lexicalStat = await fs.lstat(entryPath);
