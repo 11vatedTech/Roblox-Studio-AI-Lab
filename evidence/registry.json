@@ -27,7 +27,7 @@
       "project": "test-world",
       "scope": "Test-only local MCP owner and reviewer processes staged an assigned Luau module, ran pinned checks, accepted the reviewed output, and verified persistence after server restart.",
       "reference": "evidence/p0/lab-task-execution-20261108T032409820Z.json",
-      "referenceSha256": "e1d7c9860da307b5b579ccbb34ece15d6800f4f5e1e7efe4b7b671603f22d5bb",
+      "referenceSha256": "a8672751cadf75bc298bc6a8efa412e41730c869b06caf11dc224902576c0f06",
       "limitations": [
         "The evidence is explicitly test-only; its fixture project was removed after the run.",
         "Different MCP process and session identities are recorded, but client names are self-reported and no AI provider, model, or human identity is attested.",
