@@ -42,3 +42,13 @@ jobs:
       - name: Run regression suite
         run: npm test
         shell: pwsh
+
+      - name: Retain Windows lifecycle logs and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-lab-lifecycle
+          if-no-files-found: warn
+          path: |
+            .lab-runtime/logs/*
+            evidence/ci/service-lifecycle-windows.json
