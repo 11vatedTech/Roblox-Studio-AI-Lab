@@ -51,4 +51,4 @@ if (-not $ready) {
     throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog"
 }
 Write-Host "Lab is ready at $url"
-Start-Process $url
+if (-not $NoBrowser) { Start-Process $url }
