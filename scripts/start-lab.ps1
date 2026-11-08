@@ -47,8 +47,12 @@ for ($attempt = 0; $attempt -lt 30; $attempt++) {
 }
 if (-not $ready) {
     $process.Refresh()
-    if ($process.HasExited) { throw "Lab exited during startup. Review $stderrLog" }
-    throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog"
+    $stdoutTail = if (Test-Path -LiteralPath $stdoutLog) { (Get-Content -LiteralPath $stdoutLog -Tail 80 -ErrorAction SilentlyContinue) -join [Environment]::NewLine } else { '(no stdout log)' }
+    $stderrTail = if (Test-Path -LiteralPath $stderrLog) { (Get-Content -LiteralPath $stderrLog -Tail 80 -ErrorAction SilentlyContinue) -join [Environment]::NewLine } else { '(no stderr log)' }
+    if ($process.HasExited) {
+        throw "Lab exited during startup. Exit code: $($process.ExitCode). Review $stderrLog`nSTDOUT:`n$stdoutTail`nSTDERR:`n$stderrTail"
+    }
+    throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog`nSTDOUT:`n$stdoutTail`nSTDERR:`n$stderrTail"
 }
 Write-Host "Lab is ready at $url"
 if (-not $NoBrowser) { Start-Process $url }
