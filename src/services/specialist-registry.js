@@ -26,6 +26,13 @@ function comparableFilesystemPath(value) {
   return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
 }
 
+function isStrictlyWithinFilesystemPath(root, target) {
+  const base = comparableFilesystemPath(root).replace(/[\\/]+$/, '');
+  const candidate = comparableFilesystemPath(target);
+  const separator = process.platform === 'win32' ? String.fromCharCode(92) : path.sep;
+  return candidate.startsWith(`${base}${separator}`);
+}
+
 
 function stringArray(value, pattern, { min = 0, max = 100 } = {}) {
   return Array.isArray(value)
@@ -62,8 +69,7 @@ async function readSafeFile(rootDir, segments, maxBytes) {
   }
 
   const realFile = await fs.realpath(current);
-  const relative = path.relative(comparableFilesystemPath(realRoot), comparableFilesystemPath(realFile));
-  if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+  if (!isStrictlyWithinFilesystemPath(realRoot, realFile)) {
     throw fail('SPECIALIST_PATH_INVALID', 'The registry or role contract resolves outside the Lab root.');
   }
   return fs.readFile(realFile, 'utf8');
