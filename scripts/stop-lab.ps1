@@ -111,7 +111,7 @@ if ($remainingProcess) {
     if (-not $verifiedAgain) {
         throw 'The Lab process identity changed before forced termination. No process was stopped.'
     }
-    $taskkillPath = Join-Path $env:SystemRoot 'System32\\taskkill.exe'
+    $taskkillPath = Join-Path $env:SystemRoot 'System32\taskkill.exe'
     if (-not (Test-Path -LiteralPath $taskkillPath -PathType Leaf)) {
         throw 'Windows taskkill.exe was not found; the Lab process was not force-stopped.'
     }
