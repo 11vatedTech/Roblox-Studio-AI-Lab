@@ -20,8 +20,8 @@ try {
     throw "The Lab process record is unreadable. No process was stopped: $($_.Exception.Message)"
 }
 
-if ($record.root -isnot [string] -or -not [int]::TryParse([string]$record.pid, [ref]([int]$null))) {
-    throw 'The Lab process record is missing a valid workspace root or PID. No process was stopped.'
+if ($record.root -isnot [string] -or [string]::IsNullOrWhiteSpace([string]$record.root)) {
+    throw 'The Lab process record is missing a valid workspace root. No process was stopped.'
 }
 $recordedRoot = [IO.Path]::GetFullPath([string]$record.root)
 if (-not $recordedRoot.Equals($root, [StringComparison]::OrdinalIgnoreCase)) {
