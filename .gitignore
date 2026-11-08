@@ -1,0 +1,26 @@
+node_modules/
+.tools/
+.lab-runtime/
+.lab-backups/
+coverage/
+dist/
+build/
+*.log
+*.tmp
+*.zip
+*.blend1
+__pycache__/
+*.py[cod]
+*.staging-*
+evidence/generated/
+# Per-workstation doctor output contains machine-local absolute paths.
+/evidence/environment-report.json
+/evidence/environment-report.md
+projects/*/out.rbxlx
+projects/*/out.rbxl
+projects/*/.rojo*
+**/.rojo*
+!projects/.gitkeep
+!assets/.gitkeep
+!evidence/.gitkeep
+!roblox/.gitkeep

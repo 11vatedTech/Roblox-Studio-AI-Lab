@@ -1,0 +1,44 @@
+{
+  "id": "animation.combat",
+  "kind": "animation-domain",
+  "version": "1.0.0",
+  "title": "Combat and gameplay animation",
+  "summary": "Animation that communicates gameplay intent and outcome while staying synchronized with input, movement, hit detection, camera, sound, effects, and replicated state.",
+  "designKnowledge": {
+    "qualityDimensions": ["anticipation", "weight and momentum", "timing and spacing", "pose readability", "silhouette", "contact accuracy", "follow-through", "secondary motion", "transitions", "responsiveness"],
+    "combatTimeline": ["input accepted", "anticipation", "active gameplay window", "confirmed result or miss", "recovery", "allowed cancel or next state"],
+    "rigAndDeformation": "Choose a rig that supports the intended poses and gameplay-visible deformation. Test extreme poses and transitions, not only a neutral idle.",
+    "integration": "A gameplay event contract coordinates presentation; client animation does not decide server damage."
+  },
+  "technicalPatterns": [
+    { "name": "Treat gameplay windows as explicit state", "guidance": "Tie hit windows, movement restrictions, interruption, and recovery to a documented state/event contract; verify implemented animation timing in Studio." },
+    { "name": "Design transitions and cancellation", "guidance": "Specify transitions from attack to hit reaction, dodge, stun, death, and locomotion. Test interrupted and repeated inputs." },
+    { "name": "Keep artistic approval human", "guidance": "Automated timing and consistency checks may triage issues. Hero animation and final art direction require independent human visual sign-off." }
+  ],
+  "dependencies": [
+    { "id": "engine.animation-editor", "relation": "supports", "rationale": "Use documented Roblox animation authoring capabilities for the selected rig and workflow." },
+    { "id": "engine.networking-authority", "relation": "supports", "rationale": "Gameplay outcomes remain server-owned even when animation feedback is presented locally." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "animation-hit-window-drift", "description": "Damage timing drifts from the visible pose or effects.", "mitigation": "Use a shared event contract and test active windows under interruption and multiplayer replication." },
+    { "id": "animation-state-lock", "description": "A missing transition leaves the character visually or mechanically locked.", "mitigation": "Test all exits, cancellation, respawn, and track cleanup for each combat state." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "combat-transition-review", "action": "Exercise attack, hit, block, dodge, stagger, death, and return-to-locomotion transitions.", "expected": "Poses remain readable and gameplay input recovers at the specified boundary." },
+      { "id": "combat-synchronization", "action": "Compare attacker and observer views in a two-client Studio session.", "expected": "The confirmed combat result and visible sequence agree with the declared timing model." }
+    ],
+    "acceptanceCriteria": ["The animation has a documented state and event contract.", "Weight, timing, contact, silhouette, transition, and responsiveness are reviewed.", "Hero animation receives explicit human approval."]
+  },
+  "performance": { "considerations": ["Measure active tracks and effects under representative combat concurrency on the midrange mobile baseline.", "Avoid excessive simultaneous tracks and effects that obscure other players or exhaust frame-time budgets."] },
+  "sourceRefs": [
+    { "title": "Animation Editor", "type": "official-documentation", "reference": "https://create.roblox.com/docs/animation/editor", "retrievedAt": "2026-11-07" },
+    { "title": "Approved Lab animation acceptance requirements", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Animation quality dimensions, integrated timing, transition failures, and repeatable review scenarios are specified.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["Specific rigs, animation graphs, and APIs must be verified against current Studio workflow before implementation.", "AI analysis is assistive and cannot certify artistic excellence."],
+  "owner": "Creative Production",
+  "reviewedAt": "2026-11-07"
+}

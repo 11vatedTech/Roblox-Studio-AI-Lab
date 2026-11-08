@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "recordType": "manual-local-studio-playtest-observation",
+  "capturedAt": "2026-11-07T03:09:27Z",
+  "studio": {
+    "instanceId": "4fe40608-3c92-43b2-bd4f-eb6a25e0611b",
+    "place": "signal-garden-20261106-235304091.rbxlx",
+    "version": "0, 746, 0, 7461269",
+    "mcpProtocol": "2026-07-28",
+    "modeAtEnd": "Edit"
+  },
+  "testContext": {
+    "players": 1,
+    "placeWasLocal": true,
+    "placeWasSaved": false,
+    "placeWasPublished": false,
+    "interactionDriver": "Official Studio character navigation plus client ProximityPrompt:InputHoldBegin/End calls in the local Play DataModel"
+  },
+  "observedSteps": [
+    {
+      "step": "Start local Play",
+      "result": "Passed",
+      "evidence": "Server output printed '[Signal Garden] Cooperative marsh loop started'; Client and Server DataModels showed Workspace.SignalGarden, generated landmarks/nodes, and the player character. The SignalGardenFieldNotes HUD rendered with Gather Echoes and 0 / 3 archive charge."
+    },
+    {
+      "step": "Collect Echo fragments",
+      "result": "Passed with simulated prompt API",
+      "evidence": "EchoFragment01, EchoFragment03, and EchoFragment02 were collected in the local run. Replicated player Echoes reached 3; the client HUD changed to 3 carried. A keyboard E action reported tool success but did not change gameplay state, so this does not certify keyboard input."
+    },
+    {
+      "step": "Deposit three fragments at ResonanceArchive",
+      "result": "Passed",
+      "evidence": "Three prompt interactions reduced carried Echoes from 3 to 0; archive charge reached 3 / 3 and the client HUD advanced to Choose Moss or Bloom."
+    },
+    {
+      "step": "Choose Moss route",
+      "result": "Passed",
+      "evidence": "The HUD advanced to Prime both plates with an 18-second timer and reported the Moss route."
+    },
+    {
+      "step": "Reach MossSwitchA and complete the timed relay",
+      "result": "Failed; gameplay acceptance remains blocked",
+      "evidence": "The central ArchivePlatform is 44 studs wide and centered at X=0, giving an edge at X=-22. MossSwitchA is centered at X=-27 and is non-collidable. Character navigation moved the avatar to approximately (-27, -0.89, -12), below the platform and about 17.9 studs from the plate, beyond its 12-stud prompt range. The route timer expired and the HUD returned to Choose Moss or Bloom; restoration count remained 0. A user-controlled jump was not tested."
+    }
+  ],
+  "studioOutputSnapshot": {
+    "messages": [
+      "[Signal Garden] Cooperative marsh loop started; live Studio validation remains an explicit release gate.",
+      "Assistant execute_luau reset a temporary local camera type from Scriptable to Custom (two entries)."
+    ],
+    "scope": "Studio output returned by get_console_output at the end of this session; not a full client developer-console or server error audit"
+  },
+  "captures": [
+    {
+      "id": "002d3954-3f16-445f-b9ff-45ea14c3585d",
+      "image": "evidence/studio/002d3954-3f16-445f-b9ff-45ea14c3585d.jpg",
+      "metadata": "evidence/studio/002d3954-3f16-445f-b9ff-45ea14c3585d.json",
+      "sha256": "c5039353232b2e1efe012701d85167284cfbff00e1144fa7fbd1d6d9d240a3cc",
+      "description": "Play-mode overview at initial HUD state; visual review found a very dark blockout and default chat guidance overlapping the HUD composition."
+    }
+  ],
+  "notVerified": [
+    "Full objective restoration and reset loop",
+    "Keyboard, controller, and touch prompt interaction",
+    "Two-player relay, reconnect, and respawn behavior",
+    "Device layouts, accessibility, frame time, memory, and network budgets",
+    "SignalBloom source integration into the Rojo output",
+    "Published-place behavior, live analytics, purchases, or monetization"
+  ]
+}

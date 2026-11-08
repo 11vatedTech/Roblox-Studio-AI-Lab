@@ -1,0 +1,44 @@
+{
+  "id": "genre.hybrid-experiences",
+  "kind": "game-family",
+  "version": "1.0.0",
+  "title": "Hybrid and experimental experiences",
+  "summary": "Experiences that combine player promises, loops, or mechanics from multiple families, or introduce a structure that does not fit a known family.",
+  "designKnowledge": {
+    "principle": "Compose from the player experience and dependencies between mechanics. Family labels help search and staffing; they are not templates or proof that two loops will work together.",
+    "compositionQuestions": ["Which player promise is primary?", "Which resources and state transitions connect the loops?", "Can one mechanic make another irrelevant or exploitable?", "Which state is personal, party-owned, or world-owned?", "What does a new player learn first?"],
+    "coreLoop": ["state a player goal", "introduce one loop at a time", "connect loops through explicit contracts", "observe player behavior", "revise the combination when one loop dominates"],
+    "productionRisks": ["genre labels substitute for a complete design", "progressions compete for attention", "cross-system rewards create exploits", "the combination is cosmetic rather than changing decisions"]
+  },
+  "technicalPatterns": [
+    { "name": "Describe the composition as contracts", "guidance": "For each mechanic, record state ownership, inputs, outputs, dependencies, cancellation, authority, feedback, and acceptance evidence." },
+    { "name": "Preserve unknowns", "guidance": "When a combination has no verified reference, list the unknown and propose an isolated experiment instead of selecting the nearest package." }
+  ],
+  "dependencies": [
+    { "id": "genre.rpg-adventure", "relation": "supports", "rationale": "Provides one family example for exploring composed player loops." },
+    { "id": "genre.collection-progression", "relation": "supports", "rationale": "Provides an example with ownership, acquisition, and progression dependencies." },
+    { "id": "genre.strategy-tactics", "relation": "supports", "rationale": "Provides an example with stateful decisions and multiplayer rule concerns." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "hybrid-label-as-template", "description": "A hybrid is forced into a predefined package because one label looks familiar.", "mitigation": "Write the player promise and state/resource contracts first; keep unmatched needs in the unknowns register." },
+    { "id": "hybrid-loop-collision", "description": "One loop invalidates another loop's choices or rewards.", "mitigation": "Test each loop alone, then test cross-loop transitions and exploit cases with representative players." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "hybrid-loop-map", "action": "Ask a first-time player to explain the goal, current loop, and how a reward changes the next choice.", "expected": "The player can explain the experience without relying on genre terminology." },
+      { "id": "hybrid-interaction", "action": "Exercise the principal cross-system transition, including cancellation, retry, and multiplayer contention.", "expected": "Each system preserves its ownership rules and produces one understandable result." }
+    ],
+    "acceptanceCriteria": ["The player promise is explicit.", "Each linked mechanic has an owner and testable interface.", "Unverified combinations remain unknown until evidence is produced."]
+  },
+  "performance": { "considerations": ["Profile the integrated experience on midrange mobile and desktop.", "Measure combined system cost; isolated mechanic budgets do not establish the integrated budget."] },
+  "sourceRefs": [
+    { "title": "Approved Lab hybrid game-family scope", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Design for Roblox", "type": "official-documentation", "reference": "https://create.roblox.com/docs/production/game-design/design-for-roblox", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Composition questions, interface guidance, failure modes, and integration scenarios are defined.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["The taxonomy is extensible; a family label does not constrain implementation.", "A new combination needs direct playtest and technical evidence before it becomes a verified pattern."],
+  "owner": "Game Intelligence",
+  "reviewedAt": "2026-11-07"
+}

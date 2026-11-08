@@ -1,0 +1,14 @@
+✔ accepts project slugs that are safe as Windows directory names (8.70315ms)
+✔ rejects traversal, reserved device names, and ambiguous project names (2.975983ms)
+✔ resolves nested paths only inside the selected root (4.777133ms)
+✔ rejects host-independent rooted, drive-qualified, traversal, and separator-smuggling segments (0.789949ms)
+✔ rejects empty and NUL-containing path segments (0.498908ms)
+✔ rejects a path that traverses through a symbolic link when supported (20.501279ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 243.058268

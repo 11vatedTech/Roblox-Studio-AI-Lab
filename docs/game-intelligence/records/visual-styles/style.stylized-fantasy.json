@@ -1,0 +1,45 @@
+{
+  "id": "style.stylized-fantasy",
+  "kind": "visual-style",
+  "version": "1.0.0",
+  "title": "Stylized fantasy",
+  "summary": "A coherent fantasy visual language built from deliberate shape hierarchy, controlled surface detail, expressive color, and readable motion.",
+  "designKnowledge": {
+    "shapeLanguage": "Choose a small set of primary shapes for the world and factions; repeat them in architecture, props, creatures, and UI while varying silhouette by role.",
+    "proportions": "Exaggerate only where it improves role recognition or emotion. Maintain scale references for characters, doors, landmarks, and combat reach.",
+    "silhouette": "Test major forms as flat shapes at gameplay camera distance. Hero silhouettes must remain distinctive in the lowest certified visual tier.",
+    "palette": "Assign palette roles for world, faction, danger, reward, and interaction. Do not use color as the only signal for rarity, ownership, or threat.",
+    "materialsAndLighting": "Use a limited authored material vocabulary. Use lighting to guide navigation and mood while preserving character and objective readability on mobile.",
+    "motionAndInterface": "Use clear poses and restrained effects that leave gameplay silhouettes visible. Carry shape, palette, and icon motifs into UI and audio without reducing usability."
+  },
+  "technicalPatterns": [
+    { "name": "Style bible before asset volume", "guidance": "Approve a small color, shape, material, lighting, and scale sheet, then review one representative environment asset, character, UI element, and effect before scaling." },
+    { "name": "Quality tiers preserve identity", "guidance": "Lower tiers may reduce geometry, textures, effects, and environmental density, but preserve hero silhouette, navigation cues, visual identity, and gameplay readability." }
+  ],
+  "dependencies": [
+    { "id": "animation.combat", "relation": "supports", "rationale": "Animation pose and effect language must match the visual identity while preserving gameplay readability." },
+    { "id": "engine.target-device-profiling", "relation": "supports", "rationale": "The style must be validated on the certified mobile baseline and desktop before quality tiers are accepted." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "fantasy-style-label-only", "description": "Assets are individually attractive but do not share shape, material, palette, or scale rules.", "mitigation": "Review representative assets together against a style bible and record explicit visual acceptance." },
+    { "id": "tier-identity-loss", "description": "Mobile reductions remove silhouettes, contrast, or landmarks that identify the experience.", "mitigation": "Compare tiers using gameplay-distance captures and task readability checks." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "style-coherence-sheet", "action": "Review character, landmark, prop, UI, and VFX samples together at gameplay camera scale.", "expected": "A reviewer can identify repeated style rules and distinguish each asset's gameplay role." },
+      { "id": "style-tier-identity", "action": "Compare low and high device tiers during navigation and combat.", "expected": "Essential silhouettes, objectives, and visual identity remain recognizable." }
+    ],
+    "acceptanceCriteria": ["A style bible covers the full visual system.", "Hero assets receive explicit human visual approval.", "Tier changes preserve essential silhouette, readability, and identity."]
+  },
+  "performance": { "considerations": ["Profile actual texture, mesh, lighting, and effect cost on the selected midrange mobile baseline.", "A style label or editor appearance does not establish performance suitability."] },
+  "sourceRefs": [
+    { "title": "Approved Lab creative production and quality-tier requirements", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Design for performance", "type": "official-documentation", "reference": "https://create.roblox.com/docs/performance-optimization/design", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "A style production specification, tier-preservation rules, failure modes, and review scenarios are defined.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["This is one style direction and not a universal Lab style.", "Specific palette and asset proportions must be authored for the selected experience."],
+  "owner": "Creative Production",
+  "reviewedAt": "2026-11-07"
+}

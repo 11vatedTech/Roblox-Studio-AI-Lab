@@ -1,0 +1,45 @@
+{
+  "id": "mechanic.tactical-card-combat",
+  "kind": "mechanic",
+  "version": "1.0.0",
+  "title": "Tactical card combat",
+  "summary": "A combat model where players choose from a constrained hand or deck and resolve actions against a shared tactical state.",
+  "designKnowledge": {
+    "designQuestions": ["Is resolution turn-based, simultaneous, or real-time?", "What information is public or hidden?", "How are cost, range, target, timing, and counterplay communicated?", "How does the hand refresh preserve agency?"],
+    "actionContract": ["actor and phase", "card identity and legal targets", "resource cost", "range and line of sight", "effect order", "interrupt and cancellation behavior", "result and event history"],
+    "accessibility": "Communicate active player, target, range, cost, and outcome using text and shape as well as color; support touch-sized selection and confirmation."
+  },
+  "technicalPatterns": [
+    { "name": "Resolve validated intent", "guidance": "The client submits an action ID and target intent. The server validates phase, ownership, cost, target, and current board state before applying a deterministic result." },
+    { "name": "Separate definition from runtime state", "guidance": "Keep immutable card definitions separate from each player's deck, hand, cooldown, and match state; validate definitions at load time." },
+    { "name": "Record ordered outcomes", "guidance": "Represent multi-effect actions as an explicit ordered resolution so clients present the same result and tests can assert it." }
+  ],
+  "dependencies": [
+    { "id": "genre.strategy-tactics", "relation": "supports", "rationale": "The family record describes decision quality and multiplayer rules." },
+    { "id": "genre.collection-progression", "relation": "pairs-with", "rationale": "A collection may supply a deck, while owned cards and match legality remain separate concerns." },
+    { "id": "engine.networking-authority", "relation": "requires", "rationale": "Match actions and outcomes must be validated by the declared server authority." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "card-ambiguous-target", "description": "The client and server interpret a selected target or range differently.", "mitigation": "Use shared definitions and server-side legality checks; show invalid targets before submission where possible." },
+    { "id": "card-resolution-drift", "description": "Clients animate chained effects in a different order than the server result.", "mitigation": "Replicate an ordered resolution record and test late or repeated delivery." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "card-legality-table", "action": "Submit valid and invalid cards, targets, phases, costs, stale versions, and replays.", "expected": "Only a legal current action changes authoritative match state once." },
+      { "id": "card-touch-turn", "action": "Complete a turn using a touch-sized viewport without hover or keyboard-only instructions.", "expected": "The player can identify phase, legal targets, cost, and result." }
+    ],
+    "acceptanceCriteria": ["Card definitions and runtime ownership are separate.", "Illegal and repeated actions are rejected by the server.", "The choice and result remain legible to all clients."]
+  },
+  "performance": { "considerations": ["Bound hand and effect counts by the actual design; profile the largest resolution sequence on mobile.", "Avoid rebuilding every card view for each small state update."] },
+  "sourceRefs": [
+    { "title": "Approved Lab hybrid mechanic scope", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Remote events and callbacks", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/events/remote", "retrievedAt": "2026-11-07" },
+    { "title": "Securing the client-server boundary", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/security/client-server-boundary", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Action contract, authority, failure modes, and repeatable mobile and multiplayer scenarios are specified.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["This record does not select turn timing, deck size, balance, or monetization.", "A complete game needs its own rules, content, and playtest evidence."],
+  "owner": "Game Intelligence",
+  "reviewedAt": "2026-11-07"
+}

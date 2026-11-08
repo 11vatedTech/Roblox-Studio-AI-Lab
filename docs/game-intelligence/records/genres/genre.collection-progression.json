@@ -1,0 +1,47 @@
+{
+  "id": "genre.collection-progression",
+  "kind": "game-family",
+  "version": "1.0.0",
+  "title": "Collection and progression",
+  "summary": "Experiences where discovering, collecting, improving, displaying, or exchanging owned things supplies a major part of the play loop.",
+  "designKnowledge": {
+    "subgenres": ["creature collection", "pet simulation", "card collection", "equipment progression", "crafting", "breeding", "trading", "gacha-style acquisition", "collection-driven RPG"],
+    "playerPromise": "Players discover objects or beings with identity, make meaningful choices about what to keep or develop, and express or test the resulting collection.",
+    "coreLoop": ["discover an acquisition opportunity", "understand its cost and odds", "earn or choose a result", "use, improve, trade, or display it", "unlock a new collection goal"],
+    "economy": "Define rarity, duplicate handling, sinks, trading constraints, and non-paying paths together. Random rewards require clear odds and a valuable deterministic route to progress.",
+    "multiplayer": "Trading and gifting need server-owned ownership, recipient eligibility, duplicate-request protection, and a recoverable transaction record.",
+    "artAndAnimation": "Collection entries need distinct silhouettes, readable rarity cues, an inventory grid that scales to touch, and reveal motion that preserves the acquired object's identity.",
+    "productRisks": ["collection volume without distinct use", "unbounded currency inflation", "pay pressure that replaces play", "trades that duplicate or destroy value", "rarety cues that are inaccessible by color alone"],
+    "specialists": ["collection systems designer", "economy designer", "character or item artist", "animation director", "networking engineer", "security auditor", "accessibility QA"]
+  },
+  "technicalPatterns": [
+    { "name": "Server-owned collection ledger", "guidance": "The server validates grants, ownership, transfer eligibility, and duplicate requests. Client UI submits intent and renders the confirmed result." },
+    { "name": "Acquisition and use are separate systems", "guidance": "Model how an item is granted separately from where it can be equipped, consumed, upgraded, or traded." }
+  ],
+  "dependencies": [
+    { "id": "genre.rpg-adventure", "relation": "supports", "rationale": "Questing and exploration can provide deterministic acquisition routes and a world context for collection goals." },
+    { "id": "genre.strategy-tactics", "relation": "composes-with", "rationale": "A collection can become a tactical roster or deck when each entry supports distinct decisions." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "collection-no-use", "description": "Collected entries differ only in rarity or numeric value and do not change play or expression.", "mitigation": "Review each entry for distinct utility, social expression, visual identity, or collection meaning before expanding the catalog." },
+    { "id": "collection-duplicate-grant", "description": "Retries or concurrent requests grant the same reward more than once.", "mitigation": "Use server-side idempotency and test replayed requests, simultaneous clients, and disconnects." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "collection-grant-once", "action": "Retry the same collection acquisition with repeated and concurrent client requests.", "expected": "The server grants at most one valid entry and both clients observe the same confirmed state." },
+      { "id": "collection-trade-recovery", "action": "Test a trade where one participant leaves before confirmation.", "expected": "The transaction either completes once or returns both inventories to their prior authoritative state." }
+    ],
+    "acceptanceCriteria": ["Players can explain how to earn an early collection entry.", "Duplicate entries have a defined purpose or resolution.", "Acquisition, exchange, and use are independently testable."]
+  },
+  "performance": { "considerations": ["Bound inventory rendering and avoid loading every model or animation at once.", "Profile collection menus on a midrange mobile device with a representative inventory size."] },
+  "sourceRefs": [
+    { "title": "Approved Lab game-family and hybrid scope", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Design for Roblox", "type": "official-documentation", "reference": "https://create.roblox.com/docs/production/game-design/design-for-roblox", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Structured collection loop, economy, ownership, failure modes, and repeatable multiplayer acceptance scenarios.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["This record does not prescribe monetization or a particular randomized acquisition model.", "Trading and randomized rewards require separate product, safety, and platform policy review."],
+  "owner": "Game Intelligence",
+  "reviewedAt": "2026-11-07"
+}

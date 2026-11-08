@@ -1,0 +1,9 @@
+{
+  "name": "AI Roblox Studio Lab — Showcase Experience",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "$path": "src/shared" },
+    "ServerScriptService": { "$path": "src/server" },
+    "StarterPlayer": { "StarterPlayerScripts": { "$path": "src/client" } }
+  }
+}

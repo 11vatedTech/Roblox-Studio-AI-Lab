@@ -1,0 +1,63 @@
+{
+    "schemaVersion":  1,
+    "kind":  "lab-evidence-registry-verification",
+    "generatedAt":  "2026-11-08T03:49:33.9244217Z",
+    "command":  "node --test tests/evidence-registry.test.js tests/capability-register-api.test.js tests/lab-server.test.js",
+    "result":  "passed",
+    "exitCode":  0,
+    "nodeVersion":  "v24.18.0",
+    "branch":  "codex/lab-recovery-p0",
+    "head":  null,
+    "sourceDigests":  [
+                          {
+                              "path":  "src/services/evidence-registry.js",
+                              "sha256":  "c7550c5b6099207100abe4a8d0a5bb2a9b8f658fd398501d038e9cc6a47612da"
+                          },
+                          {
+                              "path":  "src/server/app.js",
+                              "sha256":  "6158f027f17e6b75b785b503ce4a421e1fd99e3168b7c75bb584e2066f810889"
+                          },
+                          {
+                              "path":  "apps/control-center/public/app.js",
+                              "sha256":  "f79f9f7b820ff52a827cc2993273121f1d4e845600d62afe1cb6cb97e2171f0a"
+                          },
+                          {
+                              "path":  "docs/quality/evidence-registry.schema.json",
+                              "sha256":  "ca43f958c61ca37e7fc215ac8a264dcf1936174c1ebfc711d1603edcc8e2ea8f"
+                          },
+                          {
+                              "path":  "evidence/registry.json",
+                              "sha256":  "db49ef092e0391091141b80ef976da02cbc8ff1d6b09aca9ef38a280911dcbed"
+                          }
+                      ],
+    "output":  [
+                   "✔ the Lab API and control-room overview read the same validated acceptance register (1139.3915ms)",
+                   "✔ validates the evidence registry contract and rejects duplicate identities and unsafe references (2.4553ms)",
+                   "✔ loads the two-client Studio scenario and test-only task evidence with hashes and scoped status (16.1003ms)",
+                   "✔ rejects a Studio evidence index that disagrees with the source acceptance record (19.7846ms)",
+                   "✔ health endpoint reports a live local service without exposing environment values (112.2139ms)",
+                   "✔ evidence endpoint returns the validated registry summary without accepting file paths (30.6795ms)",
+                   "✔ Studio status exposes discovered schemas while labeling non-allowlisted tools as unavailable to the dashboard (970.2592ms)",
+                   "✔ projects endpoint lists only directories in the local projects folder (43.8047ms)",
+                   "✔ project creation rejects invalid names and creates a Rojo template within the project root (107.1755ms)",
+                   "✔ opens nested source paths and rejects traversal in the project source route (33.8746ms)",
+                   "✔ rejects cross-origin mutations and does not create a project (16.0146ms)",
+                   "✔ reports disconnected Studio honestly and returns real connected instances from the bridge (1134.1962ms)",
+                   "✔ serves bounded structured knowledge search without accepting file paths (64.9291ms)",
+                   "✔ exposes the official Roblox API class catalog and current class reference (17.6279ms)",
+                   "✔ maps Lab requests to the live Studio MCP input schemas (56.3425ms)",
+                   "✔ persists viewport evidence only for a listed live Studio instance and serves the verified image (62.8369ms)",
+                   "✔ serves a real dashboard shell and rejects path traversal (21.6159ms)",
+                   "ℹ tests 17",
+                   "ℹ suites 0",
+                   "ℹ pass 17",
+                   "ℹ fail 0",
+                   "ℹ cancelled 0",
+                   "ℹ skipped 0",
+                   "ℹ todo 0",
+                   "ℹ duration_ms 2946.4039"
+               ],
+    "limitations":  [
+                        "This verifies the local evidence loader, source binding checks, API routes, and API overview integration; it does not independently certify the referenced game scenarios or provider identity."
+                    ]
+}

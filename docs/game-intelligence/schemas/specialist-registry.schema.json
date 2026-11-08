@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:11vatedtech:roblox-lab:specialist-registry:v1",
+  "title": "Roblox Lab Specialist Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "divisions",
+    "allowedOperationClasses",
+    "forbiddenOperationClasses",
+    "humanApprovalRequirements",
+    "specialists"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "divisions": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": { "enum": ["Game Intelligence", "Creative Production", "Engineering", "Quality & Verification", "Product & Operations"] }
+    },
+    "allowedOperationClasses": { "$ref": "#/$defs/operationClasses" },
+    "forbiddenOperationClasses": { "$ref": "#/$defs/operationClasses" },
+    "humanApprovalRequirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "requirement"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+          "requirement": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      }
+    },
+    "specialists": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "specialist.schema.json" }
+    }
+  },
+  "$defs": {
+    "operationClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" }
+    }
+  }
+}

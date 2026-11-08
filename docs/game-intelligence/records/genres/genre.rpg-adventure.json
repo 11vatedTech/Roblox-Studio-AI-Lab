@@ -1,0 +1,44 @@
+{
+  "id": "genre.rpg-adventure",
+  "kind": "game-family",
+  "version": "1.0.0",
+  "title": "RPG and adventure",
+  "summary": "Experiences organized around exploration, character growth, authored or systemic challenges, and progress that gives players a reason to return.",
+  "designKnowledge": {
+    "subgenres": ["open-world RPG", "action RPG", "MMORPG-inspired", "dungeon crawler", "roguelike or roguelite", "narrative adventure", "exploration", "soulslike-inspired combat", "quest-driven world"],
+    "playerPromise": "The player becomes more capable and learns more about a world by making choices and completing challenges.",
+    "coreLoop": ["arrive with a readable goal", "explore and interpret a place", "make a tactical or social choice", "earn a legible consequence", "use the consequence to unlock a new route or approach"],
+    "progression": "Prefer layered short and long arcs. A reward should change available choices or player expression; numerical growth alone is not a complete progression loop.",
+    "multiplayer": "Decide which quest facts are personal, party-shared, or world-shared before building replication and reward rules.",
+    "artAndAnimation": "World landmarks, equipment silhouettes, enemy poses, and traversal animations must communicate goals and threat at Roblox camera distance.",
+    "productRisks": ["long unbroken onboarding", "rewards that make early spaces irrelevant", "quest state that diverges between party members", "large worlds whose content density is not supported by production capacity"],
+    "specialists": ["game designer", "narrative designer", "world and environment artist", "gameplay engineer", "multiplayer engineer", "animation director", "independent gameplay QA"]
+  },
+  "technicalPatterns": [
+    { "name": "Separate quest definition from player quest state", "guidance": "Keep authored objectives and reward definitions in validated data; keep each player's authoritative completion state server-owned and versioned." },
+    { "name": "Stream content by player intent", "guidance": "For large worlds, establish a measured baseline device and test join, traversal, and encounter transitions before expanding the world footprint." }
+  ],
+  "dependencies": [],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "rpg-unreadable-objective", "description": "Players cannot infer what progress requires or where it can happen.", "mitigation": "Pair a concise objective with a visible world cue; test comprehension with a first-time player without verbal coaching." },
+    { "id": "rpg-party-state-divergence", "description": "Party members receive inconsistent quest credit or rewards.", "mitigation": "Define ownership and eligibility rules explicitly and run two-client tests for join, leave, retry, and duplicate completion." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "first-quest-readability", "action": "Give a new player a quest without verbal explanation.", "expected": "The player can describe the goal, identify a next action, and recognize completion." },
+      { "id": "party-credit", "action": "Complete a shared objective with two clients, then test a late join and a rejoin.", "expected": "Eligibility and rewards follow the declared party rules on the server." }
+    ],
+    "acceptanceCriteria": ["Core progress is visible in the world and UI.", "Quest credit is consistent for the declared single-player or party model.", "The essential route remains legible at the certified mobile baseline."]
+  },
+  "performance": { "considerations": ["Profile the densest traversal and encounter space on the certified baseline device.", "Measure memory, draw work, and join time instead of setting universal part-count targets."] },
+  "sourceRefs": [
+    { "title": "Approved Lab game-family and hybrid scope", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Design for Roblox", "type": "official-documentation", "reference": "https://create.roblox.com/docs/production/game-design/design-for-roblox", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Structured family design record with a player loop, production roles, failure modes, and repeatable acceptance scenarios.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["This is a design knowledge package, not evidence that a complete RPG has been implemented or certified.", "Subgenres are overlapping labels; a concept may combine several without becoming a template."],
+  "owner": "Game Intelligence",
+  "reviewedAt": "2026-11-07"
+}

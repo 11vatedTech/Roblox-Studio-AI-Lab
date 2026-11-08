@@ -1,0 +1,41 @@
+{
+  "id": "product.player-onboarding",
+  "kind": "product-pattern",
+  "version": "1.0.0",
+  "title": "Player onboarding and first-session learning",
+  "summary": "A tested path that helps a new player understand the experience promise, controls, first meaningful choice, and next goal.",
+  "designKnowledge": {
+    "principles": ["teach through safe action", "introduce one rule at a time", "show progress and consequence", "preserve agency", "support skipping or recovery where appropriate"],
+    "measurement": ["time to first meaningful action", "completion and abandonment by step", "control errors", "objective comprehension", "device-specific drop-off"],
+    "privacy": "Collect the minimum data needed for a defined learning question; use aggregate measures and an approved retention policy."
+  },
+  "technicalPatterns": [
+    { "name": "Design a first-session state map", "guidance": "Map entry, first cue, action, feedback, next goal, interruption, and returning-player path." },
+    { "name": "Test comprehension directly", "guidance": "Ask a first-time player to explain the goal and next action without coaching. Tutorial completion alone does not prove understanding." }
+  ],
+  "dependencies": [
+    { "id": "genre.hybrid-experiences", "relation": "supports", "rationale": "Hybrid experiences benefit from staged onboarding that introduces distinct loops and explains their connection." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "onboarding-information-dump", "description": "A long instruction sequence delays the first meaningful action.", "mitigation": "Teach at the moment of use and validate comprehension in first-time playtests." },
+    { "id": "onboarding-device-gap", "description": "The lesson assumes one input method or screen layout.", "mitigation": "Repeat first-session tests on touch, gamepad, and keyboard/mouse." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "first-session-comprehension", "action": "Observe first-time players on each supported device without verbal help.", "expected": "Players can explain the experience promise, controls, and next action." },
+      { "id": "returning-player-path", "action": "Rejoin after interruption and test skip, resume, and replay behavior.", "expected": "The player can continue without losing valid progress or being forced through irrelevant instruction." }
+    ],
+    "acceptanceCriteria": ["Onboarding supports the primary gameplay loop.", "Comprehension is observed, not inferred from clicks.", "Analytics have an approved purpose and minimal retention."]
+  },
+  "performance": { "considerations": ["Measure join time and first interactive response on the midrange mobile baseline.", "Avoid loading large tutorial-only assets before they are needed."] },
+  "sourceRefs": [
+    { "title": "Design for Roblox", "type": "official-documentation", "reference": "https://create.roblox.com/docs/production/game-design/design-for-roblox", "retrievedAt": "2026-11-07" },
+    { "title": "Approved Lab audience and product requirements", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Onboarding principles, privacy boundary, failure cases, and repeatable first-session tests are defined.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["Audience, session length, and acquisition channels are hypotheses requiring research.", "No player analytics are collected by this knowledge package."],
+  "owner": "Product & Operations",
+  "reviewedAt": "2026-11-07"
+}

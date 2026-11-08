@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-08T00:08:37.000Z",
+  "workspace": "ai-Roblox-studio-lab",
+  "branch": "codex/lab-recovery-p0",
+  "head": null,
+  "dirtyTree": true,
+  "studio": {
+    "instanceId": null,
+    "placeId": null,
+    "placeName": null,
+    "operation": "No Studio-mutating operation was performed in this verification run."
+  },
+  "checks": [
+    {
+      "id": "node-suite-final",
+      "status": "passed",
+      "command": "npm test",
+      "result": "73 tests passed, 0 failed, 0 skipped; 4.8 seconds test duration.",
+      "scope": "Local API, storage, knowledge, specialist, task-plan, capability register, MCP protocol, Rojo workflow, backup compatibility, and pure Luau runner integration tests."
+    },
+    {
+      "id": "javascript-syntax",
+      "status": "passed",
+      "command": "node --check on capability-register.js, rojo-workflows.js, app.js, studio-mcp-client.js, control-center app.js, and luau-pure-runner.test.js",
+      "result": "All six changed JavaScript entry points parsed successfully.",
+      "scope": "Syntax checks only; runtime behavior is covered by npm test."
+    },
+    {
+      "id": "backup-script-windows-compatibility",
+      "status": "passed",
+      "command": "node --test tests/backup-scripts.test.js",
+      "result": "1 regression test passed against the Windows PowerShell 5.1 executable; a temporary workspace archive was created without replacing prior files.",
+      "scope": "An isolated test wrapper supplies the SHA-256 command so the test exercises the unavailable relative-path method and archive creation."
+    },
+    {
+      "id": "backup-restore",
+      "status": "passed",
+      "command": "./scripts/backup.ps1; ./scripts/verify-backup.ps1 -ArchivePath .lab-backups/lab-source-20261108-000759263.zip",
+      "result": "PASS; 204 source files restored and matched the manifest hashes and byte lengths; 11 required roots present; 205 ZIP entries including manifest; 3,393,932 bytes; SHA-256 C3F5B07CC5B1969D7F482693420F38DA1EA495D44CA79B4C2D268920397DA576. Archive entry scan found no credential-like filename or excluded runtime directory.",
+      "scope": "Local ignored archive only. It verifies the source snapshot and restore mechanics, not off-device disaster recovery."
+    },
+    {
+      "id": "rojo-project-workflow",
+      "status": "passed",
+      "command": "node --test tests/rojo-workflows.test.js",
+      "result": "3 tests passed, 0 failed, 0 skipped.",
+      "scope": "Used the installed Rojo 7.7.1 binary through the local API; verified bounded project snapshot, source and artifact hashes, operation persistence, download integrity, and rejection of command options and escaping paths."
+    },
+    {
+      "id": "studio-tool-inventory",
+      "status": "passed",
+      "command": "node --test tests/studio-mcp-client.test.js tests/lab-server.test.js",
+      "result": "MCP fixture and API tests passed.",
+      "scope": "Verified dynamic tool-name/schema inventory and that a discovered execute_luau tool remains unclassified and unavailable to the Lab dashboard. No live Studio inventory was captured."
+    },
+    {
+      "id": "luau-syntax",
+      "status": "passed",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/lint-luau.ps1",
+      "result": "38 source files parsed with pinned Luau 0.745.",
+      "scope": "Syntax parsing only; Roblox engine type analysis is not claimed."
+    },
+    {
+      "id": "luau-pure-specs",
+      "status": "passed",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/run-luau-specs.ps1",
+      "result": "3 Roblox-free Luau CLI specs passed: CardCatalog, EncounterRules, and HudState.",
+      "scope": "Pinned Luau 0.745 executed pure source modules. Engine-dependent `.spec.luau` files still require a dedicated Studio runner."
+    },
+    {
+      "id": "rojo-builds",
+      "status": "passed",
+      "command": "Rojo 7.7.1 build default.project.json --output <unique ignored verification folder>",
+      "result": "base (9,913 bytes), misprint-menagerie (115,832 bytes), and signal-garden (30,071 bytes) built successfully.",
+      "outputs": [
+        {"path": ".lab-runtime/verification-final-20261108-000707/base.rbxlx", "sha256": "B61DC42A50FE2BCEE2DA17BB6690BE6156626F2937E441CFF1F29C33557681F6"},
+        {"path": ".lab-runtime/verification-final-20261108-000707/misprint-menagerie.rbxlx", "sha256": "F6A12E7A4D7EA30838515285C110F2F91CA1B6D646B4648862E08BEBC9B2BA0C"},
+        {"path": ".lab-runtime/verification-final-20261108-000707/signal-garden.rbxlx", "sha256": "FD15426780E29A140152D39C48552444AA7C09F595634D523ED83B67E2425BC0"}
+      ],
+      "scope": "Local builds only; no Studio open/reopen, gameplay, publish, or asset import is claimed."
+    },
+    {
+      "id": "dashboard-browser-smoke",
+      "status": "unverified",
+      "command": "Open the loopback dashboard through the computer-use browser",
+      "result": "The browser could not reach http://127.0.0.1:4193 and timed out.",
+      "scope": "Project UI actions were validated by source checks and their API integration tests, but no visual browser interaction was observed."
+    }
+  ],
+  "limitations": [
+    "The repository remains uncommitted on the existing branch; no HEAD commit exists.",
+    "The verified recovery archive is stored locally under ignored .lab-backups; there is no off-device backup copy.",
+    "No live Studio instance or place identity was verified for this run.",
+    "Task handoffs are human-directed; no provider agent execution or authenticated external reviewer identity is implemented.",
+    "No live Rojo serve/sync, physical device, multiplayer certification, or visual sign-off was performed."
+  ]
+}

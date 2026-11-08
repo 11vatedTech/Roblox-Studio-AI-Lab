@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-07T18:28:51Z",
+  "project": "signal-garden",
+  "studio": {
+    "instanceId": "a6258a04-49cc-4211-b597-02ecc25d9aa2",
+    "placeName": "signal-garden-20261107-175946294.rbxlx",
+    "placeId": 0,
+    "gameId": 0,
+    "source": ".lab-runtime/builds/signal-garden-20261107-175946294.rbxlx",
+    "modeAfterTest": "Edit"
+  },
+  "execution": {
+    "mode": "Play",
+    "players": 1,
+    "input": "Studio character navigation plus held E ProximityPrompt input",
+    "savedPlaceChanges": false,
+    "uploadedAssets": false,
+    "published": false
+  },
+  "geometry": {
+    "status": "passed in generated runtime scene",
+    "hubTopY": 9,
+    "outerSupports": [
+      {
+        "name": "MossSwitchASupport",
+        "position": [-27, 8, -12],
+        "size": [14, 2, 14],
+        "topY": 9,
+        "anchored": true,
+        "canCollide": true,
+        "overlapWithHubStuds": 2
+      },
+      {
+        "name": "BloomSwitchBSupport",
+        "position": [27, 8, 12],
+        "size": [14, 2, 14],
+        "topY": 9,
+        "anchored": true,
+        "canCollide": true,
+        "overlapWithHubStuds": 2
+      }
+    ],
+    "traversalObservation": "Character navigation reached both outer plate areas; character health remained 100."
+  },
+  "scenarios": [
+    {
+      "name": "collect-and-charge-archive",
+      "status": "passed",
+      "result": "Collected EchoFragment01, EchoFragment02, and EchoFragment03 using held E prompts; deposited all three at ResonanceArchive. HUD advanced through 1/3, 2/3, and 3/3 and enabled route choice."
+    },
+    {
+      "name": "relay-timeout-recovery",
+      "status": "passed",
+      "result": "An 18-second relay attempt expired during traversal; HUD returned to Choose Moss or Bloom and displayed 'The resonance faded. Choose a route and try the relay again.' Route choice was available again. The elapsed interval was not stopwatch-timed."
+    },
+    {
+      "name": "moss-route-solo",
+      "status": "passed",
+      "result": "Selected Moss; Moss prompts enabled while Bloom prompts were disabled. Reached the outer MossSwitchA support, activated it, then reached MossSwitchB and activated it within the retry window. HUD reported Habitat restored and Restorations 1."
+    },
+    {
+      "name": "bloom-route-solo",
+      "status": "passed",
+      "result": "Collected and deposited three Echoes, selected Bloom, traversed to outer BloomSwitchB and inner BloomSwitchA, and activated both with held E prompts. HUD reported Habitat restored and Restorations 2."
+    },
+    {
+      "name": "restoration-reset",
+      "status": "passed",
+      "result": "After the configured restoration delay, HUD returned to Gather Echoes, archive charge 0/3, Restorations 2, and 'The archive is ready for another expedition.'"
+    },
+    {
+      "name": "runtime-cleanup",
+      "status": "passed",
+      "result": "Stopped Play and returned to Edit. The generated runtime Workspace.SignalGarden folder and SignalBloom model were absent from the opened source build; no place save was performed."
+    }
+  ],
+  "console": {
+    "status": "no errors observed",
+    "output": "[Signal Garden] Cooperative marsh loop started; live Studio validation remains an explicit release gate."
+  },
+  "captures": [
+    {
+      "id": "9b8fc3d6-219a-4470-9f7c-4cac95116213",
+      "path": "evidence/studio/9b8fc3d6-219a-4470-9f7c-4cac95116213.jpg",
+      "sha256": "9cfe8b255593ba5ca184a74a6eb21232f96ed2a75efb452cc1bd12a2b3e93239",
+      "description": "Moss run returned to gather state; Restorations 1."
+    },
+    {
+      "id": "0fcf2c35-2996-4afa-ad9b-43b2db3a7f32",
+      "path": "evidence/studio/0fcf2c35-2996-4afa-ad9b-43b2db3a7f32.jpg",
+      "sha256": "b2fd365fb728fbfba2a0be1d0de88ffb2a5fc383241c1c65765fae703812fafe",
+      "description": "Bloom run returned to gather state; archive charge 0/3 and Restorations 2."
+    }
+  ],
+  "unverified": [
+    "Two-client cooperative coordination; the desktop automation connector continued to return 'Computer Use was not approved to use Roblox Studio' despite user approval, and the available Studio MCP play control exposed only single-player Play.",
+    "Touch and controller arrival and prompts.",
+    "Respawn/reconnect behavior, performance profiles, mobile layout, and device budgets.",
+    "SignalBloom Roblox import or no-upload representation; no import dialog was submitted and no asset was uploaded."
+  ]
+}

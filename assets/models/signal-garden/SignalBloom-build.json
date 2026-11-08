@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "asset": "SignalBloom",
+  "blenderVersion": "5.2.0 LTS",
+  "blenderBuildHash": "fbe6228777e7",
+  "pythonVersion": "3.13.13",
+  "sourceScriptSha256": "882050a3197c601d5fcf07c60216d74c5a910759ded8281c48db9245d6e65915",
+  "canonicalModelSha256": "7a0e4523323f6327f683aeef7eb62aa283b968d989b1006e710d386aca63803e",
+  "export": "FBX 7.4, FBX Unit Scale, Y-up, -Z forward, 1 Blender unit per Roblox stud, no animation or external texture files",
+  "meshObjects": 3,
+  "triangles": 920,
+  "objectDimensions": {
+    "SignalBloomPetals": [
+      3.4492,
+      3.4686,
+      0.945
+    ],
+    "SignalBloomCore": [
+      0.8179,
+      0.86,
+      0.86
+    ],
+    "SignalBloomSeed": [
+      0.3703,
+      0.3522,
+      0.522
+    ]
+  },
+  "preview": "SignalBloom-preview.png",
+  "fbx": "SignalBloom.fbx",
+  "source": "SignalBloom.blend",
+  "artifactBytes": {
+    "SignalBloom.blend": 113172,
+    "SignalBloom.fbx": 38428,
+    "SignalBloom-preview.png": 1785970
+  },
+  "sha256": {
+    "SignalBloom.blend": "68d97594c4846f464df1866d43524911ff9d9b05be3189cf2d643edae6c9b14c",
+    "SignalBloom.fbx": "47458e95b0519199dd70a33176ca30b7e85c5539378b9e4f460465c1bb8e4703",
+    "SignalBloom-preview.png": "65091e9d41d7f792108e82b377c344a5f03865d530c0812968a97d916d9454d5"
+  },
+  "referenceAssets": {
+    "assetHashes": {
+      "SignalBloom.blend": {
+        "bytes": 113203,
+        "sha256": "7dc6e160547bc4f65733b7197c2a5eab9f43f1338a240d8e537952e9b1d22b29"
+      },
+      "SignalBloom.fbx": {
+        "bytes": 38428,
+        "sha256": "9c4369ad868a806e5cd1e1891b0d7988cb15c85b2e0e19174fe490e0937d9062"
+      },
+      "SignalBloom-preview.png": {
+        "bytes": 1785970,
+        "sha256": "64dd0c974213b830a43157c5bd2dade415c3df51c677abcb5a82533d8e349474"
+      }
+    },
+    "canonicalModelSha256": "7a0e4523323f6327f683aeef7eb62aa283b968d989b1006e710d386aca63803e",
+    "canonicalModelMatches": true
+  },
+  "previousBuildComparison": {
+    "canonicalModelSha256": "7a0e4523323f6327f683aeef7eb62aa283b968d989b1006e710d386aca63803e",
+    "canonicalModelMatches": true,
+    "artifactSha256": {
+      "SignalBloom.blend": "66c2f9d73c52289a3d7fce8424f5f3ea62d54e3dfe8e9ebd8c9dd5e14676a033",
+      "SignalBloom.fbx": "a164f555e01e8561ad199d8ce65373df8b260353ffda7981521cade451732e42",
+      "SignalBloom-preview.png": "d1c0d8f3bcfb52c559951342769fe27165ada03707508fe703195e90a9b380e6"
+    },
+    "byteIdenticalArtifacts": {
+      "SignalBloom.blend": false,
+      "SignalBloom.fbx": false,
+      "SignalBloom-preview.png": false
+    }
+  }
+}

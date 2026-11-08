@@ -1,0 +1,48 @@
+{
+  "id": "genre.strategy-tactics",
+  "kind": "game-family",
+  "version": "1.0.0",
+  "title": "Strategy and tactics",
+  "summary": "Experiences where players plan around constrained resources, positioning, timing, information, or asymmetric roles before committing to an outcome.",
+  "designKnowledge": {
+    "subgenres": ["tower defense", "real-time strategy", "turn-based tactics", "auto battler", "card battler", "territory control", "squad management", "base defense"],
+    "playerPromise": "A player can understand a problem, form a plan, and see how the plan and opponent choices changed the result.",
+    "coreLoop": ["read the board or threat", "choose a plan under constraints", "commit resources or actions", "observe resolved consequences", "adapt the plan"],
+    "decisionQuality": "Each meaningful option should have a legible cost, distinct use case, and counterplay. Randomness may create uncertainty but should not obscure why an outcome occurred.",
+    "multiplayer": "Specify turn order or real-time authority, disconnect handling, late join behavior, rematch reset, and any hidden information before implementation.",
+    "artAndAnimation": "Board state, unit range, target priority, damage, and turn ownership must remain readable on touch screens and at the camera's zoomed-out scale.",
+    "productRisks": ["one dominant strategy", "long turns with no meaningful participation", "unreadable visual effects", "network ordering changing the declared rules", "monetized power invalidating competitive trust"],
+    "specialists": ["game systems designer", "combat designer", "UI designer", "networking engineer", "balance designer", "independent gameplay QA"]
+  },
+  "technicalPatterns": [
+    { "name": "Resolve authoritative turns from validated intents", "guidance": "Clients send bounded action intents; the server checks phase, owner, target, cost, and cooldown before applying a deterministic state transition." },
+    { "name": "Separate rules from presentation", "guidance": "Keep state transitions and balance parameters testable without requiring animation playback or UI timing." }
+  ],
+  "dependencies": [
+    { "id": "genre.collection-progression", "relation": "composes-with", "rationale": "Collection progression can provide a roster or deck, while tactical rules determine how the collection changes decisions." },
+    { "id": "mechanic.tactical-card-combat", "relation": "supports", "rationale": "A reusable tactical card mechanic can realize one strategy subgenre without constraining the whole family." }
+  ],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "strategy-dominant-option", "description": "One unit, card, or opening plan makes the remaining decisions irrelevant.", "mitigation": "Track outcomes by strategy and scenario, then add meaningful counters or redesign the choice set rather than hiding the dominant option." },
+    { "id": "strategy-state-ordering", "description": "Clients show different turn results after simultaneous actions or a disconnect.", "mitigation": "Resolve state on the server, version each phase, and test simultaneous requests, retries, and reconnects." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "strategy-rule-table", "action": "Exercise each legal and illegal action in every relevant game phase.", "expected": "The server accepts only actions permitted by the current state and records the same result for all clients." },
+      { "id": "strategy-touch-legibility", "action": "Play a representative turn on a touch-sized viewport without relying on hover.", "expected": "Players can identify the active turn, target, cost, range, and resolved outcome." }
+    ],
+    "acceptanceCriteria": ["Every core choice changes a legible state or resource.", "Illegal, stale, and replayed requests are rejected server-side.", "A new player can identify whose turn it is and why an action is legal."]
+  },
+  "performance": { "considerations": ["Bound board and effect complexity to a measured mobile profile.", "Keep UI refresh work proportional to changed state rather than rebuilding the entire board every frame."] },
+  "sourceRefs": [
+    { "title": "Approved Lab game-family and hybrid scope", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" },
+    { "title": "Remote events and callbacks", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/events/remote", "retrievedAt": "2026-11-07" },
+    { "title": "Securing the client-server boundary", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/security/client-server-boundary", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "not-applicable", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Structured tactical design and server-authority guidance with repeatable rule and device scenarios.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["The family may be turn-based or real-time; the specific brief must choose and document the resolution model.", "A balanced experience requires measured player outcomes and independent playtest review."],
+  "owner": "Game Intelligence",
+  "reviewedAt": "2026-11-07"
+}

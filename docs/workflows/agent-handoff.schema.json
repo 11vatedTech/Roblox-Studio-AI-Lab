@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://11vatedtech.local/schemas/agent-handoff.schema.json",
+  "title": "11vatedTech Roblox Lab handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "objective", "summary", "project", "changedFiles", "decisions", "checks", "risks", "nextStep"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "objective": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "studioInstanceId"],
+      "properties": {
+        "name": { "type": "string" },
+        "path": { "type": "string" },
+        "studioInstanceId": { "type": ["string", "null"] },
+        "placeId": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "assumptions": { "type": "array", "items": { "type": "string" } },
+    "changedFiles": { "type": "array", "items": { "type": "string" } },
+    "decisions": { "type": "array", "items": { "type": "string" } },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "evidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "enum": ["passed", "failed", "blocked", "not_run"] },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "nextStep": { "type": "string", "minLength": 1 },
+    "handoffTo": { "type": ["string", "null"] }
+  }
+}

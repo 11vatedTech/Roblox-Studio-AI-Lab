@@ -1,0 +1,41 @@
+{
+  "id": "engine.networking-authority",
+  "kind": "engine-capability",
+  "version": "1.0.0",
+  "title": "Roblox client-server authority and remotes",
+  "summary": "A platform capability area covering client-server communication and validation of consequential requests at the server boundary.",
+  "designKnowledge": {
+    "verifiedScope": "Official Creator Hub documentation describes remote communication and the client-server security boundary. Verify exact API behavior against current documentation before a version-specific implementation.",
+    "authorityQuestions": ["Which side owns this state?", "What is a client request versus an accepted result?", "Which types, ownership, range, permissions, state, and rate are validated?", "How do observers learn about the accepted result?"],
+    "securityBoundary": "Clients can be modified or send arbitrary requests. Client-side checks and UI state are not security controls for consequential game state."
+  },
+  "technicalPatterns": [
+    { "name": "Validate every consequential request", "guidance": "At the server, check types and bounds, ownership, permission, distance, current phase, resource cost, cooldown, and request rate before changing state." },
+    { "name": "Replicate accepted outcomes", "guidance": "Keep authority and presentation separate. Client prediction may improve feel, but server-confirmed outcomes determine shared state." },
+    { "name": "Bound remote contracts", "guidance": "Define payload shape, size, frequency, error behavior, and idempotency for each remote interaction." }
+  ],
+  "dependencies": [],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "remote-client-trust", "description": "A server accepts client-supplied damage, ownership, position, or reward without validation.", "mitigation": "Reconstruct the result from server-owned state and validate each request against current game state." },
+    { "id": "remote-unbounded-work", "description": "Remote traffic triggers unbounded processing or expensive world queries.", "mitigation": "Apply rate limits, payload bounds, cancellation, and measured work budgets." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "remote-invalid-input", "action": "Submit wrong types, out-of-range values, unauthorized targets, stale state, and repeated requests.", "expected": "The server rejects invalid requests without changing consequential state or producing excessive work." },
+      { "id": "remote-two-client-result", "action": "Perform one valid shared action and inspect server and observer state.", "expected": "The server changes state once and both clients observe the accepted result." }
+    ],
+    "acceptanceCriteria": ["Authority is declared per state field.", "Remote payloads and rates are bounded.", "Adversarial client cases are tested in an unpublished local Studio session."]
+  },
+  "performance": { "considerations": ["Measure remote frequency, payload, server work, and replication cost at the expected player count.", "A local multi-client run does not prove live network reliability or persistence."] },
+  "sourceRefs": [
+    { "title": "Remote events and callbacks", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/events/remote", "retrievedAt": "2026-11-07" },
+    { "title": "Securing the client-server boundary", "type": "official-documentation", "reference": "https://create.roblox.com/docs/scripting/security/client-server-boundary", "retrievedAt": "2026-11-07" },
+    { "title": "Approved Lab authority boundary", "type": "internal-reference", "reference": "AGENTS.md", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "released", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Current official remote and security documentation is linked to bounded implementation and adversarial testing patterns.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["The cited documentation is version-sensitive and must be rechecked at implementation time.", "This record does not certify any implementation as secure."],
+  "owner": "Roblox Engine Intelligence",
+  "reviewedAt": "2026-11-07"
+}

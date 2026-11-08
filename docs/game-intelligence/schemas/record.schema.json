@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:11vatedtech:roblox-lab:game-intelligence:record:v1",
+  "title": "Roblox Game Intelligence Record",
+  "type": "object",
+  "required": [
+    "id", "kind", "version", "summary", "designKnowledge", "technicalPatterns", "dependencies", "conflicts",
+    "failureModes", "testing", "performance", "sourceRefs", "platformState", "maturity", "assumptions", "owner", "reviewedAt"
+  ],
+  "properties": {
+    "id": { "$ref": "#/$defs/recordId" },
+    "kind": {
+      "enum": ["engine-capability", "game-family", "mechanic", "visual-style", "animation-domain", "product-pattern", "production-pattern", "failure-pattern"]
+    },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "designKnowledge": { "type": "object", "minProperties": 1, "additionalProperties": true },
+    "technicalPatterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "guidance"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "guidance": { "type": "string", "minLength": 1, "maxLength": 2000 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "relation", "rationale"],
+        "properties": {
+          "id": { "$ref": "#/$defs/recordId" },
+          "relation": { "enum": ["requires", "supports", "composes-with", "pairs-with"] },
+          "rationale": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "rationale"],
+        "properties": {
+          "id": { "$ref": "#/$defs/recordId" },
+          "rationale": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "failureModes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "mitigation"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "mitigation": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "testing": {
+      "type": "object",
+      "required": ["scenarios", "acceptanceCriteria"],
+      "properties": {
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "action", "expected"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1, "maxLength": 160 },
+              "action": { "type": "string", "minLength": 1, "maxLength": 1000 },
+              "expected": { "type": "string", "minLength": 1, "maxLength": 1000 }
+            },
+            "additionalProperties": true
+          }
+        },
+        "acceptanceCriteria": { "$ref": "#/$defs/stringList" }
+      },
+      "additionalProperties": true
+    },
+    "performance": {
+      "type": "object",
+      "required": ["considerations"],
+      "properties": { "considerations": { "$ref": "#/$defs/stringList" } },
+      "additionalProperties": true
+    },
+    "sourceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title", "type", "reference", "retrievedAt"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+          "type": { "enum": ["official-documentation", "primary-research", "internal-reference", "verified-benchmark", "user-provided", "other"] },
+          "reference": { "$ref": "#/$defs/reference" },
+          "retrievedAt": { "$ref": "#/$defs/date" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "platformState": {
+      "type": "object",
+      "required": ["state", "robloxVersion", "studioVersion", "checkedAt"],
+      "properties": {
+        "state": { "enum": ["released", "beta", "experimental", "announced", "delayed", "deprecated", "unknown", "not-applicable"] },
+        "robloxVersion": { "type": ["string", "null"], "maxLength": 100 },
+        "studioVersion": { "type": ["string", "null"], "maxLength": 100 },
+        "checkedAt": { "$ref": "#/$defs/date" }
+      },
+      "additionalProperties": true
+    },
+    "maturity": {
+      "type": "object",
+      "required": ["level", "evidence"],
+      "properties": {
+        "level": { "enum": ["L1", "L2", "L3", "L4"] },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "level": { "const": "L3" } }, "required": ["level"] },
+          "then": { "properties": { "evidence": { "contains": { "properties": { "kind": { "const": "execution" } }, "required": ["kind"] } } } }
+        },
+        {
+          "if": { "properties": { "level": { "const": "L4" } }, "required": ["level"] },
+          "then": { "properties": { "evidence": { "allOf": [
+            { "contains": { "properties": { "kind": { "const": "execution" } }, "required": ["kind"] } },
+            { "contains": { "properties": { "kind": { "const": "certification" } }, "required": ["kind"] } }
+          ] } } }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "assumptions": { "$ref": "#/$defs/stringList" },
+    "owner": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "reviewedAt": { "$ref": "#/$defs/date" }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "engine-capability" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^engine\\." } } } },
+    { "if": { "properties": { "kind": { "const": "game-family" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^genre\\." } } } },
+    { "if": { "properties": { "kind": { "const": "mechanic" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^mechanic\\." } } } },
+    { "if": { "properties": { "kind": { "const": "visual-style" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^style\\." } } } },
+    { "if": { "properties": { "kind": { "const": "animation-domain" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^animation\\." } } } },
+    { "if": { "properties": { "kind": { "const": "product-pattern" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^product\\." } } } },
+    { "if": { "properties": { "kind": { "const": "production-pattern" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^production\\." } } } },
+    { "if": { "properties": { "kind": { "const": "failure-pattern" } }, "required": ["kind"] }, "then": { "properties": { "id": { "pattern": "^failure\\." } } } }
+  ],
+  "$defs": {
+    "recordId": { "type": "string", "pattern": "^(engine|genre|mechanic|style|animation|product|production|failure)\\.[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "date": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "reference": {
+      "type": "string", "minLength": 1, "maxLength": 2048,
+      "anyOf": [
+        { "format": "uri", "pattern": "^https://[^\\s/?#]+(?:[/?#][^\\s]*)?$" },
+        { "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\:\\r\\n\\u0000]+$" }
+      ]
+    },
+    "stringList": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1, "maxLength": 2048 } },
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "reference", "description", "observedAt"],
+      "properties": {
+        "kind": { "enum": ["design", "execution", "certification"] },
+        "reference": { "$ref": "#/$defs/reference" },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "observedAt": { "$ref": "#/$defs/date" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

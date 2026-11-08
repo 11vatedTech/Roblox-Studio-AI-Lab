@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "signal-garden-native-environment",
+      "name": "Signal Garden terrain, landmarks, traversal props, gameplay nodes, and lighting",
+      "kind": "procedural-environment",
+      "source": {
+        "type": "original-repository-source",
+        "path": "projects/signal-garden/src/server/WorldBuilder.luau",
+        "method": "Roblox Terrain operations and native Instances created at runtime"
+      },
+      "externalAssets": false,
+      "robloxAssetIds": [],
+      "stage": "stylized-blockout",
+      "rights": "Generated from this repository's source. Outbound redistribution terms have not been assessed.",
+      "validation": {
+        "rojoBuild": "passed",
+        "studioOpen": "passed",
+        "localPlaySessionStarted": "passed",
+        "fullObjective": "passed for both Moss and Bloom in a single-player local Play run; timeout recovery and restoration reset observed. See evidence/studio/signal-garden-p0-run.json.",
+        "multiplayer": "unverified",
+        "deviceProfiles": "unverified"
+      }
+    },
+    {
+      "id": "signal-bloom-prop",
+      "name": "SignalBloom low-poly environment prop",
+      "kind": "procedural-3d-prop",
+      "source": {
+        "type": "original-repository-source",
+        "path": "assets/models/signal-garden/build_signal_bloom.py",
+        "method": "Blender Python script creates three mesh objects and exports FBX; no external textures are referenced"
+      },
+      "externalAssets": false,
+      "robloxAssetIds": [],
+      "classification": "Supporting",
+      "stage": "source-reproduced-local-import-unverified",
+      "rights": "The repository contains procedural source and no external inputs are recorded. Creator ownership and commercial redistribution rights have not been independently documented.",
+      "technicalNotes": {
+        "blenderVersionRecorded": "5.2.0 LTS",
+        "pythonVersionRecorded": "3.13.13",
+        "triangleCountRecorded": 920,
+        "canonicalModelSha256": "7a0e4523323f6327f683aeef7eb62aa283b968d989b1006e710d386aca63803e",
+        "sourceScriptSha256": "882050a3197c601d5fcf07c60216d74c5a910759ded8281c48db9245d6e65915",
+        "sourceBlendSha256": "7dc6e160547bc4f65733b7197c2a5eab9f43f1338a240d8e537952e9b1d22b29",
+        "sourceFbxSha256": "9c4369ad868a806e5cd1e1891b0d7988cb15c85b2e0e19174fe490e0937d9062",
+        "sourcePreviewSha256": "64dd0c974213b830a43157c5bd2dade415c3df51c677abcb5a82533d8e349474",
+        "sourceReproduction": "Two isolated Blender 5.2.0 LTS builds matched the source .blend canonical model hash; full artifact file hashes vary between runs. See SignalBloom-build.json.",
+        "dimensionsInStudsRecorded": {
+          "SignalBloomPetals": [3.4492, 3.4686, 0.945],
+          "SignalBloomCore": [0.8179, 0.86, 0.86],
+          "SignalBloomSeed": [0.3703, 0.3522, 0.522]
+        },
+        "preview": "assets/models/signal-garden/SignalBloom-preview.png",
+        "fbx": "assets/models/signal-garden/SignalBloom.fbx"
+      },
+      "validation": {
+        "sourceScriptReviewed": "passed",
+        "previewInspected": "passed",
+        "sourceReproduction": "passed: 3 mesh objects, 920 triangles, canonical geometry and material hash matched two independent builds",
+        "artisticAcceptance": "not certified",
+        "studioPresence": "historical: Workspace.SignalBloom with three MeshParts was observed in an earlier Studio place; the current generated local build did not contain SignalBloom",
+        "rojoSourceMapping": "not integrated: projects/signal-garden/default.project.json does not map this model",
+        "rebuiltPlacePresence": "blocked: SignalBloom was absent from generated local place signal-garden-20261107-175946294.rbxlx (PlaceId 0, GameId 0); no import or upload was attempted. See evidence/studio/signal-garden-p0-run.json.",
+        "collisionAndMobileBudgets": "unverified"
+      }
+    },
+    {
+      "id": "misprint-menagerie-index-arena-creatures",
+      "name": "Misprint Menagerie Index hub, Redactor arena, and six summon silhouettes",
+      "kind": "procedural-environment-and-creatures",
+      "source": {
+        "type": "original-repository-source",
+        "path": "projects/misprint-menagerie/src/server/WorldBuilder.luau and CreatureBuilder.luau",
+        "method": "Server-authored native Roblox Parts, WedgeParts, and Cylinders"
+      },
+      "externalAssets": false,
+      "robloxAssetIds": [],
+      "stage": "source-authored-local-vertical-slice",
+      "rights": "No third-party assets or generated media are used. Roblox native geometry is authored from this repository's Luau source.",
+      "technicalNotes": {
+        "staticWorldPartCount": "not measured in Studio yet",
+        "summonPartCap": 16,
+        "bossPartCap": 32,
+        "devicePerformance": "not profiled on a representative low-end device"
+      },
+      "validation": {
+        "sourceAuthored": "verified by repository source",
+        "rojoBuild": "pending final build",
+        "studioOpen": "unverified",
+        "localPlaySession": "unverified",
+        "multiplayer": "unverified",
+        "deviceProfiles": "unverified"
+      }
+    }
+  ]
+}

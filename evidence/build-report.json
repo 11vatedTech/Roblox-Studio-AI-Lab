@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-07T20:43:34.6037581Z",
+  "rojoVersion": "Rojo 7.7.1",
+  "projects": [
+    {
+      "project": "roblox\\templates\\base",
+      "output": ".lab-runtime\\builds\\base-20261107-204334268.rbxlx",
+      "bytes": 9913,
+      "status": "built"
+    },
+    {
+      "project": "projects\\misprint-menagerie",
+      "output": ".lab-runtime\\builds\\misprint-menagerie-20261107-204334396.rbxlx",
+      "bytes": 115832,
+      "status": "built"
+    },
+    {
+      "project": "projects\\signal-garden",
+      "output": ".lab-runtime\\builds\\signal-garden-20261107-204334487.rbxlx",
+      "bytes": 30071,
+      "status": "built"
+    }
+  ]
+}

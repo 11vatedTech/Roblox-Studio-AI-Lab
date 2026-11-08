@@ -1,0 +1,1057 @@
+{
+  "schemaVersion": 1,
+  "title": "AI Roblox Studio Lab specialist capability registry",
+  "purpose": "Maps the existing role contracts to stable capabilities, artifact handoffs, bounded operation classes, and independent reviewers. Entries are callable responsibilities; they do not launch agents or grant Studio, account, publishing, upload, or production-data permissions.",
+  "reviewedAt": "2026-11-07",
+  "divisions": [
+    "Game Intelligence",
+    "Creative Production",
+    "Engineering",
+    "Quality & Verification",
+    "Product & Operations"
+  ],
+  "allowedOperationClasses": [
+    "read-knowledge",
+    "read-project-source",
+    "read-local-documents",
+    "read-official-documentation",
+    "research-public-information",
+    "read-studio-datamodel",
+    "inspect-local-assets",
+    "write-design-documents",
+    "write-project-source",
+    "write-local-assets",
+    "run-local-checks",
+    "build-rojo-project",
+    "capture-studio-evidence",
+    "write-evidence-records",
+    "review-artifacts",
+    "profile-target-devices",
+    "propose-task-graph",
+    "write-analytics-plan",
+    "write-release-plan"
+  ],
+  "forbiddenOperationClasses": [
+    "publish-experience",
+    "upload-asset",
+    "purchase-asset",
+    "enable-open-cloud",
+    "write-production-data",
+    "change-account-permissions",
+    "arbitrary-process-execution",
+    "arbitrary-file-access",
+    "arbitrary-mcp-invocation"
+  ],
+  "humanApprovalRequirements": [
+    {
+      "id": "hero-artistic-acceptance",
+      "requirement": "Hero assets require explicit human visual approval after independent visual review; automated checks and AI analysis are supporting evidence only."
+    },
+    {
+      "id": "hero-asset-acceptance",
+      "requirement": "Hero characters, creatures, signature weapons, landmarks, and other defining assets require named human visual sign-off before acceptance."
+    },
+    {
+      "id": "hero-animation-acceptance",
+      "requirement": "Hero character and creature animation requires human visual review and sign-off after gameplay integration."
+    },
+    {
+      "id": "final-art-direction",
+      "requirement": "Final art direction requires explicit human approval against the approved visual identity and acceptance rubric."
+    },
+    {
+      "id": "license-exception",
+      "requirement": "Any license exception requires human review of the source and permitted use before asset integration."
+    },
+    {
+      "id": "external-or-live-operation",
+      "requirement": "Asset uploads, purchases, publishing, account permission changes, paid services, and production data writes require separate user authorization for the specific operation."
+    },
+    {
+      "id": "live-operations",
+      "requirement": "Live-operations changes require human review of player impact, timing, rollback, and service permissions."
+    },
+    {
+      "id": "player-data-collection",
+      "requirement": "Player-data collection requires human approval of the specific data, purpose, retention, and privacy boundary."
+    },
+    {
+      "id": "monetization",
+      "requirement": "Monetization changes require explicit human approval; no purchase, paid random reward, or monetization setting may be changed by a specialist."
+    },
+    {
+      "id": "release-publication",
+      "requirement": "Publication requires explicit human authorization for the exact experience and release."
+    },
+    {
+      "id": "release-certification",
+      "requirement": "Final art direction and release certification require explicit human sign-off with evidence."
+    }
+  ],
+  "specialists": [
+    {
+      "id": "specialist.game-design-director",
+      "displayName": "Game Design Director",
+      "division": "Game Intelligence",
+      "contractPath": "skills/roles/game-design-director.md",
+      "capabilityIds": [
+        "genre.hybrid-experiences",
+        "mechanic.movement",
+        "mechanic.combat",
+        "mechanic.progression",
+        "mechanic.multiplayer",
+        "product.player-onboarding"
+      ],
+      "inputArtifactTypes": [
+        "creative-direction",
+        "audience-hypothesis",
+        "target-device-matrix",
+        "multiplayer-assumptions",
+        "playtest-notes",
+        "learning-experiment"
+      ],
+      "outputArtifactTypes": [
+        "game-design-brief",
+        "mechanic-spec",
+        "state-flow-map",
+        "test-scenario",
+        "design-risk-register"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "write-design-documents",
+        "propose-task-graph",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.creative-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.economy-progression-designer",
+      "displayName": "Economy and Progression Designer",
+      "division": "Game Intelligence",
+      "contractPath": "skills/roles/economy-progression-designer.md",
+      "capabilityIds": [
+        "mechanic.economy",
+        "mechanic.progression",
+        "mechanic.collection",
+        "product.economy-ethics",
+        "failure.economy-exploitation"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "session-length-hypothesis",
+        "reward-sources-and-sinks",
+        "audience-hypothesis",
+        "aggregate-player-data"
+      ],
+      "outputArtifactTypes": [
+        "progression-curve",
+        "reward-table",
+        "economy-model",
+        "balance-simulation",
+        "economy-ethics-review"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "write-design-documents",
+        "propose-task-graph",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.product-live-operations-strategist",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.principal-roblox-architect",
+      "displayName": "Principal Roblox Architect",
+      "division": "Engineering",
+      "contractPath": "skills/roles/principal-roblox-architect.md",
+      "capabilityIds": [
+        "engine.datamodel-rojo",
+        "engine.networking-authority",
+        "engine.persistence-streaming",
+        "engine.permission-boundaries",
+        "production.roblox-architecture"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "mechanic-spec",
+        "target-device-matrix",
+        "authorized-operation-scope",
+        "project-source"
+      ],
+      "outputArtifactTypes": [
+        "data-model-map",
+        "interface-contract",
+        "architecture-decision",
+        "build-run-guide",
+        "architecture-risk-register"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "write-project-source",
+        "run-local-checks",
+        "build-rojo-project",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.qa-director",
+        "specialist.security-engineer"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.senior-luau-engineer",
+      "displayName": "Senior Luau Engineer",
+      "division": "Engineering",
+      "contractPath": "skills/roles/senior-luau-engineer.md",
+      "capabilityIds": [
+        "engine.luau-analysis",
+        "engine.datamodel-rojo",
+        "production.roblox-luau-implementation",
+        "failure.runtime-lifecycle"
+      ],
+      "inputArtifactTypes": [
+        "interface-contract",
+        "data-model-map",
+        "mechanic-spec",
+        "test-scenario",
+        "security-findings",
+        "performance-baseline",
+        "risk-based-test-plan"
+      ],
+      "outputArtifactTypes": [
+        "luau-module",
+        "public-api-contract",
+        "source-check-results",
+        "code-review-request"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "write-project-source",
+        "run-local-checks",
+        "build-rojo-project",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.qa-director",
+        "specialist.security-engineer"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.gameplay-engineer",
+      "displayName": "Gameplay Engineer",
+      "division": "Engineering",
+      "contractPath": "skills/roles/gameplay-engineer.md",
+      "capabilityIds": [
+        "mechanic.movement",
+        "mechanic.combat",
+        "mechanic.abilities",
+        "mechanic.interaction",
+        "engine.input-ui-camera",
+        "animation.combat"
+      ],
+      "inputArtifactTypes": [
+        "mechanic-spec",
+        "data-model-map",
+        "interface-contract",
+        "animation-event-contract",
+        "ui-interaction-contract",
+        "vfx-event-contract",
+        "audio-cue-sheet",
+        "luau-module",
+        "remote-contract",
+        "test-scenario",
+        "risk-based-test-plan",
+        "security-findings"
+      ],
+      "outputArtifactTypes": [
+        "gameplay-module",
+        "mechanic-state-table",
+        "interaction-contract",
+        "gameplay-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "write-project-source",
+        "run-local-checks",
+        "build-rojo-project",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.qa-director",
+        "specialist.multiplayer-engineer"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.multiplayer-engineer",
+      "displayName": "Multiplayer Engineer",
+      "division": "Engineering",
+      "contractPath": "skills/roles/multiplayer-engineer.md",
+      "capabilityIds": [
+        "mechanic.multiplayer",
+        "engine.networking-authority",
+        "failure.late-join-duplication",
+        "failure.remote-abuse"
+      ],
+      "inputArtifactTypes": [
+        "data-model-map",
+        "interface-contract",
+        "mechanic-spec",
+        "remote-contract",
+        "test-scenario",
+        "risk-based-test-plan"
+      ],
+      "outputArtifactTypes": [
+        "replication-policy",
+        "remote-contract",
+        "abuse-limit-spec",
+        "multiplayer-test-matrix",
+        "multiplayer-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "write-project-source",
+        "run-local-checks",
+        "build-rojo-project",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.security-engineer",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.ai-npc-systems-engineer",
+      "displayName": "AI/NPC Systems Engineer",
+      "division": "Engineering",
+      "contractPath": "skills/roles/ai-npc-systems-engineer.md",
+      "capabilityIds": [
+        "mechanic.ai-npc",
+        "mechanic.simulation",
+        "engine.npc-pathfinding",
+        "failure.navigation-recovery"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "world-layout",
+        "mechanic-spec",
+        "performance-baseline",
+        "target-device-matrix",
+        "risk-based-test-plan"
+      ],
+      "outputArtifactTypes": [
+        "npc-state-graph",
+        "perception-action-rules",
+        "pathfinding-budget",
+        "npc-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "write-project-source",
+        "run-local-checks",
+        "build-rojo-project",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.gameplay-engineer",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.creative-director",
+      "displayName": "Creative Director",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/creative-director.md",
+      "capabilityIds": [
+        "style.stylized-realism",
+        "style.visual-coherence",
+        "production.art-direction",
+        "product.player-promise"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "audience-hypothesis",
+        "player-feedback",
+        "reference-provenance",
+        "visual-capture"
+      ],
+      "outputArtifactTypes": [
+        "creative-direction",
+        "art-direction-brief",
+        "pillar-feature-map",
+        "creative-review"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.game-design-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": [
+        "hero-artistic-acceptance",
+        "final-art-direction"
+      ]
+    },
+    {
+      "id": "specialist.asset-specialist",
+      "displayName": "3D Asset Specialist",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/asset-specialist.md",
+      "capabilityIds": [
+        "production.original-3d-asset",
+        "production.asset-provenance",
+        "engine.mesh-import"
+      ],
+      "inputArtifactTypes": [
+        "asset-brief",
+        "art-direction-brief",
+        "asset-budget",
+        "license-requirements",
+        "target-device-matrix"
+      ],
+      "outputArtifactTypes": [
+        "asset-source",
+        "roblox-ready-export",
+        "asset-ledger-entry",
+        "asset-technical-report"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.technical-artist",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": [
+        "hero-asset-acceptance",
+        "license-exception"
+      ]
+    },
+    {
+      "id": "specialist.environment-artist",
+      "displayName": "Environment Artist",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/environment-artist.md",
+      "capabilityIds": [
+        "production.environment-authoring",
+        "style.environment-composition",
+        "mechanic.movement",
+        "engine.streaming"
+      ],
+      "inputArtifactTypes": [
+        "art-direction-brief",
+        "game-design-brief",
+        "world-route",
+        "asset-ledger-entry",
+        "asset-budget",
+        "performance-baseline",
+        "target-device-matrix"
+      ],
+      "outputArtifactTypes": [
+        "world-layout",
+        "traversal-map",
+        "lighting-zones",
+        "environment-asset-list",
+        "walkthrough-capture-set"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.creative-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.technical-artist",
+      "displayName": "Technical Artist",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/technical-artist.md",
+      "capabilityIds": [
+        "engine.mesh-import",
+        "engine.material-rendering",
+        "engine.device-performance",
+        "production.quality-tiers"
+      ],
+      "inputArtifactTypes": [
+        "art-direction-brief",
+        "asset-source",
+        "roblox-ready-export",
+        "asset-technical-report",
+        "target-device-matrix",
+        "performance-baseline",
+        "visual-capture"
+      ],
+      "outputArtifactTypes": [
+        "asset-budget",
+        "import-preset",
+        "material-guidance",
+        "quality-tier-spec",
+        "visual-performance-report"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts",
+        "profile-target-devices"
+      ],
+      "independentReviewerIds": [
+        "specialist.performance-engineer",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.character-rigging-specialist",
+      "displayName": "Character and Rigging Specialist",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/character-rigging-specialist.md",
+      "capabilityIds": [
+        "production.character-modeling",
+        "production.rigging",
+        "animation.character",
+        "engine.animation-rigging"
+      ],
+      "inputArtifactTypes": [
+        "character-concept",
+        "art-direction-brief",
+        "animation-inventory",
+        "asset-source",
+        "asset-budget",
+        "avatar-compatibility-requirements"
+      ],
+      "outputArtifactTypes": [
+        "rig-spec",
+        "rigged-source",
+        "joint-map",
+        "deformation-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.animation-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": [
+        "hero-asset-acceptance"
+      ]
+    },
+    {
+      "id": "specialist.animation-director",
+      "displayName": "Animation Director",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/animation-director.md",
+      "capabilityIds": [
+        "animation.character",
+        "animation.combat",
+        "animation.creature",
+        "animation.locomotion",
+        "animation.state-machines"
+      ],
+      "inputArtifactTypes": [
+        "rig-spec",
+        "mechanic-spec",
+        "gameplay-module",
+        "creative-direction",
+        "audio-cue-sheet",
+        "vfx-event-contract",
+        "performance-baseline"
+      ],
+      "outputArtifactTypes": [
+        "animation-inventory",
+        "animation-event-contract",
+        "transition-map",
+        "animation-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.creative-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": [
+        "hero-animation-acceptance"
+      ]
+    },
+    {
+      "id": "specialist.vfx-specialist",
+      "displayName": "VFX Specialist",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/vfx-specialist.md",
+      "capabilityIds": [
+        "production.vfx-authoring",
+        "engine.audio-effects",
+        "style.visual-coherence",
+        "animation.vfx-synchronization"
+      ],
+      "inputArtifactTypes": [
+        "art-direction-brief",
+        "mechanic-spec",
+        "gameplay-module",
+        "palette-spec",
+        "audio-cue-sheet",
+        "asset-budget",
+        "performance-baseline"
+      ],
+      "outputArtifactTypes": [
+        "vfx-event-contract",
+        "effect-recipe",
+        "vfx-quality-variants",
+        "vfx-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.creative-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.audio-designer",
+      "displayName": "Audio Designer",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/audio-designer.md",
+      "capabilityIds": [
+        "production.audio-design",
+        "engine.audio-effects",
+        "product.accessibility"
+      ],
+      "inputArtifactTypes": [
+        "art-direction-brief",
+        "game-design-brief",
+        "event-map",
+        "audio-asset-provenance",
+        "target-device-matrix",
+        "animation-event-contract"
+      ],
+      "outputArtifactTypes": [
+        "audio-cue-sheet",
+        "mix-policy",
+        "audio-asset-ledger",
+        "audio-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.creative-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.ui-ux-director",
+      "displayName": "UI/UX Director",
+      "division": "Creative Production",
+      "contractPath": "skills/roles/ui-ux-director.md",
+      "capabilityIds": [
+        "engine.input-ui-camera",
+        "product.accessibility",
+        "animation.ui-motion",
+        "style.ui-language"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "mechanic-spec",
+        "state-flow-map",
+        "art-direction-brief",
+        "target-device-matrix",
+        "accessibility-requirements"
+      ],
+      "outputArtifactTypes": [
+        "ui-interaction-contract",
+        "screen-state-inventory",
+        "input-map",
+        "accessibility-spec",
+        "ui-test-results"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "inspect-local-assets",
+        "write-design-documents",
+        "write-local-assets",
+        "read-studio-datamodel",
+        "capture-studio-evidence",
+        "run-local-checks",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.game-design-director",
+        "specialist.qa-director"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.qa-director",
+      "displayName": "QA Director",
+      "division": "Quality & Verification",
+      "contractPath": "skills/roles/qa-director.md",
+      "capabilityIds": [
+        "production.independent-certification",
+        "engine.studio-testing",
+        "product.acceptance-evidence"
+      ],
+      "inputArtifactTypes": [
+        "game-design-brief",
+        "test-scenario",
+        "design-risk-register",
+        "data-model-map",
+        "architecture-risk-register",
+        "architecture-decision",
+        "build-run-guide",
+        "public-api-contract",
+        "code-review-request",
+        "mechanic-state-table",
+        "interaction-contract",
+        "replication-policy",
+        "abuse-limit-spec",
+        "multiplayer-test-matrix",
+        "npc-state-graph",
+        "perception-action-rules",
+        "pathfinding-budget",
+        "npc-test-results",
+        "pillar-feature-map",
+        "creative-review",
+        "traversal-map",
+        "lighting-zones",
+        "environment-asset-list",
+        "walkthrough-capture-set",
+        "import-preset",
+        "material-guidance",
+        "visual-performance-report",
+        "rigged-source",
+        "joint-map",
+        "deformation-test-results",
+        "transition-map",
+        "animation-test-results",
+        "effect-recipe",
+        "vfx-quality-variants",
+        "vfx-test-results",
+        "mix-policy",
+        "audio-asset-ledger",
+        "audio-test-results",
+        "screen-state-inventory",
+        "input-map",
+        "accessibility-spec",
+        "ui-test-results",
+        "progression-curve",
+        "reward-table",
+        "economy-model",
+        "balance-simulation",
+        "economy-ethics-review",
+        "threat-model",
+        "abuse-test-cases",
+        "residual-risk-register",
+        "bottleneck-report",
+        "performance-thresholds",
+        "optimization-handoff",
+        "positioning-hypothesis",
+        "metrics-definition",
+        "privacy-boundary",
+        "gameplay-test-results",
+        "multiplayer-test-results",
+        "visual-capture",
+        "performance-baseline",
+        "security-findings",
+        "source-check-results",
+        "target-device-matrix"
+      ],
+      "outputArtifactTypes": [
+        "risk-based-test-plan",
+        "defect-report",
+        "acceptance-matrix",
+        "independent-review",
+        "certification-recommendation"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "read-studio-datamodel",
+        "inspect-local-assets",
+        "run-local-checks",
+        "build-rojo-project",
+        "capture-studio-evidence",
+        "write-evidence-records",
+        "review-artifacts",
+        "profile-target-devices"
+      ],
+      "independentReviewerIds": [
+        "specialist.principal-roblox-architect",
+        "specialist.security-engineer"
+      ],
+      "humanApprovalRequiredFor": [
+        "release-certification",
+        "hero-artistic-acceptance"
+      ]
+    },
+    {
+      "id": "specialist.security-engineer",
+      "displayName": "Security Engineer",
+      "division": "Quality & Verification",
+      "contractPath": "skills/roles/security-engineer.md",
+      "capabilityIds": [
+        "engine.permission-boundaries",
+        "engine.networking-authority",
+        "failure.remote-abuse",
+        "failure.secret-exposure"
+      ],
+      "inputArtifactTypes": [
+        "data-model-map",
+        "interface-contract",
+        "remote-contract",
+        "mutable-state-map",
+        "persistence-policy",
+        "security-findings",
+        "test-scenario",
+        "operations-plan"
+      ],
+      "outputArtifactTypes": [
+        "threat-model",
+        "security-findings",
+        "abuse-test-cases",
+        "residual-risk-register"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "read-studio-datamodel",
+        "inspect-local-assets",
+        "run-local-checks",
+        "build-rojo-project",
+        "capture-studio-evidence",
+        "write-evidence-records",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.qa-director",
+        "specialist.principal-roblox-architect"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.performance-engineer",
+      "displayName": "Performance Engineer",
+      "division": "Quality & Verification",
+      "contractPath": "skills/roles/performance-engineer.md",
+      "capabilityIds": [
+        "engine.device-performance",
+        "engine.streaming",
+        "production.quality-tiers"
+      ],
+      "inputArtifactTypes": [
+        "target-device-matrix",
+        "scene-workload",
+        "profile-evidence",
+        "source-check-results",
+        "asset-budget",
+        "quality-tier-spec"
+      ],
+      "outputArtifactTypes": [
+        "performance-baseline",
+        "bottleneck-report",
+        "performance-thresholds",
+        "optimization-handoff"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-project-source",
+        "read-local-documents",
+        "read-official-documentation",
+        "read-studio-datamodel",
+        "inspect-local-assets",
+        "run-local-checks",
+        "build-rojo-project",
+        "capture-studio-evidence",
+        "write-evidence-records",
+        "review-artifacts",
+        "profile-target-devices"
+      ],
+      "independentReviewerIds": [
+        "specialist.qa-director",
+        "specialist.principal-roblox-architect"
+      ],
+      "humanApprovalRequiredFor": []
+    },
+    {
+      "id": "specialist.product-live-operations-strategist",
+      "displayName": "Product and Live Operations Strategist",
+      "division": "Product & Operations",
+      "contractPath": "skills/roles/product-live-operations-strategist.md",
+      "capabilityIds": [
+        "product.player-value-research",
+        "product.privacy-minimization",
+        "product.live-operations"
+      ],
+      "inputArtifactTypes": [
+        "audience-hypothesis",
+        "public-reference-dossier",
+        "aggregate-player-data",
+        "experience-health-report",
+        "support-cost-model",
+        "defect-report",
+        "acceptance-matrix",
+        "independent-review",
+        "certification-recommendation"
+      ],
+      "outputArtifactTypes": [
+        "positioning-hypothesis",
+        "learning-experiment",
+        "metrics-definition",
+        "privacy-boundary",
+        "operations-plan"
+      ],
+      "permittedOperationClasses": [
+        "read-knowledge",
+        "read-local-documents",
+        "read-official-documentation",
+        "research-public-information",
+        "write-design-documents",
+        "write-analytics-plan",
+        "write-release-plan",
+        "propose-task-graph",
+        "review-artifacts"
+      ],
+      "independentReviewerIds": [
+        "specialist.game-design-director",
+        "specialist.security-engineer"
+      ],
+      "humanApprovalRequiredFor": [
+        "live-operations",
+        "player-data-collection",
+        "monetization",
+        "release-publication"
+      ]
+    }
+  ]
+}

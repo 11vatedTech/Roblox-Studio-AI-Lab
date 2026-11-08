@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-07T20:46:21Z",
+  "project": "signal-garden",
+  "place": {
+    "sourceFile": ".lab-runtime/builds/signal-garden-20261107-175946294.rbxlx",
+    "placeId": 0,
+    "gameId": 0,
+    "published": false
+  },
+  "studio": {
+    "mode": "Server and Clients",
+    "sessionIds": {
+      "server": "687292f9-0553-40ea-bd53-05033a5bcb31",
+      "clientPlayer1": "554bba47-b318-438e-b889-8d6a7ffcb512",
+      "clientPlayer2": "c20fe7f7-53f1-4026-960d-e7f52e107fa3"
+    }
+  },
+  "scenario": "Two local clients collect separate Echo fragments and observe the server-authoritative leaderstats on both clients.",
+  "steps": [
+    {
+      "action": "Start a local Server and Clients session and add a second client.",
+      "result": "Server and both client DataModels listed Player1 and Player2; each contained Echoes and Restorations leaderstats."
+    },
+    {
+      "action": "Navigate Player2 to Workspace.SignalGarden.GameplayNodes.EchoFragment01 and hold E for 500 ms.",
+      "result": "EchoFragment01 Collected=true; server Player2 Echoes=1 and Player1 Echoes=0; both clients observed Player2=1 and Player1=0."
+    },
+    {
+      "action": "Navigate Player1 to Workspace.SignalGarden.GameplayNodes.EchoFragment02 and hold E for 500 ms.",
+      "result": "EchoFragment02 Collected=true; server Player1 Echoes=1 and Player2 Echoes=1; both clients observed Player1=1 and Player2=1."
+    },
+    {
+      "action": "End the local test session from the server Test menu.",
+      "result": "The server and client Studio IDs disconnected from the MCP list; no place was saved or published."
+    }
+  ],
+  "acceptance": {
+    "status": "passed",
+    "scope": "Local multiplayer Echo collection state synchronization only.",
+    "checks": [
+      "Both local players were present in the server and both client DataModels.",
+      "EchoFragment01 and EchoFragment02 changed their Collected attribute on the server.",
+      "Each player's Echoes counter replicated to both clients and remained associated with the correct player.",
+      "The local test session was closed without saving or publishing."
+    ]
+  },
+  "limits": [
+    "This is a local Studio session with PlaceId=0 and GameId=0, not a live or published multiplayer test.",
+    "The scenario does not certify party matchmaking, cross-server behavior, hostile client input, network latency, persistence, touch/controller input, or target-device performance.",
+    "Visual screenshots were observed during the session but were not written as persistent image files; the recorded DataModel inspections are the durable evidence for this scenario."
+  ]
+}

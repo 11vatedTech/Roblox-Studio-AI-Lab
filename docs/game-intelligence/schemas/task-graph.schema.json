@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:11vatedtech:roblox-lab:task-graph:v1",
+  "title": "Proposed Roblox Studio Lab Task Graph",
+  "description": "A versioned, project-scoped local task plan. Runtime validation additionally checks unique task IDs, reference integrity, dependency cycles, file ownership collisions, reviewer independence, and pass evidence.",
+  "type": "object",
+  "required": ["schemaVersion", "id", "project", "status", "revision", "createdAt", "updatedAt", "brief", "capabilityIds", "knowledgeIds", "tasks", "edges", "unknowns", "assumptions", "reviewGates"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^task-plan\\.[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "project": { "type": ["string", "null"], "maxLength": 128 },
+    "status": { "$ref": "#/$defs/status" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "brief": {
+      "type": "object",
+      "required": ["title", "summary"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 4000 }
+      },
+      "additionalProperties": true
+    },
+    "capabilityIds": { "type": "array", "items": { "$ref": "#/$defs/recordId" } },
+    "knowledgeIds": { "type": "array", "items": { "$ref": "#/$defs/recordId" }, "uniqueItems": true },
+    "tasks": { "type": "array", "minItems": 1, "maxItems": 500, "items": { "$ref": "#/$defs/task" } },
+    "edges": { "type": "array", "items": { "$ref": "#/$defs/edge" } },
+    "unknowns": { "$ref": "#/$defs/stringList" },
+    "assumptions": { "$ref": "#/$defs/stringList" },
+    "reviewGates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "events": { "type": "array", "items": { "type": "object" } }
+  },
+  "$defs": {
+    "recordId": { "type": "string", "pattern": "^(engine|genre|mechanic|style|animation|product|production|failure)\\.[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "taskId": { "type": "string", "pattern": "^task\\.[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "specialistId": { "type": "string", "pattern": "^specialist\\.[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "status": { "enum": ["proposed", "approved", "in_progress", "blocked", "review", "passed", "failed"] },
+    "stringList": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1, "maxLength": 2048 } },
+    "reference": {
+      "type": "string", "minLength": 1, "maxLength": 2048,
+      "anyOf": [
+        { "format": "uri", "pattern": "^https://[^\\s/?#]+(?:[/?#][^\\s]*)?$" },
+        { "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\:\\r\\n\\u0000]+$" }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "reference", "description", "observedAt"],
+      "properties": {
+        "kind": { "enum": ["design", "execution", "certification"] },
+        "reference": { "$ref": "#/$defs/reference" },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "observedAt": { "type": "string", "format": "date" }
+      },
+      "additionalProperties": true
+    },
+    "inputArtifact": {
+      "type": "object",
+      "required": ["type", "reference"],
+      "properties": {
+        "type": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+        "reference": { "$ref": "#/$defs/reference" }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["id", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "type": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "reference": { "$ref": "#/$defs/reference" }
+      },
+      "additionalProperties": true
+    },
+    "task": {
+      "type": "object",
+      "required": ["id", "title", "description", "status", "ownerId", "reviewerId", "capabilityIds", "knowledgeIds", "inputArtifactTypes", "inputArtifacts", "outputArtifactTypes", "fileOwnership", "artifacts", "evidence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/taskId" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "status": { "$ref": "#/$defs/status" },
+        "ownerId": { "$ref": "#/$defs/specialistId" },
+        "reviewerId": { "$ref": "#/$defs/specialistId" },
+        "capabilityIds": { "type": "array", "items": { "$ref": "#/$defs/recordId" } },
+        "knowledgeIds": { "type": "array", "items": { "$ref": "#/$defs/recordId" }, "uniqueItems": true },
+        "inputArtifactTypes": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" } },
+        "inputArtifacts": { "type": "array", "items": { "$ref": "#/$defs/inputArtifact" } },
+        "outputArtifactTypes": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" } },
+        "ownerContractSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "reviewerContractSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "reason": { "type": "string", "maxLength": 2000 },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "fileOwnership": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "mode"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\\\:\\r\\n\\u0000]+$" },
+              "mode": { "enum": ["read", "write"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "notes": { "type": "array", "items": { "type": "string", "maxLength": 1000 } }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "artifacts": { "contains": { "required": ["reference"] } },
+              "evidence": { "contains": { "properties": { "kind": { "enum": ["execution", "certification"] } }, "required": ["kind"] } }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to", "type"],
+      "properties": {
+        "from": { "$ref": "#/$defs/taskId" },
+        "to": { "$ref": "#/$defs/taskId" },
+        "type": { "enum": ["depends-on", "artifact", "review"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

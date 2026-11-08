@@ -1,0 +1,41 @@
+npm notice run 11vatedtech-ai-roblox-studio-lab@0.1.0 test
+npm notice run node --test
+✔ persists a real image block with Studio and project provenance (167.4028ms)
+✔ rejects invalid ids, image signatures, and untrusted capture metadata (17.4842ms)
+✔ orders captured evidence by capture time rather than random ids (214.9977ms)
+✔ health endpoint reports a live local service without exposing environment values (393.8449ms)
+✔ projects endpoint lists only directories in the local projects folder (140.6236ms)
+✔ project creation rejects invalid names and creates a Rojo template within the project root (169.4427ms)
+✔ opens nested source paths and rejects traversal in the project source route (79.7967ms)
+✔ rejects cross-origin mutations and does not create a project (15.2597ms)
+✔ reports disconnected Studio honestly and returns real connected instances from the bridge (802.015ms)
+✔ exposes the official Roblox API class catalog and current class reference (8.8426ms)
+✔ maps Lab requests to the live Studio MCP input schemas (67.8062ms)
+✔ persists viewport evidence only for a listed live Studio instance and serves the verified image (40.6678ms)
+✔ serves a real dashboard shell and rejects path traversal (6.8078ms)
+✔ accepts project slugs that are safe as Windows directory names (7.4948ms)
+✔ rejects traversal, reserved device names, and ambiguous project names (10.0218ms)
+✔ resolves nested paths only inside the selected root (5.8099ms)
+✔ rejects host-independent rooted, drive-qualified, traversal, and separator-smuggling segments (3.5496ms)
+✔ rejects empty and NUL-containing path segments (2.5152ms)
+✔ rejects a path that traverses through a symbolic link when supported (73.9104ms)
+✔ flags dynamic Luau execution and unvalidated server remote handlers with concrete locations (117.546ms)
+✔ reports an empty project as unmeasured instead of passing it (15.463ms)
+✔ retrieves official class metadata and filters indexed API members (275.6721ms)
+✔ caches a class response and exposes all member categories on an unfiltered query (7.8333ms)
+✔ rejects unsafe class and search inputs before making a request (7.7954ms)
+✔ reports missing classes from the upstream API reference as not found (3.3506ms)
+✔ initializes the official MCP stdio contract and discovers a real Studio instance (543.1619ms)
+✔ does not expose tools outside the explicit read-only allowlist (252.4495ms)
+✔ uses the stateless MCP protocol when the server advertises the current version (213.5188ms)
+✔ normalizes the current Studio instance id field to the Lab studio_id contract (169.0147ms)
+✔ uses the documented Windows MCP launcher command line (142.083ms)
+✔ passes only the runtime environment needed by the local bridge (0.4128ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3047.1538

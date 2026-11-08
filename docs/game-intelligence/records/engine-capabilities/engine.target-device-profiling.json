@@ -1,0 +1,40 @@
+{
+  "id": "engine.target-device-profiling",
+  "kind": "engine-capability",
+  "version": "1.0.0",
+  "title": "Roblox target-device performance validation",
+  "summary": "A production capability for evaluating an experience on representative hardware and preserving measurable performance evidence.",
+  "designKnowledge": {
+    "targetTier": "The approved minimum certified tier is midrange mobile plus desktop. Actual device models and numeric budgets must be selected and recorded from available hardware.",
+    "measures": ["frame time and frame rate", "memory", "join and streaming behavior", "input latency", "network traffic", "render cost", "effect concurrency"],
+    "qualityTiers": "Lower tiers may reduce geometry, texture resolution, effects, and environmental complexity while preserving silhouette, readability, visual identity, and gameplay."
+  },
+  "technicalPatterns": [
+    { "name": "Profile representative scenarios", "guidance": "Measure onboarding, the densest environment, peak gameplay, transitions, and low-memory behavior on named devices; record build, scenario, duration, settings, and output." },
+    { "name": "Keep device evidence reproducible", "guidance": "Record hardware and OS, Studio/engine version, place/build identity, quality setting, test scenario, and measurements." }
+  ],
+  "dependencies": [],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "desktop-only-certification", "description": "A desktop run is used to infer mobile frame time, memory, or readability.", "mitigation": "Require evidence from the named midrange mobile baseline and desktop separately." },
+    { "id": "tier-identity-loss", "description": "Performance reduction removes essential silhouettes or navigation cues.", "mitigation": "Run matched readability and visual identity checks across device tiers." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "midrange-mobile-profile", "action": "Run a representative peak gameplay scenario on the named midrange mobile device.", "expected": "Measured frame time, memory, join behavior, and visual readability meet declared project thresholds." },
+      { "id": "desktop-profile", "action": "Repeat the scenario on the named desktop profile.", "expected": "Desktop results are recorded separately and do not replace mobile evidence." }
+    ],
+    "acceptanceCriteria": ["Device models and project-specific thresholds are recorded.", "Mobile and desktop evidence are independent.", "Quality tiers preserve experience identity."]
+  },
+  "performance": { "considerations": ["This record defines the profiling discipline; it contains no universal frame or memory threshold.", "Compare measurements against experience-specific targets and named hardware."] },
+  "sourceRefs": [
+    { "title": "Test on hardware", "type": "official-documentation", "reference": "https://create.roblox.com/docs/performance-optimization/test-on-hardware", "retrievedAt": "2026-11-07" },
+    { "title": "Design for performance", "type": "official-documentation", "reference": "https://create.roblox.com/docs/performance-optimization/design", "retrievedAt": "2026-11-07" },
+    { "title": "Approved Lab minimum certified device tier", "type": "internal-reference", "reference": "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "released", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Device-specific profiling and identity-preserving quality-tier requirements are defined.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["Actual target devices and quantitative thresholds remain to be recorded from available hardware.", "This design record does not claim that a device profile has been run."],
+  "owner": "Quality & Verification",
+  "reviewedAt": "2026-11-07"
+}

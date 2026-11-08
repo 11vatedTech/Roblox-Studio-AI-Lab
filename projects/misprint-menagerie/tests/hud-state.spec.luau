@@ -1,0 +1,13 @@
+local shared = game:GetService("ReplicatedStorage"):WaitForChild("MisprintShared")
+assert(shared:FindFirstChild("HudState"), "HudState module is missing")
+local hud = require(shared.HudState)
+local state = hud.initial()
+assert(state.screen == "index")
+state = hud.reduce(state, { kind = "encounter_state", phase = "phase_one", bossHealth = 100 })
+assert(state.screen == "encounter" and state.phase == "phase_one")
+local ownedBefore = state.ownedCardIds
+state = hud.reduce(state, { kind = "call_rejected", reason = "summon_limit" })
+assert(state.message == "summon_limit", "rejected call should be visible")
+assert(state.ownedCardIds == ownedBefore, "server event cannot grant a card")
+local same = hud.reduce(state, { kind = "unknown_payload" })
+assert(same.screen == state.screen, "unknown payload must preserve current screen")

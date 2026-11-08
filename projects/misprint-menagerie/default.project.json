@@ -1,0 +1,22 @@
+{
+  "name": "Misprint Menagerie",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "MisprintShared": { "$path": "src/shared" }
+    },
+    "ServerScriptService": {
+      "MisprintServer": { "$path": "src/server" }
+    },
+    "Workspace": {
+      "$properties": {
+        "PlayerScriptsUseInputActionSystem": { "Enum": 2 }
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "MisprintClient": { "$path": "src/client" }
+      }
+    }
+  }
+}

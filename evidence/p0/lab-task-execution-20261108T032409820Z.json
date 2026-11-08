@@ -1,0 +1,218 @@
+{
+    "schemaVersion":  1,
+    "kind":  "lab-specialist-execution-integration-test",
+    "generatedAt":  "2026-11-08T03:24:13.492Z",
+    "testOnly":  true,
+    "testFile":  "tests/lab-task-mcp.test.js",
+    "task":  {
+                 "planId":  "task-plan.tactical-combat-study-a3f6d1f6c689",
+                 "taskId":  "task.implement-a-server-signal-module-a187e0b401",
+                 "project":  "test-world",
+                 "status":  "passed",
+                 "ownerId":  "specialist.gameplay-engineer",
+                 "reviewerId":  "specialist.qa-director"
+             },
+    "execution":  {
+                      "owner":  {
+                                    "sessionId":  "fd48d5c2-347b-4530-8ac4-9d63f9ac7d34",
+                                    "processId":  40272,
+                                    "parentProcessId":  12396,
+                                    "client":  {
+                                                   "name":  "lab-owner-test",
+                                                   "version":  "test-1"
+                                               }
+                                },
+                      "reviewer":  {
+                                       "sessionId":  "c7d73cc6-29c9-4f26-a08a-38b9f6c2ab5d",
+                                       "processId":  34940,
+                                       "parentProcessId":  12396,
+                                       "client":  {
+                                                      "name":  "lab-reviewer-test",
+                                                      "version":  "test-1"
+                                                  }
+                                   },
+                      "processSeparation":  {
+                                                "differentMcpProcess":  true,
+                                                "differentMcpSession":  true,
+                                                "limitation":  "The Lab observes local MCP server process and session identities. Client name and version are self-reported; this record does not attest to an AI provider, model, or human identity."
+                                            },
+                      "outcome":  "accepted",
+                      "summary":  "Reviewed the staged server module after pinned Luau, CLI spec, and Rojo checks passed.",
+                      "outputs":  [
+                                      {
+                                          "path":  "src/server/SignalService.luau",
+                                          "artifactType":  "gameplay-module",
+                                          "baseSha256":  "90180b7cad38ec745a053a664c0bd2f9a927c667b2f30c99d72583b7cbdd6a45",
+                                          "outputSha256":  "2ade39707ca2fd9037913ab97131494202483729e72b5dbc86ac787e862e0d56"
+                                      }
+                                  ],
+                      "fixedChecks":  [
+                                          {
+                                              "id":  "contract-output-coverage",
+                                              "passed":  true,
+                                              "detail":  "Every contracted output type has a staged file."
+                                          },
+                                          {
+                                              "id":  "staged-output-content-hashes",
+                                              "passed":  true,
+                                              "detail":  "All staged output files match their recorded SHA-256 values."
+                                          },
+                                          {
+                                              "id":  "project-base-hashes",
+                                              "passed":  true,
+                                              "detail":  "Project source files still match the versions observed when work began."
+                                          },
+                                          {
+                                              "id":  "json-syntax",
+                                              "passed":  true,
+                                              "detail":  "Any staged .json outputs parse as JSON."
+                                          },
+                                          {
+                                              "id":  "reviewer-validation",
+                                              "passed":  true,
+                                              "detail":  "The reviewerâ€™s MCP process ran the pinned Luau parser and staged Rojo build."
+                                          }
+                                      ],
+                      "validation":  {
+                                         "schemaVersion":  1,
+                                         "attemptId":  "7bee37e7-a62b-4d1f-9cbf-e69bba164f0d",
+                                         "checkedAt":  "2026-11-08T03:24:12.619Z",
+                                         "processId":  34940,
+                                         "actor":  {
+                                                       "sessionId":  "c7d73cc6-29c9-4f26-a08a-38b9f6c2ab5d",
+                                                       "processId":  34940,
+                                                       "parentProcessId":  12396,
+                                                       "client":  {
+                                                                      "name":  "lab-reviewer-test",
+                                                                      "version":  "test-1"
+                                                                  }
+                                                   },
+                                         "status":  "passed",
+                                         "scope":  "staged-roblox-project",
+                                         "source":  {
+                                                        "files":  [
+                                                                      {
+                                                                          "path":  "default.project.json",
+                                                                          "size":  308
+                                                                      },
+                                                                      {
+                                                                          "path":  "README.md",
+                                                                          "size":  1186
+                                                                      },
+                                                                      {
+                                                                          "path":  "src/client/SignalHud.client.luau",
+                                                                          "size":  2721
+                                                                      },
+                                                                      {
+                                                                          "path":  "src/server/Bootstrap.server.luau",
+                                                                          "size":  369
+                                                                      },
+                                                                      {
+                                                                          "path":  "src/server/SignalService.luau",
+                                                                          "size":  5142
+                                                                      },
+                                                                      {
+                                                                          "path":  "src/shared/SignalConstants.luau",
+                                                                          "size":  217
+                                                                      },
+                                                                      {
+                                                                          "path":  "tests/task-validation.cli.spec.luau",
+                                                                          "size":  44
+                                                                      }
+                                                                  ],
+                                                        "totalBytes":  9987
+                                                    },
+                                         "outputs":  [
+                                                         {
+                                                             "path":  "src/server/SignalService.luau",
+                                                             "artifactType":  "gameplay-module",
+                                                             "outputSha256":  "2ade39707ca2fd9037913ab97131494202483729e72b5dbc86ac787e862e0d56"
+                                                         }
+                                                     ],
+                                         "checks":  [
+                                                        {
+                                                            "id":  "contract-output-coverage",
+                                                            "passed":  true,
+                                                            "detail":  "Every output type in the task contract has a staged file."
+                                                        },
+                                                        {
+                                                            "id":  "staged-output-integrity",
+                                                            "passed":  true,
+                                                            "detail":  "Staged file hashes, text bounds, and JSON syntax passed."
+                                                        },
+                                                        {
+                                                            "id":  "luau-parse",
+                                                            "passed":  true,
+                                                            "detail":  "1 staged Luau file(s) parsed with pinned Luau 0.745."
+                                                        },
+                                                        {
+                                                            "id":  "luau-cli-specs",
+                                                            "passed":  true,
+                                                            "detail":  "1 Roblox-free Luau CLI spec(s) passed using pinned Luau 0.745."
+                                                        },
+                                                        {
+                                                            "id":  "studio-engine-specs",
+                                                            "passed":  true,
+                                                            "detail":  "Engine-dependent Studio specs were not run; a local Rojo build does not certify Roblox runtime behavior."
+                                                        },
+                                                        {
+                                                            "id":  "rojo-build",
+                                                            "passed":  true,
+                                                            "detail":  "Rojo 7.7.1 built the staged project snapshot (4864 bytes)."
+                                                        }
+                                                    ],
+                                         "toolchain":  {
+                                                           "luau":  {
+                                                                        "release":  "0.745",
+                                                                        "sha256":  "c6221974a0d8c9567445188095a16fb734c64481b09381bd7a6dae537f2758eb"
+                                                                    },
+                                                           "luauRuntime":  {
+                                                                               "release":  "0.745",
+                                                                               "sha256":  "ee2463cd5f1e9d980fd2600af9fd58eaab5e69abf1c9f318d91d8bde877d992e"
+                                                                           },
+                                                           "rojo":  "7.7.1"
+                                                       },
+                                         "build":  {
+                                                       "status":  "passed",
+                                                       "sourceDigest":  "67fd4a63c63964a7fa2862f0371b638710ba7a60d59ef52552afeaa52e038102",
+                                                       "outputSha256":  "9f2fb913b062d79d1de209a9b7286017b6c089175fb991883f2e240505563478",
+                                                       "outputBytes":  4864,
+                                                       "diagnostics":  [
+
+                                                                       ],
+                                                       "failure":  null
+                                                   }
+                                     },
+                      "reviewEvidenceReference":  "evidence/task-executions/task-plan.tactical-combat-study-a3f6d1f6c689/task.implement-a-server-signal-module-a187e0b401/7bee37e7-a62b-4d1f-9cbf-e69bba164f0d.json"
+                  },
+    "fixture":  {
+                    "workspaceRemovedAfterTest":  true,
+                    "modelProviderInvoked":  false,
+                    "liveStudioUsed":  false
+                },
+    "limits":  "This integration test proves two separate MCP server processes completed the local task protocol. It does not test a real AI client, authenticate a provider or person, or certify Roblox runtime behavior.",
+    "verificationRun":  {
+                            "command":  "node --test tests/lab-task-mcp.test.js tests/task-execution.test.js",
+                            "result":  "passed",
+                            "exitCode":  0,
+                            "nodeVersion":  "v24.18.0",
+                            "completedAt":  "2026-11-08T03:24:16.6024090Z",
+                            "output":  [
+                                           "✔ the local MCP workflow executes assigned work, enforces a separate reviewer process, and persists acceptance (3634.2184ms)",
+                                           "✔ stages specialist work and accepts it only after a distinct reviewer execution (817.1282ms)",
+                                           "✔ review rejection returns work for a second owner attempt and acceptance integrates the remediation (1938.8951ms)",
+                                           "✔ serializes project ownership across plans and recovers expired leases into an explicit blocked state (638.4259ms)",
+                                           "✔ runs the pinned Luau parser and Rojo build against the reviewer’s staged project snapshot (2160.324ms)",
+                                           "✔ rejects writes outside ownership and detects source changes before reviewer acceptance (321.3866ms)",
+                                           "✔ cancellation revokes the claim and requires an explicit recovery transition before retry (396.0653ms)",
+                                           "ℹ tests 7",
+                                           "ℹ suites 0",
+                                           "ℹ pass 7",
+                                           "ℹ fail 0",
+                                           "ℹ cancelled 0",
+                                           "ℹ skipped 0",
+                                           "ℹ todo 0",
+                                           "ℹ duration_ms 6432.2828"
+                                       ]
+                        }
+}

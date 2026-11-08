@@ -1,0 +1,38 @@
+{
+  "id": "engine.animation-editor",
+  "kind": "engine-capability",
+  "version": "1.0.0",
+  "title": "Roblox animation authoring",
+  "summary": "A version-sensitive platform capability area for authoring and integrating rig animation through Roblox Studio workflows.",
+  "designKnowledge": {
+    "verifiedScope": "The official Creator Hub documents an Animation Editor workflow. Rig types, editor capabilities, import behavior, and runtime integration must be checked against current documentation before depending on a specific feature.",
+    "productionNeeds": ["source rig and animation files", "rig and joint conventions", "animation state and transition map", "gameplay event contract", "version and export information", "integration and deformation evidence"]
+  },
+  "technicalPatterns": [
+    { "name": "Preserve editable source", "guidance": "Retain the original rig and editable animation sources with export settings, tool versions, dependency information, hashes, and Roblox import records." },
+    { "name": "Validate in the target context", "guidance": "Inspect deformation and transitions in the runtime rig and camera; editor preview alone is not integration evidence." }
+  ],
+  "dependencies": [],
+  "conflicts": [],
+  "failureModes": [
+    { "id": "animation-source-not-reproducible", "description": "An imported runtime animation cannot be recreated from preserved source and settings.", "mitigation": "Store source project, export configuration, versions, and final import details in asset provenance." },
+    { "id": "animation-preview-only", "description": "An animation works in the editor but fails on the runtime rig or in a state transition.", "mitigation": "Test the imported asset in its gameplay state machine and inspect representative deformations." }
+  ],
+  "testing": {
+    "scenarios": [
+      { "id": "animation-runtime-import", "action": "Play a representative animation through the runtime rig and state transitions.", "expected": "The runtime result matches the approved source within technical and artistic review." },
+      { "id": "animation-provenance-rebuild", "action": "Re-export from preserved source and compare import details and runtime result.", "expected": "The asset can be reproduced without reconstructing authoring work from scratch." }
+    ],
+    "acceptanceCriteria": ["Current Studio workflow is verified from official documentation.", "Editable source and import provenance are retained.", "Runtime rig, transitions, and deformation are reviewed."]
+  },
+  "performance": { "considerations": ["Profile active tracks and rig complexity on the certified mobile baseline.", "Measure runtime behavior in the target experience rather than infer from authoring file size."] },
+  "sourceRefs": [
+    { "title": "Animation Editor", "type": "official-documentation", "reference": "https://create.roblox.com/docs/animation/editor", "retrievedAt": "2026-11-07" },
+    { "title": "Approved Lab source and provenance requirements", "type": "internal-reference", "reference": "docs/workflows/asset-provenance.md", "retrievedAt": "2026-11-07" }
+  ],
+  "platformState": { "state": "released", "robloxVersion": null, "studioVersion": null, "checkedAt": "2026-11-07" },
+  "maturity": { "level": "L2", "evidence": [{ "kind": "design", "reference": "docs/game-intelligence/research-log.md", "description": "Official authoring documentation is linked to source retention, runtime integration, and reproducibility scenarios.", "observedAt": "2026-11-07" }] },
+  "assumptions": ["This record does not assert support for a specific rig or experimental animation feature.", "The Studio version and exact authoring environment were not recorded here."],
+  "owner": "Roblox Engine Intelligence",
+  "reviewedAt": "2026-11-07"
+}
