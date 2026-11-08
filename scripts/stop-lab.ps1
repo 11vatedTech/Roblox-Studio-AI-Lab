@@ -54,7 +54,7 @@ function Get-VerifiedLabProcess([int]$ProcessId, $ProcessRecord, [string]$Expect
             $actualStart = if ($candidate.CreationDate -is [DateTime]) {
                 $candidate.CreationDate.ToUniversalTime()
             } else {
-                [Management.ManagementDateTimeConverter]::ToDateTime([string]$candidate.CreationDate).ToUniversalTime()
+                [System.Management.ManagementDateTimeConverter]::ToDateTime([string]$candidate.CreationDate).ToUniversalTime()
             }
             if ([Math]::Abs(($actualStart - $expectedStart).TotalSeconds) -gt 5) { return $null }
         } catch {
@@ -111,14 +111,23 @@ if ($remainingProcess) {
     if (-not $verifiedAgain) {
         throw 'The Lab process identity changed before forced termination. No process was stopped.'
     }
-    Stop-Process -Id $pidValue -Force
+    $taskkillPath = Join-Path $env:SystemRoot 'System32\\taskkill.exe'
+    if (-not (Test-Path -LiteralPath $taskkillPath -PathType Leaf)) {
+        throw 'Windows taskkill.exe was not found; the Lab process was not force-stopped.'
+    }
+    & $taskkillPath /PID $pidValue /T /F | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Windows taskkill failed with exit code $LASTEXITCODE. The process may still be running."
+    }
     $forceDeadline = [DateTime]::UtcNow.AddSeconds(5)
     do {
         Start-Sleep -Milliseconds 200
         $remainingProcess = Get-VerifiedLabProcess $pidValue $record $nodePath $entryPath
-    } while ($remainingProcess -and [DateTime]::UtcNow -lt $forceDeadline)
+        $anyProcess = Get-CimInstance Win32_Process -Filter "ProcessId=$pidValue" -ErrorAction SilentlyContinue
+    } while (($remainingProcess -or $anyProcess) -and [DateTime]::UtcNow -lt $forceDeadline)
     if ($remainingProcess) { throw 'The verified Lab process did not exit after forced termination.' }
-    $stopMode = 'forced'
+    if ($anyProcess) { throw 'The PID was reused after forced termination; the replacement process was left untouched.' }
+    $stopMode = 'forced-process-tree'
 }
 
 $record | Add-Member -NotePropertyName stoppedAt -NotePropertyValue ([DateTime]::UtcNow.ToString('o')) -Force
