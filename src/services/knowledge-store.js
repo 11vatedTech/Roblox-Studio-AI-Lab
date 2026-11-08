@@ -51,9 +51,9 @@ function relativePath(segments) {
 function comparableFilesystemPath(value) {
   let resolved = path.resolve(value);
   if (process.platform !== 'win32') return resolved;
-  const namespacePrefix = String.raw\`\\\\?\\\`;
+  const namespacePrefix = String.fromCharCode(92, 92, 63, 92);
   if (resolved.startsWith(namespacePrefix)) resolved = resolved.slice(namespacePrefix.length);
-  return resolved.replaceAll('/', '\\\\').toLowerCase();
+  return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
 }
 
 function relativeFilesystemPath(root, target) {
