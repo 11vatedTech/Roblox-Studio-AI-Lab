@@ -13,27 +13,27 @@ if (!Number.isInteger(shutdownTimeoutMs) || shutdownTimeoutMs < 1000 || shutdown
 
 const server = createLabServer();
 server.on('error', (error) => {
-  process.stderr.write(`Lab HTTP server error: ${error?.message ?? 'unknown error'}\\n`);
+  process.stderr.write(`Lab HTTP server error: ${error?.message ?? 'unknown error'}\n`);
   process.exitCode = 1;
 });
 server.listen(port, host, () => {
-  process.stdout.write(`11vatedTech AI Roblox Studio Lab: http://${host}:${port}\\n`);
+  process.stdout.write(`11vatedTech AI Roblox Studio Lab: http://${host}:${port}\n`);
 });
 
 let shutdownPromise = null;
 function stop(signal) {
   if (shutdownPromise) return shutdownPromise;
   shutdownPromise = (async () => {
-    process.stdout.write(`Lab graceful shutdown requested by ${signal}.\\n`);
+    process.stdout.write(`Lab graceful shutdown requested by ${signal}.\n`);
     try {
       const result = await server.shutdown({ timeoutMs: shutdownTimeoutMs });
       if (result.forcedConnectionsClosed) {
         process.exitCode = 1;
-        process.stderr.write('Lab shutdown exceeded its HTTP drain deadline; active connections were closed.\\n');
+        process.stderr.write('Lab shutdown exceeded its HTTP drain deadline; active connections were closed.\n');
       }
     } catch (error) {
       process.exitCode = 1;
-      process.stderr.write(`Lab graceful shutdown failed: ${error?.message ?? 'unknown error'}\\n`);
+      process.stderr.write(`Lab graceful shutdown failed: ${error?.message ?? 'unknown error'}\n`);
       server.closeAllConnections?.();
     }
   })();
