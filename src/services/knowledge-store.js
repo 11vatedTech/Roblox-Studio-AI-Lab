@@ -48,6 +48,12 @@ function relativePath(segments) {
   return segments.join('/');
 }
 
+function sameFile(left, right) {
+  if (left.dev !== right.dev) return false;
+  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
+  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
+}
+
 function ensureSingleComponent(name) {
   return typeof name === 'string'
     && name.length > 0
@@ -74,6 +80,10 @@ async function recordsDirectory(rootDir) {
   if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
     throw fail('KNOWLEDGE_PATH_INVALID', 'The repository root must be a real local directory.');
   }
+  const canonicalRootStat = await fs.stat(await fs.realpath(resolvedRoot));
+  if (!sameFile(rootStat, canonicalRootStat)) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The repository root changed or resolves through a symbolic link.');
+  }
 
   let current = resolvedRoot;
   for (const [index, segment] of RECORD_DIRECTORY_SEGMENTS.entries()) {
@@ -89,15 +99,40 @@ async function recordsDirectory(rootDir) {
       const boundary = RECORD_DIRECTORY_SEGMENTS.slice(0, index + 1).join('/');
       throw fail('KNOWLEDGE_PATH_INVALID', `The ${boundary} knowledge path must contain only real directories.`);
     }
+    const canonicalStat = await fs.stat(await fs.realpath(current));
+    if (!sameFile(stat, canonicalStat)) {
+      throw fail('KNOWLEDGE_PATH_INVALID', `The ${RECORD_DIRECTORY_SEGMENTS.slice(0, index + 1).join('/')} knowledge path changed during validation.`);
+    }
   }
 
   return { directory: current, missing: false };
 }
 
-function sameFile(left, right) {
-  if (left.dev !== right.dev) return false;
-  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
-  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
+
+async function verifyRealEntry(entryPath, expectedType) {
+  const lexicalStat = await fs.lstat(entryPath);
+  if (lexicalStat.isSymbolicLink()
+    || (expectedType === 'directory' ? !lexicalStat.isDirectory() : !lexicalStat.isFile())) return false;
+  const realPath = await fs.realpath(entryPath);
+  const canonicalStat = await fs.stat(realPath);
+  const currentStat = await fs.lstat(entryPath);
+  return !currentStat.isSymbolicLink()
+    && (expectedType === 'directory' ? currentStat.isDirectory() : currentStat.isFile())
+    && sameFile(lexicalStat, canonicalStat)
+    && sameFile(currentStat, canonicalStat);
+}
+
+async function verifyRealAncestors(rootPath, targetPath, includeTarget = false) {
+  const relative = path.relative(rootPath, targetPath);
+  if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return false;
+  const segments = relative.split(path.sep);
+  const count = includeTarget ? segments.length : segments.length - 1;
+  let current = rootPath;
+  for (let index = 0; index < count; index += 1) {
+    current = path.join(current, segments[index]);
+    if (!await verifyRealEntry(current, 'directory')) return false;
+  }
+  return true;
 }
 
 async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat) {
@@ -108,10 +143,11 @@ async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat
     const openedStat = await handle.stat();
     const pathStat = await fs.lstat(filePath);
     const realPath = await fs.realpath(filePath);
-    const insideRoot = path.relative(expectedRoot, realPath);
+    const canonicalStat = await fs.stat(realPath);
+    const ancestorsVerified = await verifyRealAncestors(expectedRoot, filePath);
     if (pathStat.isSymbolicLink() || !pathStat.isFile() || !openedStat.isFile()
       || !sameFile(initialStat, openedStat) || !sameFile(pathStat, openedStat)
-      || insideRoot === '..' || insideRoot.startsWith(`..${path.sep}`) || path.isAbsolute(insideRoot)) {
+      || !sameFile(pathStat, canonicalStat) || !ancestorsVerified) {
       return { error: diagnostic('SYMLINK_REJECTED', relative, 'The record path changed or resolves outside the records directory.') };
     }
     if (openedStat.size > MAX_RECORD_FILE_BYTES) {
@@ -204,13 +240,12 @@ async function enumerateRecordFiles(recordsRoot, diagnostics) {
           diagnostics.push(diagnostic('MAX_DEPTH_EXCEEDED', rel, `Registry nesting exceeds ${MAX_DIRECTORY_DEPTH} directory levels.`));
           continue;
         }
-        const realPath = await fs.realpath(path.join(directory, entry.name));
-        const relative = path.relative(recordsRoot, realPath);
-        if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
-          diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory resolves outside the records directory.'));
+        const childPath = path.join(directory, entry.name);
+        if (!await verifyRealEntry(childPath, 'directory')) {
+          diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory changed or resolves through a symbolic link.'));
           continue;
         }
-        await walk(path.join(directory, entry.name), entrySegments, directoryDepth + 1);
+        await walk(childPath, entrySegments, directoryDepth + 1);
         if (entriesVisited >= MAX_DISCOVERED_ENTRIES) return;
         continue;
       }
@@ -258,9 +293,11 @@ export async function loadKnowledge(rootDir) {
   const diagnostics = [];
   const recordsRoot = root.directory;
   const realRecordsRoot = await fs.realpath(recordsRoot);
-  const realRootRelative = path.relative(recordsRoot, realRecordsRoot);
-  if (realRootRelative !== '' && realRootRelative !== '.') {
-    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory resolves through a symbolic link.');
+  const recordsRootStat = await fs.lstat(recordsRoot);
+  const canonicalRecordsRootStat = await fs.stat(realRecordsRoot);
+  if (recordsRootStat.isSymbolicLink() || !recordsRootStat.isDirectory()
+    || !sameFile(recordsRootStat, canonicalRecordsRootStat)) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory changed or resolves through a symbolic link.');
   }
 
   const files = await enumerateRecordFiles(recordsRoot, diagnostics);
@@ -276,7 +313,7 @@ export async function loadKnowledge(rootDir) {
       break;
     }
 
-    const read = await readBoundedUtf8File(file.absolutePath, file.relativePath, realRecordsRoot, file.stat);
+    const read = await readBoundedUtf8File(file.absolutePath, file.relativePath, recordsRoot, file.stat);
     if (read.error) {
       diagnostics.push(read.error);
       continue;

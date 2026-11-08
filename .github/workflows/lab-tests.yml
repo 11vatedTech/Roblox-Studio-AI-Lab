@@ -1,0 +1,54 @@
+name: Lab tests
+
+on:
+  push:
+    branches:
+      - 'codex/**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-tests:
+    name: Node regression suite (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Record runtime
+        run: |
+          node --version
+          npm --version
+          git status --short
+        shell: pwsh
+
+      - name: Install checksum-pinned Rojo and Luau tools
+        run: .\\scripts\\install.ps1 -SkipBootstrapTests
+        shell: pwsh
+
+      - name: Verify Windows startup, graceful stop, and restart
+        run: .\\scripts\\test-service-lifecycle.ps1
+        shell: pwsh
+
+      - name: Run regression suite
+        run: npm test
+        shell: pwsh
+
+      - name: Retain Windows lifecycle logs and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-lab-lifecycle
+          if-no-files-found: warn
+          path: |
+            .lab-runtime/logs/*
+            evidence/ci/service-lifecycle-windows.json

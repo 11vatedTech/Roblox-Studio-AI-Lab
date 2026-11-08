@@ -33,8 +33,8 @@ test('validates the evidence registry contract and rejects duplicate identities 
 
 test('loads the two-client Studio scenario and test-only task evidence with hashes and scoped status', async () => {
   const registry = await loadEvidenceRegistry(repositoryRoot);
-  assert.equal(registry.summary.total, 2);
-  assert.equal(registry.summary.passed, 2);
+  assert.equal(registry.summary.total, 3);
+  assert.equal(registry.summary.passed, 3);
   const studio = registry.records.find((record) => record.type === 'studio-session');
   assert.equal(studio.project, 'signal-garden');
   assert.equal(studio.referenceIntegrity.status, 'verified');
@@ -50,6 +50,14 @@ test('loads the two-client Studio scenario and test-only task evidence with hash
   const task = registry.records.find((record) => record.type === 'task-execution');
   assert.equal(task.status, 'passed');
   assert.ok(task.limitations.some((item) => item.includes('test-only')));
+  const windows = registry.records.find((record) => record.id === 'evidence.ci.lab-service-lifecycle-windows-20261108');
+  assert.equal(windows.status, 'passed');
+  assert.equal(windows.referenceIntegrity.status, 'verified');
+  assert.equal(windows.validatedDetails.project, 'roblox-studio-ai-lab');
+  assert.equal(windows.validatedDetails.nodeTests.total, 90);
+  assert.equal(windows.validatedDetails.nodeTests.passed, 90);
+  assert.equal(windows.validatedDetails.serviceLifecycle.cycles.length, 2);
+  assert.ok(windows.validatedDetails.limitations.some((item) => item.includes('target-workstation')));
 });
 
 test('rejects a Studio evidence index that disagrees with the source acceptance record', async () => {

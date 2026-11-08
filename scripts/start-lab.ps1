@@ -1,10 +1,13 @@
 [CmdletBinding()]
-param()
+param(
+    [ValidateRange(1024, 65535)]
+    [int]$Port = 4177,
+    [switch]$NoBrowser
+)
 
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
-$port = 4177
-$url = "http://127.0.0.1:$port"
+$url = "http://127.0.0.1:$Port"
 $runtimeDirectory = Join-Path $root '.lab-runtime'
 $pidFile = Join-Path $runtimeDirectory 'server.json'
 $logDirectory = Join-Path $runtimeDirectory 'logs'
@@ -14,7 +17,7 @@ try {
     $existing = Invoke-RestMethod -Uri "$url/api/health" -TimeoutSec 2
     if ($existing.name -eq '11vatedTech AI Roblox Studio Lab') {
         Write-Host "Lab is already running at $url"
-        Start-Process $url
+        if (-not $NoBrowser) { Start-Process $url }
         exit 0
     }
 } catch { }
@@ -23,8 +26,16 @@ $node = (Get-Command node -ErrorAction Stop).Source
 $serverEntry = '"' + (Join-Path $root 'src\server\start.js') + '"'
 $stdoutLog = Join-Path $logDirectory 'lab.stdout.log'
 $stderrLog = Join-Path $logDirectory 'lab.stderr.log'
-$process = Start-Process -FilePath $node -ArgumentList @($serverEntry) -WorkingDirectory $root -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog
-$state = [pscustomobject]@{ pid = $process.Id; root = $root; port = $port; startedAt = [DateTime]::UtcNow.ToString('o') }
+$previousLabPort = $env:LAB_PORT
+$env:LAB_PORT = [string]$Port
+try {
+    $process = Start-Process -FilePath $node -ArgumentList @($serverEntry) -WorkingDirectory $root -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog
+} finally {
+    if ($null -eq $previousLabPort) { Remove-Item Env:LAB_PORT -ErrorAction SilentlyContinue }
+    else { $env:LAB_PORT = $previousLabPort }
+}
+$processStartedAt = $process.StartTime.ToUniversalTime().ToString('o')
+$state = [pscustomobject]@{ pid = $process.Id; root = $root; port = $Port; startedAt = [DateTime]::UtcNow.ToString('o'); processStartedAt = $processStartedAt; state = 'running' }
 [IO.File]::WriteAllText($pidFile, ($state | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
 
 $ready = $false
@@ -36,8 +47,12 @@ for ($attempt = 0; $attempt -lt 30; $attempt++) {
 }
 if (-not $ready) {
     $process.Refresh()
-    if ($process.HasExited) { throw "Lab exited during startup. Review $stderrLog" }
-    throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog"
+    $stdoutTail = if (Test-Path -LiteralPath $stdoutLog) { (Get-Content -LiteralPath $stdoutLog -Tail 80 -ErrorAction SilentlyContinue) -join [Environment]::NewLine } else { '(no stdout log)' }
+    $stderrTail = if (Test-Path -LiteralPath $stderrLog) { (Get-Content -LiteralPath $stderrLog -Tail 80 -ErrorAction SilentlyContinue) -join [Environment]::NewLine } else { '(no stderr log)' }
+    if ($process.HasExited) {
+        throw "Lab exited during startup. Exit code: $($process.ExitCode). Review $stderrLog`nSTDOUT:`n$stdoutTail`nSTDERR:`n$stderrTail"
+    }
+    throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog`nSTDOUT:`n$stdoutTail`nSTDERR:`n$stderrTail"
 }
 Write-Host "Lab is ready at $url"
-Start-Process $url
+if (-not $NoBrowser) { Start-Process $url }

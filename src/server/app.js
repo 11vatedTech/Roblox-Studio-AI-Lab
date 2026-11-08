@@ -438,6 +438,14 @@ async function listStudiosAfterConnect(studioClient) {
 export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, studioClient = new StudioMcpClient(), referenceClient = new RobloxReferenceClient() } = {}) {
   const root = path.resolve(rootDir);
   const toolRoot = path.resolve(toolRootDir);
+  let shutdownRequested = false;
+  let shutdownPromise = null;
+  let studioClosePromise = null;
+  const closeStudioClient = () => {
+    if (!studioClosePromise) studioClosePromise = Promise.resolve().then(() => studioClient.close());
+    return studioClosePromise;
+  };
+
   const server = createServer(async (request, response) => {
     setSecurityHeaders(response);
     if (!checkHost(request)) return json(response, 403, { error: { code: 'LOCAL_HOST_REQUIRED', message: 'The Lab accepts requests through localhost only.' } });
@@ -450,8 +458,26 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
       return json(response, 400, { error: { code: 'INVALID_URL', message: 'The request URL is invalid.' } });
     }
     const route = `${request.method} ${url.pathname}`;
+    if (shutdownRequested && route !== 'POST /api/shutdown') {
+      return json(response, 503, { error: { code: 'LAB_SHUTTING_DOWN', message: 'The Lab is shutting down and no longer accepts new work.' } });
+    }
 
     try {
+      if (route === 'POST /api/shutdown') {
+        await readJson(request);
+        if (shutdownRequested) return json(response, 202, { status: 'shutting_down' });
+        shutdownRequested = true;
+        json(response, 202, { status: 'shutting_down' });
+        response.once('finish', () => {
+          const dispatch = setTimeout(() => {
+            void server.shutdown().catch((error) => {
+              process.stderr.write(`Lab graceful shutdown failed: ${error?.message ?? 'unknown error'}\n`);
+            });
+          }, 25);
+          dispatch.unref();
+        });
+        return;
+      }
       if (route === 'GET /api/health') {
         return json(response, 200, { status: 'ok', name: '11vatedTech AI Roblox Studio Lab', startedAt: new Date(server.startedAt).toISOString(), bindAddress: '127.0.0.1' });
       }
@@ -713,7 +739,39 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
     }
   });
   server.startedAt = Date.now();
-  server.on('close', () => { void studioClient.close().catch(() => {}); });
+  server.shutdown = ({ timeoutMs = 10000 } = {}) => {
+    if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 60000) {
+      return Promise.reject(new TypeError('Shutdown timeout must be an integer from 100 to 60000 milliseconds.'));
+    }
+    if (shutdownPromise) return shutdownPromise;
+    shutdownRequested = true;
+    shutdownPromise = (async () => {
+      let forcedConnectionsClosed = false;
+      if (server.listening) {
+        await new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            forcedConnectionsClosed = true;
+            server.closeAllConnections?.();
+          }, timeoutMs);
+          try {
+            server.close((error) => {
+              clearTimeout(timer);
+              if (error) reject(error);
+              else resolve();
+            });
+            server.closeIdleConnections?.();
+          } catch (error) {
+            clearTimeout(timer);
+            reject(error);
+          }
+        });
+      }
+      await closeStudioClient();
+      return { status: 'stopped', forcedConnectionsClosed };
+    })();
+    return shutdownPromise;
+  };
+  server.on('close', () => { void closeStudioClient().catch(() => {}); });
   return server;
 }
 

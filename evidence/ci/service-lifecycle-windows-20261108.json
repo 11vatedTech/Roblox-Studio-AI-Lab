@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "project": "roblox-studio-ai-lab",
+  "capturedAt": "2026-11-08T05:12:57.5658364Z",
+  "sourceCommit": "7807f70c94e17f9bf7824826265d6e1cf33227a4",
+  "workflow": {
+    "name": "Lab tests",
+    "runId": 42449855348,
+    "jobId": 128636535191,
+    "runUrl": "https://github.com/11vatedTech/Roblox-Studio-AI-Lab/actions/runs/42449855348",
+    "artifactId": 13604824396,
+    "artifactName": "windows-lab-lifecycle",
+    "artifactArchiveSha256": "9e4a6d8b43ec2e464b84fae7030357f5eb3b39432790ce80dad14b141fa19852"
+  },
+  "runner": {
+    "os": "Microsoft Windows NT 10.0.26100.0",
+    "powershell": "7.6.9",
+    "node": "v22.23.4",
+    "rojo": "7.7.1",
+    "luau": "0.745"
+  },
+  "nodeTests": {
+    "total": 90,
+    "passed": 90,
+    "failed": 0,
+    "skipped": 0,
+    "result": "passed"
+  },
+  "serviceLifecycle": {
+    "port": 57458,
+    "cycles": [
+      {
+        "cycle": 1,
+        "pid": 7556,
+        "processStartedAt": "2026-11-08T05:12:51.7987629Z",
+        "stopMode": "graceful",
+        "result": "passed"
+      },
+      {
+        "cycle": 2,
+        "pid": 1328,
+        "processStartedAt": "2026-11-08T05:12:55.7665488Z",
+        "stopMode": "graceful",
+        "result": "passed"
+      }
+    ],
+    "result": "passed"
+  },
+  "scope": "Hosted Windows CI verification of production PowerShell startup and graceful-stop entrypoints, HTTP health response, process exit, and restart recovery over two consecutive cycles. The complete 90-test Node suite passed in the same job.",
+  "limitations": [
+    "Hosted Windows CI is not a target-workstation smoke test.",
+    "This does not certify a connected Roblox Studio/MCP session, multiplayer gameplay, physical device behavior, or runtime performance.",
+    "Process identifiers and loopback port are scoped to this hosted runner session."
+  ]
+}

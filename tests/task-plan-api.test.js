@@ -44,8 +44,8 @@ test('API matches registered specialists and creates retrievable project handoff
     matchesUrl.searchParams.append('capability_id', 'mechanic.combat');
     matchesUrl.searchParams.append('output_type', 'design-risk-register');
     const matchesResponse = await fetch(matchesUrl);
-    assert.equal(matchesResponse.status, 200);
     const matches = await matchesResponse.json();
+    assert.equal(matchesResponse.status, 200, JSON.stringify(matches));
     assert.ok(matches.matches.some((item) => item.specialist.id === 'specialist.game-design-director'));
 
     const duplicateLimit = new URL('/api/specialists', baseUrl);

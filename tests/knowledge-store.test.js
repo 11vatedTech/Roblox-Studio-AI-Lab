@@ -72,7 +72,7 @@ test('loads valid records in stable ID order and reports malformed and invalid r
     await writeRecord(root, 'mechanics/invalid.json', invalid);
 
     const result = await loadKnowledge(root);
-    assert.deepEqual(result.records.map((record) => record.id), ['genre.z-adventure', 'mechanic.a-grapple']);
+    assert.deepEqual(result.records.map((record) => record.id), ['genre.z-adventure', 'mechanic.a-grapple'], JSON.stringify(result.diagnostics));
     assert(result.diagnostics.some((entry) => entry.code === 'MALFORMED_JSON' && entry.path === 'broken.json'));
     assert(result.diagnostics.some((entry) => entry.code === 'INVALID_RECORD' && entry.path === 'mechanics/invalid.json' && entry.fieldPath === 'sourceRefs'));
     assert(result.records.every((record) => !path.isAbsolute(record.relativePath)));
@@ -89,7 +89,7 @@ test('excludes every valid record that shares a duplicate ID and reports each co
     await writeRecord(root, 'genres/unique.json', makeRecord({ id: 'genre.unique' }));
 
     const result = await loadKnowledge(root);
-    assert.deepEqual(result.records.map((record) => record.id), ['genre.unique']);
+    assert.deepEqual(result.records.map((record) => record.id), ['genre.unique'], JSON.stringify(result.diagnostics));
     const duplicates = result.diagnostics.filter((entry) => entry.code === 'DUPLICATE_ID');
     assert.equal(duplicates.length, 2);
     assert.deepEqual(duplicates.map((entry) => entry.path), ['mechanics/a.json', 'mechanics/b.json']);
@@ -120,7 +120,7 @@ test('bounds file size and nesting, and never follows a symlinked record', async
 
     const result = await loadKnowledge(root);
     assert(result.diagnostics.some((entry) => entry.code === 'RECORD_TOO_LARGE' && entry.path === 'too-large.json'));
-    assert(result.diagnostics.some((entry) => entry.code === 'MAX_DEPTH_EXCEEDED' && entry.path === 'a/b/c/d/e'));
+    assert(result.diagnostics.some((entry) => entry.code === 'MAX_DEPTH_EXCEEDED' && entry.path === 'a/b/c/d/e'), JSON.stringify(result.diagnostics));
     if (symlinkCreated) {
       assert(result.diagnostics.some((entry) => entry.code === 'SYMLINK_REJECTED' && entry.path === 'external.json'));
       assert(!result.records.some((record) => record.id === 'genre.outside'));
@@ -191,7 +191,7 @@ test('search applies stable filters, exposes source and platform status, and cap
       maturity: 'L2',
       limit: 1,
     });
-    assert.equal(result.total, 1);
+    assert.equal(result.total, 1, JSON.stringify(result.diagnostics));
     assert.equal(result.limit, 1);
     assert.equal(result.matches.length, 1);
     assert.equal(result.matches[0].id, 'mechanic.movement-grapple');

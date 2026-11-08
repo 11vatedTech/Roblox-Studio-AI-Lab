@@ -18,6 +18,13 @@ function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+function sameFile(left, right) {
+  if (left.dev !== right.dev) return false;
+  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
+  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
+}
+
+
 function stringArray(value, pattern, { min = 0, max = 100 } = {}) {
   return Array.isArray(value)
     && value.length >= min
@@ -31,33 +38,51 @@ async function readSafeFile(rootDir, segments, maxBytes) {
     typeof segment !== 'string' || !segment || segment === '.' || segment === '..' || /[\\/\0:]/.test(segment))) {
     throw fail('SPECIALIST_PATH_INVALID', 'A registry or role contract path is invalid.');
   }
+
   const realRoot = path.resolve(rootDir);
   const rootStat = await fs.lstat(realRoot);
   if (!rootStat.isDirectory() || rootStat.isSymbolicLink()) throw fail('SPECIALIST_PATH_INVALID', 'The Lab root must be a real directory.');
+  const canonicalRootStat = await fs.stat(await fs.realpath(realRoot));
+  if (!sameFile(rootStat, canonicalRootStat)) throw fail('SPECIALIST_PATH_INVALID', 'The Lab root changed or resolves through a symbolic link.');
 
   let current = realRoot;
+  let finalStat;
   for (let index = 0; index < segments.length; index += 1) {
     current = path.join(current, segments[index]);
     let stat;
     try {
       stat = await fs.lstat(current);
     } catch (error) {
-      if (error.code === 'ENOENT') throw fail('SPECIALIST_FILE_MISSING', `Required registry or role file is missing: ${segments.join('/')}.`, 500);
+      if (error.code === 'ENOENT') throw fail('SPECIALIST_FILE_MISSING', `Required registry or role file is missing: ${segments.join('/') }.`, 500);
       throw error;
     }
     const last = index === segments.length - 1;
     if (stat.isSymbolicLink() || (last ? !stat.isFile() : !stat.isDirectory())) {
-      throw fail('SPECIALIST_PATH_INVALID', `Registry and role paths must be regular files under real directories: ${segments.join('/')}.`);
+      throw fail('SPECIALIST_PATH_INVALID', `Registry and role paths must be regular files under real directories: ${segments.join('/') }.`);
     }
-    if (last && stat.size > maxBytes) throw fail('SPECIALIST_FILE_TOO_LARGE', `Required file exceeds its ${maxBytes} byte limit: ${segments.join('/')}.`, 413);
+    const canonicalStat = await fs.stat(await fs.realpath(current));
+    if (!sameFile(stat, canonicalStat)) {
+      throw fail('SPECIALIST_PATH_INVALID', `A registry or role path changed during validation: ${segments.join('/') }.`);
+    }
+    if (last && stat.size > maxBytes) throw fail('SPECIALIST_FILE_TOO_LARGE', `Required file exceeds its ${maxBytes} byte limit: ${segments.join('/') }.`, 413);
+    finalStat = stat;
   }
 
-  const realFile = await fs.realpath(current);
-  const relative = path.relative(realRoot, realFile);
-  if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
-    throw fail('SPECIALIST_PATH_INVALID', 'The registry or role contract resolves outside the Lab root.');
+  const handle = await fs.open(current, 'r');
+  try {
+    const openedStat = await handle.stat();
+    const currentStat = await fs.lstat(current);
+    const canonicalStat = await fs.stat(await fs.realpath(current));
+    if (currentStat.isSymbolicLink() || !currentStat.isFile()
+      || !sameFile(finalStat, openedStat) || !sameFile(currentStat, openedStat)
+      || !sameFile(currentStat, canonicalStat)) {
+      throw fail('SPECIALIST_PATH_INVALID', 'The registry or role contract changed while it was being opened.');
+    }
+    if (openedStat.size > maxBytes) throw fail('SPECIALIST_FILE_TOO_LARGE', `Required file exceeds its ${maxBytes} byte limit: ${segments.join('/') }.`, 413);
+    return await handle.readFile('utf8');
+  } finally {
+    await handle.close();
   }
-  return fs.readFile(realFile, 'utf8');
 }
 
 function validateRegistry(registry) {
