@@ -48,6 +48,17 @@ function relativePath(segments) {
   return segments.join('/');
 }
 
+function comparableFilesystemPath(value) {
+  const resolved = path.resolve(value);
+  if (process.platform !== 'win32') return resolved;
+  return resolved.replace(/^\\\\\\?\\/, '').replaceAll('/', '\\\\').toLowerCase();
+}
+
+function relativeFilesystemPath(root, target) {
+  return path.relative(comparableFilesystemPath(root), comparableFilesystemPath(target));
+}
+
+
 function ensureSingleComponent(name) {
   return typeof name === 'string'
     && name.length > 0
@@ -108,7 +119,7 @@ async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat
     const openedStat = await handle.stat();
     const pathStat = await fs.lstat(filePath);
     const realPath = await fs.realpath(filePath);
-    const insideRoot = path.relative(expectedRoot, realPath);
+    const insideRoot = relativeFilesystemPath(expectedRoot, realPath);
     if (pathStat.isSymbolicLink() || !pathStat.isFile() || !openedStat.isFile()
       || !sameFile(initialStat, openedStat) || !sameFile(pathStat, openedStat)
       || insideRoot === '..' || insideRoot.startsWith(`..${path.sep}`) || path.isAbsolute(insideRoot)) {
@@ -205,7 +216,7 @@ async function enumerateRecordFiles(recordsRoot, diagnostics) {
           continue;
         }
         const realPath = await fs.realpath(path.join(directory, entry.name));
-        const relative = path.relative(recordsRoot, realPath);
+        const relative = relativeFilesystemPath(recordsRoot, realPath);
         if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
           diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory resolves outside the records directory.'));
           continue;
@@ -258,7 +269,7 @@ export async function loadKnowledge(rootDir) {
   const diagnostics = [];
   const recordsRoot = root.directory;
   const realRecordsRoot = await fs.realpath(recordsRoot);
-  const realRootRelative = path.relative(recordsRoot, realRecordsRoot);
+  const realRootRelative = relativeFilesystemPath(recordsRoot, realRecordsRoot);
   if (realRootRelative !== '' && realRootRelative !== '.') {
     throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory resolves through a symbolic link.');
   }
