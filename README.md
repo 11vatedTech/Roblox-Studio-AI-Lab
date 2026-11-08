@@ -29,7 +29,7 @@ From PowerShell in the repository:
 .\scripts\start-lab.ps1
 ```
 
-The dashboard listens only on `http://127.0.0.1:4177`. Use `.scriptsstop-lab.ps1` to request a graceful shutdown: the server stops accepting new work, drains active HTTP requests, closes its Studio MCP connection, and the script waits for the recorded Node process to exit. If shutdown does not complete, the process is left running and the script reports the condition. `.scriptsstop-lab.ps1 -Force` retries graceful shutdown first, then permits termination of the verified Lab Node process only after checking the workspace, executable, entrypoint, and recorded process start time. The CLI alternative is `npm start`; Ctrl+C and SIGTERM use the same server shutdown path.
+The dashboard listens only on `http://127.0.0.1:4177`. Use `.\scripts\stop-lab.ps1` to request a graceful shutdown: the server stops accepting new work, drains active HTTP requests, closes its Studio MCP connection, and the script waits for the recorded Node process to exit. If shutdown does not complete, the process is left running and the script reports the condition. `.\scripts\stop-lab.ps1 -Force` retries graceful shutdown first, then permits termination of the verified Lab Node process only after checking the workspace, executable, entrypoint, and recorded process start time. The CLI alternative is `npm start`; Ctrl+C and SIGTERM use the same server shutdown path.
 
 ## Connect Roblox Studio
 
