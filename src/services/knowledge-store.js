@@ -56,8 +56,12 @@ function comparableFilesystemPath(value) {
   return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
 }
 
-function relativeFilesystemPath(root, target) {
-  return path.relative(comparableFilesystemPath(root), comparableFilesystemPath(target));
+function isWithinFilesystemPath(root, target, { allowEqual = false } = {}) {
+  const base = comparableFilesystemPath(root).replace(/[\\/]+$/, '');
+  const candidate = comparableFilesystemPath(target);
+  if (allowEqual && candidate === base) return true;
+  const separator = process.platform === 'win32' ? String.fromCharCode(92) : path.sep;
+  return candidate.startsWith(`${base}${separator}`);
 }
 
 
@@ -121,10 +125,10 @@ async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat
     const openedStat = await handle.stat();
     const pathStat = await fs.lstat(filePath);
     const realPath = await fs.realpath(filePath);
-    const insideRoot = relativeFilesystemPath(expectedRoot, realPath);
+    const insideRoot = isWithinFilesystemPath(expectedRoot, realPath);
     if (pathStat.isSymbolicLink() || !pathStat.isFile() || !openedStat.isFile()
       || !sameFile(initialStat, openedStat) || !sameFile(pathStat, openedStat)
-      || insideRoot === '..' || insideRoot.startsWith(`..${path.sep}`) || path.isAbsolute(insideRoot)) {
+      || !insideRoot) {
       return { error: diagnostic('SYMLINK_REJECTED', relative, 'The record path changed or resolves outside the records directory.') };
     }
     if (openedStat.size > MAX_RECORD_FILE_BYTES) {
@@ -218,8 +222,7 @@ async function enumerateRecordFiles(recordsRoot, diagnostics) {
           continue;
         }
         const realPath = await fs.realpath(path.join(directory, entry.name));
-        const relative = relativeFilesystemPath(recordsRoot, realPath);
-        if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+        if (!isWithinFilesystemPath(recordsRoot, realPath)) {
           diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory resolves outside the records directory.'));
           continue;
         }
