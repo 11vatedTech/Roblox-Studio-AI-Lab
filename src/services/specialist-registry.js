@@ -18,6 +18,15 @@ function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+function comparableFilesystemPath(value) {
+  let resolved = path.resolve(value);
+  if (process.platform !== 'win32') return resolved;
+  const namespacePrefix = String.fromCharCode(92, 92, 63, 92);
+  if (resolved.startsWith(namespacePrefix)) resolved = resolved.slice(namespacePrefix.length);
+  return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
+}
+
+
 function stringArray(value, pattern, { min = 0, max = 100 } = {}) {
   return Array.isArray(value)
     && value.length >= min
@@ -53,7 +62,7 @@ async function readSafeFile(rootDir, segments, maxBytes) {
   }
 
   const realFile = await fs.realpath(current);
-  const relative = path.relative(realRoot, realFile);
+  const relative = path.relative(comparableFilesystemPath(realRoot), comparableFilesystemPath(realFile));
   if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
     throw fail('SPECIALIST_PATH_INVALID', 'The registry or role contract resolves outside the Lab root.');
   }
