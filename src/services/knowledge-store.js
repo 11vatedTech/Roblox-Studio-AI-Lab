@@ -48,78 +48,6 @@ function relativePath(segments) {
   return segments.join('/');
 }
 
-function comparableFilesystemPath(value) {
-  let input = String(value);
-  if (process.platform === 'win32') {
-    const namespacePrefix = String.fromCharCode(92, 92, 63, 92);
-    if (input.startsWith(namespacePrefix)) input = input.slice(namespacePrefix.length);
-  }
-  const resolved = path.resolve(input);
-  if (process.platform !== 'win32') return resolved;
-  return resolved.replaceAll('/', String.fromCharCode(92)).toLowerCase();
-}
-
-function isWithinFilesystemPath(root, target, { allowEqual = false } = {}) {
-  const base = comparableFilesystemPath(root).replace(/[\\/]+$/, '');
-  const candidate = comparableFilesystemPath(target);
-  if (allowEqual && candidate === base) return true;
-  const separator = process.platform === 'win32' ? String.fromCharCode(92) : path.sep;
-  return candidate.startsWith(`${base}${separator}`);
-}
-
-
-function ensureSingleComponent(name) {
-  return typeof name === 'string'
-    && name.length > 0
-    && name !== '.'
-    && name !== '..'
-    && !name.includes('/')
-    && !name.includes('\\')
-    && !name.includes('\0');
-}
-
-async function recordsDirectory(rootDir) {
-  if (typeof rootDir !== 'string' || rootDir.trim() === '' || rootDir.includes('\0')) {
-    throw fail('KNOWLEDGE_ROOT_INVALID', 'A repository root directory is required.');
-  }
-
-  const resolvedRoot = path.resolve(rootDir);
-  let rootStat;
-  try {
-    rootStat = await fs.lstat(resolvedRoot);
-  } catch (error) {
-    if (error.code === 'ENOENT') return { directory: null, missing: true };
-    throw error;
-  }
-  if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
-    throw fail('KNOWLEDGE_PATH_INVALID', 'The repository root must be a real local directory.');
-  }
-
-  let current = resolvedRoot;
-  for (const [index, segment] of RECORD_DIRECTORY_SEGMENTS.entries()) {
-    current = path.join(current, segment);
-    let stat;
-    try {
-      stat = await fs.lstat(current);
-    } catch (error) {
-      if (error.code === 'ENOENT') return { directory: null, missing: true };
-      throw error;
-    }
-    if (stat.isSymbolicLink() || !stat.isDirectory()) {
-      const boundary = RECORD_DIRECTORY_SEGMENTS.slice(0, index + 1).join('/');
-      throw fail('KNOWLEDGE_PATH_INVALID', `The ${boundary} knowledge path must contain only real directories.`);
-    }
-  }
-
-  return { directory: current, missing: false };
-}
-
-function sameFile(left, right) {
-  if (left.dev !== right.dev) return false;
-  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
-  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
-}
-
 async function verifyRealEntry(entryPath, expectedType) {
   const lexicalStat = await fs.lstat(entryPath);
   if (lexicalStat.isSymbolicLink()
@@ -324,7 +252,7 @@ export async function loadKnowledge(rootDir) {
       break;
     }
 
-    const read = await readBoundedUtf8File(file.absolutePath, file.relativePath, realRecordsRoot, file.stat);
+    const read = await readBoundedUtf8File(file.absolutePath, file.relativePath, recordsRoot, file.stat);
     if (read.error) {
       diagnostics.push(read.error);
       continue;
