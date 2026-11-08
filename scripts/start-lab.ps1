@@ -24,7 +24,8 @@ $serverEntry = '"' + (Join-Path $root 'src\server\start.js') + '"'
 $stdoutLog = Join-Path $logDirectory 'lab.stdout.log'
 $stderrLog = Join-Path $logDirectory 'lab.stderr.log'
 $process = Start-Process -FilePath $node -ArgumentList @($serverEntry) -WorkingDirectory $root -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog
-$state = [pscustomobject]@{ pid = $process.Id; root = $root; port = $port; startedAt = [DateTime]::UtcNow.ToString('o') }
+$processStartedAt = $process.StartTime.ToUniversalTime().ToString('o')
+$state = [pscustomobject]@{ pid = $process.Id; root = $root; port = $port; startedAt = [DateTime]::UtcNow.ToString('o'); processStartedAt = $processStartedAt; state = 'running' }
 [IO.File]::WriteAllText($pidFile, ($state | ConvertTo-Json), [Text.UTF8Encoding]::new($false))
 
 $ready = $false
