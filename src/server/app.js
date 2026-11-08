@@ -471,7 +471,7 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
         response.once('finish', () => {
           const dispatch = setTimeout(() => {
             void server.shutdown().catch((error) => {
-              process.stderr.write(`Lab graceful shutdown failed: ${error?.message ?? 'unknown error'}\\n`);
+              process.stderr.write(`Lab graceful shutdown failed: ${error?.message ?? 'unknown error'}\n`);
             });
           }, 25);
           dispatch.unref();
