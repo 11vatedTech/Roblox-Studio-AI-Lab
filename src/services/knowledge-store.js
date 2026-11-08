@@ -54,6 +54,66 @@ function sameFile(left, right) {
   return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
 }
 
+function ensureSingleComponent(name) {
+  return typeof name === 'string'
+    && name.length > 0
+    && name !== '.'
+    && name !== '..'
+    && !name.includes('/')
+    && !name.includes('\\')
+    && !name.includes('\0');
+}
+
+async function recordsDirectory(rootDir) {
+  if (typeof rootDir !== 'string' || rootDir.trim() === '' || rootDir.includes('\0')) {
+    throw fail('KNOWLEDGE_ROOT_INVALID', 'A repository root directory is required.');
+  }
+
+  const resolvedRoot = path.resolve(rootDir);
+  let rootStat;
+  try {
+    rootStat = await fs.lstat(resolvedRoot);
+  } catch (error) {
+    if (error.code === 'ENOENT') return { directory: null, missing: true };
+    throw error;
+  }
+  if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The repository root must be a real local directory.');
+  }
+  const canonicalRootStat = await fs.stat(await fs.realpath(resolvedRoot));
+  if (!sameFile(rootStat, canonicalRootStat)) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The repository root changed or resolves through a symbolic link.');
+  }
+
+  let current = resolvedRoot;
+  for (const [index, segment] of RECORD_DIRECTORY_SEGMENTS.entries()) {
+    current = path.join(current, segment);
+    let stat;
+    try {
+      stat = await fs.lstat(current);
+    } catch (error) {
+      if (error.code === 'ENOENT') return { directory: null, missing: true };
+      throw error;
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory()) {
+      const boundary = RECORD_DIRECTORY_SEGMENTS.slice(0, index + 1).join('/');
+      throw fail('KNOWLEDGE_PATH_INVALID', `The ${boundary} knowledge path must contain only real directories.`);
+    }
+    const canonicalStat = await fs.stat(await fs.realpath(current));
+    if (!sameFile(stat, canonicalStat)) {
+      throw fail('KNOWLEDGE_PATH_INVALID', `The ${RECORD_DIRECTORY_SEGMENTS.slice(0, index + 1).join('/')} knowledge path changed during validation.`);
+    }
+  }
+
+  return { directory: current, missing: false };
+}
+
+function sameFile(left, right) {
+  if (left.dev !== right.dev) return false;
+  if (left.ino !== 0 && right.ino !== 0) return left.ino === right.ino;
+  return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
+}
+
 
 async function verifyRealEntry(entryPath, expectedType) {
   const lexicalStat = await fs.lstat(entryPath);
