@@ -120,6 +120,32 @@ function sameFile(left, right) {
   return left.size === right.size && left.mtimeMs === right.mtimeMs && left.birthtimeMs === right.birthtimeMs;
 }
 
+async function verifyRealEntry(entryPath, expectedType) {
+  const lexicalStat = await fs.lstat(entryPath);
+  if (lexicalStat.isSymbolicLink()
+    || (expectedType === 'directory' ? !lexicalStat.isDirectory() : !lexicalStat.isFile())) return false;
+  const realPath = await fs.realpath(entryPath);
+  const canonicalStat = await fs.stat(realPath);
+  const currentStat = await fs.lstat(entryPath);
+  return !currentStat.isSymbolicLink()
+    && (expectedType === 'directory' ? currentStat.isDirectory() : currentStat.isFile())
+    && sameFile(lexicalStat, canonicalStat)
+    && sameFile(currentStat, canonicalStat);
+}
+
+async function verifyRealAncestors(rootPath, targetPath, includeTarget = false) {
+  const relative = path.relative(rootPath, targetPath);
+  if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return false;
+  const segments = relative.split(path.sep);
+  const count = includeTarget ? segments.length : segments.length - 1;
+  let current = rootPath;
+  for (let index = 0; index < count; index += 1) {
+    current = path.join(current, segments[index]);
+    if (!await verifyRealEntry(current, 'directory')) return false;
+  }
+  return true;
+}
+
 async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat) {
   let handle;
   try {
@@ -128,10 +154,11 @@ async function readBoundedUtf8File(filePath, relative, expectedRoot, initialStat
     const openedStat = await handle.stat();
     const pathStat = await fs.lstat(filePath);
     const realPath = await fs.realpath(filePath);
-    const insideRoot = isWithinFilesystemPath(expectedRoot, realPath);
+    const canonicalStat = await fs.stat(realPath);
+    const ancestorsVerified = await verifyRealAncestors(expectedRoot, filePath);
     if (pathStat.isSymbolicLink() || !pathStat.isFile() || !openedStat.isFile()
       || !sameFile(initialStat, openedStat) || !sameFile(pathStat, openedStat)
-      || !insideRoot) {
+      || !sameFile(pathStat, canonicalStat) || !ancestorsVerified) {
       return { error: diagnostic('SYMLINK_REJECTED', relative, 'The record path changed or resolves outside the records directory.') };
     }
     if (openedStat.size > MAX_RECORD_FILE_BYTES) {
@@ -224,12 +251,12 @@ async function enumerateRecordFiles(recordsRoot, diagnostics) {
           diagnostics.push(diagnostic('MAX_DEPTH_EXCEEDED', rel, `Registry nesting exceeds ${MAX_DIRECTORY_DEPTH} directory levels.`));
           continue;
         }
-        const realPath = await fs.realpath(path.join(directory, entry.name));
-        if (!isWithinFilesystemPath(recordsRoot, realPath)) {
-          diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory resolves outside the records directory.'));
+        const childPath = path.join(directory, entry.name);
+        if (!await verifyRealEntry(childPath, 'directory')) {
+          diagnostics.push(diagnostic('SYMLINK_REJECTED', rel, 'The directory changed or resolves through a symbolic link.'));
           continue;
         }
-        await walk(path.join(directory, entry.name), entrySegments, directoryDepth + 1);
+        await walk(childPath, entrySegments, directoryDepth + 1);
         if (entriesVisited >= MAX_DISCOVERED_ENTRIES) return;
         continue;
       }
