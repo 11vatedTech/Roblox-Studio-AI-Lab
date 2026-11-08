@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createLabServer } from '../src/server/app.js';
 
-function createTestServer() {
+function createTestServer({ referenceClient } = {}) {
   const calls = { studioClose: 0 };
   const server = createLabServer({
+    ...(referenceClient ? { referenceClient } : {}),
     studioClient: {
       async close() {
         calls.studioClose += 1;
@@ -84,6 +85,39 @@ test('server shutdown is idempotent and awaits one Studio MCP cleanup', async ()
   assert.deepEqual(secondResult, firstResult);
   assert.equal(server.listening, false);
   assert.equal(calls.studioClose, 1);
+});
+
+
+test('server drains an in-flight HTTP request before disconnecting Studio MCP', async (t) => {
+  let releaseRequest;
+  let markRequestStarted;
+  const requestStarted = new Promise((resolve) => { markRequestStarted = resolve; });
+  const referenceClient = {
+    async getClass() {
+      markRequestStarted();
+      return await new Promise((resolve) => { releaseRequest = () => resolve({ className: 'Part' }); });
+    },
+  };
+  const { server, calls } = createTestServer({ referenceClient });
+  const baseUrl = await listen(server);
+  t.after(async () => {
+    if (server.listening) await server.shutdown().catch(() => {});
+    if (releaseRequest) releaseRequest();
+  });
+
+  const requestPromise = fetch(`${baseUrl}/api/engine/class?name=Part`);
+  await requestStarted;
+  const shutdownPromise = server.shutdown({ timeoutMs: 1000 });
+  await new Promise((resolve) => setTimeout(resolve, 30));
+
+  assert.equal(calls.studioClose, 0, 'Studio MCP must remain available while an HTTP request is draining');
+  releaseRequest();
+
+  const response = await requestPromise;
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { className: 'Part' });
+  await shutdownPromise;
+  await waitForClosed(server, calls);
 });
 
 test('server shutdown rejects unsafe timeout values without starting shutdown', async (t) => {
