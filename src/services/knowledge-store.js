@@ -271,9 +271,11 @@ export async function loadKnowledge(rootDir) {
   const diagnostics = [];
   const recordsRoot = root.directory;
   const realRecordsRoot = await fs.realpath(recordsRoot);
-  const realRootRelative = relativeFilesystemPath(recordsRoot, realRecordsRoot);
-  if (realRootRelative !== '' && realRootRelative !== '.') {
-    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory resolves through a symbolic link.');
+  const recordsRootStat = await fs.lstat(recordsRoot);
+  const canonicalRecordsRootStat = await fs.stat(realRecordsRoot);
+  if (recordsRootStat.isSymbolicLink() || !recordsRootStat.isDirectory()
+    || !sameFile(recordsRootStat, canonicalRecordsRootStat)) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory changed or resolves through a symbolic link.');
   }
 
   const files = await enumerateRecordFiles(recordsRoot, diagnostics);
