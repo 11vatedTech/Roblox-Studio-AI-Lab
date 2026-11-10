@@ -38,6 +38,11 @@ test('does not expose tools outside the explicit read-only allowlist', async () 
   try {
     await client.connect();
     await assert.rejects(() => client.callReadTool('execute_luau', { studio_id: 'fixture-studio', code: 'return true' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    // These are read-only in Studio, but the Lab has no named route for them.
+    await assert.rejects(() => client.callReadTool('script_search', { studio_id: 'fixture-studio', query: 'x' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    await assert.rejects(() => client.callReadTool('script_grep', { studio_id: 'fixture-studio', pattern: 'x' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    await assert.rejects(() => client.callReadTool('http_get', { url: 'https://example.com' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    await assert.rejects(() => client.callReadTool('skill', { name: 'x' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
   } finally {
     await client.close();
   }

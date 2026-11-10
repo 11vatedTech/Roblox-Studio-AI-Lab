@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "passed",
+  "title": "Live Studio inventory matches the Lab seven-route read-only boundary",
+  "capturedAt": "2026-11-10T13:36:32.082Z",
+  "project": "lab",
+  "scope": "Live comparison of the official Studio MCP 36-tool inventory against the Lab named-route allowlist after the allowlist was narrowed. This proves discovery and route labeling only; it does not execute any non-inspection tool, mutate the DataModel, or certify LAB-STUDIO-002.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "546754d355dbceb62876e1e7f8ada0f4266cebce",
+    "dirty": true,
+    "treeSha256": "d1cc073386f7018e494068de7e1739a02549f6431b870a7b79322039315e9e0b",
+    "sourceFileCount": 258,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots.",
+    "note": "The running Lab includes the uncommitted allowlist correction; the dirty digest is the exact source used for this live comparison."
+  },
+  "studioConnection": {
+    "state": "connected",
+    "protocolEra": "modern",
+    "protocolVersion": "2026-07-28",
+    "discoveredAt": "2026-11-10T13:35:50.610Z",
+    "launcherInstalled": true
+  },
+  "comparison": {
+    "discoveredToolCount": 36,
+    "reportedEntryCount": 36,
+    "truncated": false,
+    "callableCount": 7,
+    "blockedCount": 29,
+    "blockedButReportedReadOnly": [],
+    "schemasMissing": 0,
+    "callableTools": [
+      "get_console_output",
+      "get_studio_state",
+      "inspect_instance",
+      "list_roblox_studios",
+      "screen_capture",
+      "script_read",
+      "search_game_tree"
+    ],
+    "blockedTools": [
+      {
+        "name": "auto_setup_avatar",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "character_navigation",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "create_skill",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "edit_skill",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "execute_luau",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_animation",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_avatar",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_material",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_mesh",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_procedural_model",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_scene",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "generate_texture",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "http_get",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "insert_asset",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "list_skills",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "multi_edit",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "open_cloud_invoke",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "script_grep",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "script_search",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "search_asset",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "segment_mesh",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "skill",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "start_stop_play",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "store_image",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "subagent",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "upload_image",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "user_keyboard_input",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "user_mouse_input",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      },
+      {
+        "name": "wait_job_finished",
+        "operationClass": "unclassified",
+        "reason": "Discovered by the Studio server but not exposed through the Lab dashboard."
+      }
+    ]
+  },
+  "observations": [
+    "The live Studio server reported 36 tools, matching the direct host inventory.",
+    "Exactly seven tools are marked dashboard-callable: get_console_output, get_studio_state, inspect_instance, list_roblox_studios, screen_capture, script_read, and search_game_tree.",
+    "The remaining 29 tools are blocked. This includes four tools the Studio server itself labels read-only but which have no named Lab route: http_get, script_grep, script_search, and skill.",
+    "Every reported tool supplied an input schema; no schema was missing or oversized.",
+    "The Lab was reconnected over the official Studio MCP protocol after the allowlist correction and listed both local Studio instances."
+  ],
+  "limitations": [
+    "This is a read-only inventory and labeling result; no mutation, playtest input, sync, save, upload, or publish was performed.",
+    "The source snapshot is dirty because the allowlist correction is not yet committed; this record cannot support a VERIFIED capability.",
+    "No independent reviewer is attached.",
+    "The comparison covers the current Studio build and the current 36-tool inventory only; a Studio upgrade can change the list."
+  ]
+}

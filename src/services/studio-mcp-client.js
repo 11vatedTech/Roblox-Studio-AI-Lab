@@ -5,6 +5,9 @@ import path from 'node:path';
 const CLIENT_INFO = { name: '11vatedtech-ai-roblox-studio-lab', version: '0.1.0' };
 const MODERN_VERSION = '2026-07-28';
 const LEGACY_VERSION = '2025-11-25';
+// This set must match the named read routes in src/server/app.js and the
+// inspection entries in the Studio governance catalog. A tool that has no
+// route is not callable, even when Studio reports it as read-only.
 const ALLOWED_READ_TOOLS = new Set([
   'list_roblox_studios',
   'get_studio_state',
@@ -12,11 +15,7 @@ const ALLOWED_READ_TOOLS = new Set([
   'search_game_tree',
   'inspect_instance',
   'script_read',
-  'script_search',
-  'script_grep',
   'screen_capture',
-  'http_get',
-  'skill',
 ]);
 const MAX_MESSAGE_CHARS = 12 * 1024 * 1024;
 

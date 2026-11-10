@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T12:22:31.459Z",
+  "updatedAt": "2026-11-10T13:37:37.652Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -163,12 +163,13 @@
       "evidenceRefs": [
         "evidence/p0/lab-platform-verification-2026-11-07.json",
         "evidence/p0/workstation-inventory-20261108/lab-studio-inventory-20261108.json",
-        "evidence/p0/lab-evidence-registry-verification-20261109T001810408Z.json"
+        "evidence/p0/lab-evidence-registry-verification-20261109T001810408Z.json",
+        "evidence/studio/lab-live-studio-inventory-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "medium",
-          "description": "Fixture/API tests pass and direct ChatGPT Studio inventory is recorded, but the Lab dashboard bridge has not yet been compared against that live 36-tool inventory; dynamic schema, disconnect, and restart behavior remain open."
+          "description": "The live 36-tool inventory now matches the seven named read routes: 7 callable, 29 blocked, 0 missing schemas. Disconnect/reconnect behavior, Studio-upgrade schema changes, and independent review remain open."
         }
       ],
       "blockers": [],
@@ -487,20 +488,26 @@
         "A new genre can move from brief to playable experience using the same Lab workflow."
       ],
       "verificationMethod": "Build and play a complete original experience through the Lab workflow, including failure, recovery, multiplayer, and device scenarios.",
-      "verificationResult": "not_run",
+      "verificationResult": "unverified",
       "evidenceRefs": [
         "evidence/studio/signal-garden-p0-run.json",
         "evidence/p0/lab-studio-solo-playtest-20261108.json",
-        "evidence/p0/lab-studio-solo-playtest-attempt-20261108.json"
+        "evidence/p0/lab-studio-solo-playtest-attempt-20261108.json",
+        "evidence/studio/signal-garden-runtime-20261110.json",
+        "evidence/studio/signal-garden-completed-loop-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "Current showcase and benchmark projects do not prove a reusable concept-to-release pipeline."
+          "description": "The solo Echo-to-archive-to-route-to-restoration loop is now evidenced by HUD captures at Restorations 1 and 3, but two-client replication, failure/recovery, touch/controller input, and a new-genre brief-to-playable run remain unverified."
+        },
+        {
+          "severity": "high",
+          "description": "No current typed record covers every acceptance criterion for this capability, and no independent reviewer is attached."
         }
       ],
       "blockers": [
-        "LAB-ART-001, LAB-ASSET-001, LAB-PROJECT-001, and LAB-STUDIO-002 are not yet verified. The Lab task server does not expose an authorized Studio mutation path, so a full brief-to-playable run cannot be completed in the current control surface."
+        "Two-client, physical-device, visual-approval, and independent-review gates remain. The Lab bridge is read-only; a writable Studio path has not been authorized for this capability."
       ],
       "approvalRequirements": [
         "Specific user approval is required before saving changes to a live or user-owned DataModel; use an unpublished local test place."
@@ -546,7 +553,7 @@
         }
       ],
       "blockers": [
-        "LAB-STUDIO-001 reports a disconnected Lab bridge and the engine-dependent Studio harness has not been run. The reported citation-grade evidence still depends on that missing Studio pass and on Luau engine type analysis."
+        "The Lab Studio bridge is connected and the solo loop is complete, but the engine-dependent Studio harness, Luau analysis, and physical-device grades remain. No independent reviewer is attached; a desktop pass is not a device or gameplay certification."
       ],
       "approvalRequirements": []
     },
@@ -575,11 +582,11 @@
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "Historical two-client evidence is scenario-limited; the current continuation adds only a solo local Studio run. Multi-client UI, touch/controller, physical device, and full certification remain open."
+          "description": "The current Signal Garden solo loop is complete with three restorations, but historical two-client evidence remains scenario-limited; multi-client UI, touch/controller, physical device, and full certification remain open."
         }
       ],
       "blockers": [
-        "LAB-STUDIO-002 is not verified, LAB-GAME-001 is not verified, and no confirmed physical midrange mobile device is available. The native Studio app approval for the multi-client UI run timed out; the available MCP play control starts solo only. The new solo run does not satisfy multi-client, touch/controller, or device criteria."
+        "No confirmed physical midrange mobile device is available. The native Studio app approval for the multi-client UI run timed out; the available MCP play control starts solo only. The completed solo run does not satisfy multi-client, touch/controller, or device criteria."
       ],
       "approvalRequirements": []
     },
@@ -713,11 +720,11 @@
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "Two engineering/production projects exist, but the required benchmark library and flagship certification do not."
+          "description": "Eight benchmark source projects exist and build, but none has source-bound scenario execution, target-device or visual evidence, and independent certification. The separate flagship candidate is not audited or audience-tested."
         }
       ],
       "blockers": [
-        "LAB-ART-001, LAB-ASSET-001, LAB-GAME-001, LAB-PRODUCT-001, and LAB-QA-001 are not verified; the benchmark library and flagship criteria cannot be satisfied without those upstream gates."
+        "Benchmark runtime, device, visual, and independent-review gates remain. The flagship requires human visual approval and participant evidence; no benchmark may be promoted from a local build alone."
       ],
       "approvalRequirements": [
         "Flagship final art and audience-test outcomes require human review; no publishing or paid asset use without specific authorization."
@@ -754,12 +761,13 @@
       "verificationResult": "passed",
       "evidenceRefs": [
         "evidence/p0/lab-portable-package-verification-20261108.json",
-        "evidence/p0/lab-portable-package-completion-20261108.json"
+        "evidence/p0/lab-portable-package-completion-20261108.json",
+        "evidence/p0/lab-hosted-ci-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "medium",
-          "description": "Hosted Windows run 42815188795 passed on head 9b9836d, but no independent review is attached and the release dossier has not archived the artifact identity."
+          "description": "Hosted Windows runs have passed on 9b9836d and 546754d, but no independent review is attached and the release dossier has not archived the current artifact identity."
         }
       ],
       "blockers": [],

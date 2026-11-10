@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T13:16:37.657Z",
+  "updatedAt": "2026-11-10T13:36:32.087Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -508,6 +508,23 @@
         "Touch, controller, physical-device, and performance behavior were not measured.",
         "No place change was saved, no asset was uploaded, and nothing was published.",
         "Visual approval and independent review are not attached; this record supports only the narrow solo-loop completion it describes."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-live-studio-inventory-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Live Studio inventory matches the Lab seven-route read-only boundary",
+      "capturedAt": "2026-11-10T13:36:32.082Z",
+      "project": "lab",
+      "scope": "Live comparison of the official Studio MCP 36-tool inventory against the Lab named-route allowlist after the allowlist was narrowed. This proves discovery and route labeling only; it does not execute any non-inspection tool, mutate the DataModel, or certify LAB-STUDIO-002.",
+      "reference": "evidence/studio/lab-live-studio-inventory-20261110.json",
+      "referenceSha256": "389124cc97b64e44f30aa49fffbd464acc5812c0ea4ba4f628fcd5c40a1dc1dd",
+      "limitations": [
+        "This is a read-only inventory and labeling result; no mutation, playtest input, sync, save, upload, or publish was performed.",
+        "The source snapshot is dirty because the allowlist correction is not yet committed; this record cannot support a VERIFIED capability.",
+        "No independent reviewer is attached.",
+        "The comparison covers the current Studio build and the current 36-tool inventory only; a Studio upgrade can change the list."
       ]
     }
   ]
