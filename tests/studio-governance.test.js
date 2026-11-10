@@ -49,6 +49,8 @@ test('the closed matrix assigns five distinct risk classes and keeps mutations o
       assert.equal(operation.labExposed, false);
     }
     assert.equal(matrix.operations.find((entry) => entry.id === 'studio.save_place').riskClass, 'destructive_mutation');
+    assert.equal(matrix.operations.find((entry) => entry.id === 'studio.create_sandbox_script').riskClass, 'reversible_mutation');
+    assert.equal(matrix.operations.find((entry) => entry.id === 'studio.delete_sandbox_script').riskClass, 'destructive_mutation');
     assert.equal(matrix.operations.find((entry) => entry.id === 'studio.upload_asset').riskClass, 'upload');
     assert.equal(matrix.operations.find((entry) => entry.id === 'studio.publish_place').riskClass, 'publishing');
   });

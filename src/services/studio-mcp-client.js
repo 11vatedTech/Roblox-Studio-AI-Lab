@@ -1,6 +1,14 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  SANDBOX_DELETE_CODE,
+  SANDBOX_PROBE_V1,
+  SANDBOX_PROBE_V2,
+  SANDBOX_SCRIPT_CLASS,
+  SANDBOX_SCRIPT_PATH,
+  SANDBOX_UPLOAD_IMAGE_RELATIVE,
+} from './studio-sandbox-operations.js';
 
 const CLIENT_INFO = { name: '11vatedtech-ai-roblox-studio-lab', version: '0.1.0' };
 const MODERN_VERSION = '2026-07-28';
@@ -19,8 +27,40 @@ const ALLOWED_READ_TOOLS = new Set([
 ]);
 // The dashboard has no mutation route. The fixed-purpose CLI is the only caller
 // of this set, and the governance layer must authorize it first.
-const ALLOWED_MUTATION_TOOLS = new Set(['start_stop_play']);
+const ALLOWED_MUTATION_TOOLS = new Set(['start_stop_play', 'multi_edit', 'execute_luau', 'upload_image']);
 const MAX_MESSAGE_CHARS = 12 * 1024 * 1024;
+const SANDBOX_UPLOAD_IMAGE_PATH = path.resolve(process.cwd(), ...SANDBOX_UPLOAD_IMAGE_RELATIVE.split('/'));
+
+function mutationArgumentsInvalid(message) {
+  return Object.assign(new Error(message), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+}
+
+function requireExactMutationKeys(args, required, optional = []) {
+  const allowed = new Set([...required, ...optional]);
+  const keys = Object.keys(args);
+  if (keys.some((key) => !allowed.has(key)) || required.some((key) => !Object.hasOwn(args, key))) {
+    throw mutationArgumentsInvalid(`This mutation requires exactly ${required.join(', ')}${optional.length ? ` and optional ${optional.join(', ')}` : ''}.`);
+  }
+}
+
+function requireBoundedMutationString(value, field, maxLength = 256) {
+  if (typeof value !== 'string' || !value.trim() || value.length > maxLength || /[\r\n\0]/.test(value)) {
+    throw mutationArgumentsInvalid(`${field} must be a bounded string.`);
+  }
+  return value;
+}
+
+function isSandboxUploadSource(value) {
+  if (value === SANDBOX_UPLOAD_IMAGE_PATH) return true;
+  if (typeof value !== 'string') return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' && url.hostname === '127.0.0.1'
+      && url.pathname === '/lab-upload-probe.png' && !url.search && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
 
 export function createMinimalChildEnvironment(env = process.env) {
   const allowed = ['APPDATA', 'COMSPEC', 'HOMEDRIVE', 'HOMEPATH', 'LOCALAPPDATA', 'PATH', 'PROCESSOR_ARCHITECTURE', 'SYSTEMROOT', 'TEMP', 'TMP', 'USERPROFILE', 'WINDIR'];
@@ -260,6 +300,50 @@ export class StudioMcpClient {
         || typeof args.is_start !== 'boolean'
         || typeof args.studio_id !== 'string' || !args.studio_id.trim() || args.studio_id.length > 256 || /[\r\n\0]/.test(args.studio_id)) {
         throw Object.assign(new Error('start_stop_play requires exactly a boolean is_start and a bounded studio_id.'), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+      }
+    } else if (name === 'multi_edit') {
+      requireExactMutationKeys(args, ['file_path', 'edits', 'datamodel_type', 'studio_id'], ['className']);
+      requireBoundedMutationString(args.studio_id, 'studio_id');
+      if (args.file_path !== SANDBOX_SCRIPT_PATH) {
+        throw mutationArgumentsInvalid(`The sandbox mutation is restricted to ${SANDBOX_SCRIPT_PATH}.`);
+      }
+      if (args.datamodel_type !== 'Edit') {
+        throw mutationArgumentsInvalid('The sandbox mutation is restricted to the Edit DataModel.');
+      }
+      if (!Array.isArray(args.edits) || args.edits.length !== 1) {
+        throw mutationArgumentsInvalid('The sandbox mutation requires exactly one edit.');
+      }
+      const edit = args.edits[0];
+      if (!edit || typeof edit !== 'object' || Array.isArray(edit)) {
+        throw mutationArgumentsInvalid('The sandbox edit must be a plain object.');
+      }
+      requireExactMutationKeys(edit, ['old_string', 'new_string'], ['replace_all']);
+      if (edit.replace_all !== undefined && edit.replace_all !== false) {
+        throw mutationArgumentsInvalid('The sandbox edit does not permit replace_all.');
+      }
+      if (typeof edit.old_string !== 'string' || typeof edit.new_string !== 'string'
+        || edit.old_string.length > 20_000 || edit.new_string.length > 20_000) {
+        throw mutationArgumentsInvalid('The sandbox edit strings must be bounded text.');
+      }
+      if (args.className !== undefined && args.className !== SANDBOX_SCRIPT_CLASS) {
+        throw mutationArgumentsInvalid(`The sandbox probe must be a ${SANDBOX_SCRIPT_CLASS}.`);
+      }
+      const creating = edit.old_string === '' && edit.new_string === SANDBOX_PROBE_V1 && args.className === SANDBOX_SCRIPT_CLASS;
+      const replacing = edit.old_string === SANDBOX_PROBE_V1 && edit.new_string === SANDBOX_PROBE_V2 && args.className === undefined;
+      if (!creating && !replacing) {
+        throw mutationArgumentsInvalid('The sandbox mutation only permits the fixed V1 create or V1-to-V2 replacement.');
+      }
+    } else if (name === 'execute_luau') {
+      requireExactMutationKeys(args, ['code', 'datamodel_type', 'studio_id']);
+      requireBoundedMutationString(args.studio_id, 'studio_id');
+      if (args.datamodel_type !== 'Edit' || args.code !== SANDBOX_DELETE_CODE) {
+        throw mutationArgumentsInvalid('The only permitted sandbox Luau is the fixed probe deletion in the Edit DataModel.');
+      }
+    } else if (name === 'upload_image') {
+      requireExactMutationKeys(args, ['imagePaths', 'studio_id']);
+      requireBoundedMutationString(args.studio_id, 'studio_id');
+      if (!Array.isArray(args.imagePaths) || args.imagePaths.length !== 1 || !isSandboxUploadSource(args.imagePaths[0])) {
+        throw mutationArgumentsInvalid('The only permitted upload is the fixed lab-upload-probe.png from the sandbox or loopback.');
       }
     }
     const payload = { name, arguments: args };

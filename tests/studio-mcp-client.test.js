@@ -6,6 +6,14 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createMinimalChildEnvironment, StudioMcpClient } from '../src/services/studio-mcp-client.js';
+import {
+  SANDBOX_DELETE_CODE,
+  SANDBOX_PROBE_V1,
+  SANDBOX_PROBE_V2,
+  SANDBOX_SCRIPT_CLASS,
+  SANDBOX_SCRIPT_PATH,
+  SANDBOX_UPLOAD_IMAGE_RELATIVE,
+} from '../src/services/studio-sandbox-operations.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,7 +25,7 @@ test('initializes the official MCP stdio contract and discovers a real Studio in
     assert.ok(status.tools.includes('list_roblox_studios'));
     assert.deepEqual(await client.listStudios(), [{ studio_id: 'fixture-studio', name: 'Fixture Place', place_id: null }]);
     const inventory = client.getToolInventory();
-    assert.equal(inventory.discoveredToolCount, 4);
+    assert.equal(inventory.discoveredToolCount, 6);
     assert.ok(inventory.discoveredAt);
     const list = inventory.tools.find((tool) => tool.name === 'list_roblox_studios');
     assert.equal(list.operationClass, 'read_only');
@@ -48,7 +56,7 @@ test('does not expose tools outside the explicit read-only allowlist', async () 
   }
 });
 
-test('allows only the fixed playtest mutation with exact bounded arguments', async () => {
+test('allows only the fixed playtest and sealed sandbox mutations with exact bounded arguments', async () => {
   const client = new StudioMcpClient({ command: process.execPath, args: [path.join(here, 'fixtures', 'studio-mcp-server.js')] });
   try {
     await client.connect();
@@ -57,7 +65,38 @@ test('allows only the fixed playtest mutation with exact bounded arguments', asy
     assert.equal(payload.ok, true);
     assert.equal(payload.arguments.is_start, true);
     assert.equal(payload.arguments.studio_id, 'fixture-studio');
-    await assert.rejects(() => client.callMutationTool('execute_luau', { studio_id: 'fixture-studio', code: 'return true' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+
+    const created = await client.callMutationTool('multi_edit', {
+      className: SANDBOX_SCRIPT_CLASS,
+      datamodel_type: 'Edit',
+      edits: [{ old_string: '', new_string: SANDBOX_PROBE_V1 }],
+      file_path: SANDBOX_SCRIPT_PATH,
+      studio_id: 'fixture-studio',
+    });
+    assert.equal(JSON.parse(created.content[0].text).ok, true);
+    const replaced = await client.callMutationTool('multi_edit', {
+      datamodel_type: 'Edit',
+      edits: [{ old_string: SANDBOX_PROBE_V1, new_string: SANDBOX_PROBE_V2 }],
+      file_path: SANDBOX_SCRIPT_PATH,
+      studio_id: 'fixture-studio',
+    });
+    assert.equal(JSON.parse(replaced.content[0].text).ok, true);
+    const deleted = await client.callMutationTool('execute_luau', {
+      code: SANDBOX_DELETE_CODE,
+      datamodel_type: 'Edit',
+      studio_id: 'fixture-studio',
+    });
+    assert.equal(JSON.parse(deleted.content[0].text).ok, true);
+    const uploaded = await client.callMutationTool('upload_image', {
+      imagePaths: [path.resolve(SANDBOX_UPLOAD_IMAGE_RELATIVE)],
+      studio_id: 'fixture-studio',
+    });
+    assert.equal(JSON.parse(uploaded.content[0].text).ok, true);
+
+    await assert.rejects(() => client.callMutationTool('execute_luau', { studio_id: 'fixture-studio', code: 'return true', datamodel_type: 'Edit' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callMutationTool('multi_edit', { className: SANDBOX_SCRIPT_CLASS, datamodel_type: 'Edit', edits: [{ old_string: '', new_string: 'return true' }], file_path: SANDBOX_SCRIPT_PATH, studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callMutationTool('multi_edit', { className: SANDBOX_SCRIPT_CLASS, datamodel_type: 'Edit', edits: [{ old_string: '', new_string: SANDBOX_PROBE_V1 }], file_path: 'game.ServerScriptService.Other', studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callMutationTool('upload_image', { imagePaths: ['C:\\Windows\\win.ini'], studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
     await assert.rejects(() => client.callMutationTool('start_stop_play', { studio_id: 'fixture-studio', is_start: 'yes' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
     await assert.rejects(() => client.callMutationTool('start_stop_play', { studio_id: 'fixture-studio', is_start: true, code: 'return true' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
     await assert.rejects(() => client.callReadTool('start_stop_play', { studio_id: 'fixture-studio', is_start: true }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
