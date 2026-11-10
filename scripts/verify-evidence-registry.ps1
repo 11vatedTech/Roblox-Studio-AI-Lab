@@ -5,15 +5,25 @@ $ErrorActionPreference = 'Stop'
 
 function Get-Sha256Hex([string]$FilePath) {
     $algorithm = [System.Security.Cryptography.SHA256]::Create()
-    $stream = [System.IO.File]::OpenRead($FilePath)
-    try { [System.BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
-    finally { $stream.Dispose(); $algorithm.Dispose() }
+    try {
+        # Text evidence is hashed in canonical LF form so Windows and CI checkouts agree.
+        $extension = [IO.Path]::GetExtension($FilePath).ToLowerInvariant()
+        if ($extension -in @('.json', '.log', '.txt', '.md', '.csv')) {
+            $text = [IO.File]::ReadAllText($FilePath, [Text.UTF8Encoding]::new($false))
+            $bytes = [Text.UTF8Encoding]::new($false).GetBytes(($text -replace "`r`n", "`n"))
+            [System.BitConverter]::ToString($algorithm.ComputeHash($bytes)).Replace('-', '').ToLowerInvariant()
+        } else {
+            $stream = [System.IO.File]::OpenRead($FilePath)
+            try { [System.BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+            finally { $stream.Dispose() }
+        }
+    } finally { $algorithm.Dispose() }
 }
 
 function Get-Sha256Text([string]$Value) {
     $algorithm = [System.Security.Cryptography.SHA256]::Create()
     try {
-        $bytes = [Text.UTF8Encoding]::new($false).GetBytes($Value)
+        $bytes = [Text.UTF8Encoding]::new($false).GetBytes(($Value -replace "`r`n", "`n"))
         [System.BitConverter]::ToString($algorithm.ComputeHash($bytes)).Replace('-', '').ToLowerInvariant()
     } finally { $algorithm.Dispose() }
 }

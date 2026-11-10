@@ -1,6 +1,6 @@
 # Evidence record contract
 
-`evidence/registry.json` is the typed index. Each record points to a source JSON file and carries the SHA-256 digest of that file's bytes. The digest is a file-content hash; it is not a Git blob ID.
+`evidence/registry.json` is the typed index. Each record points to a source JSON file and carries the SHA-256 digest of that file's canonical content. The digest is a file-content hash; it is not a Git blob ID. Text records (`.json`, `.log`, `.txt`, `.md`, `.csv`) are digested in canonical LF form so a Windows working tree and a clean CI checkout of the same record produce the same digest; binary references are hashed byte-for-byte.
 
 ## Source identity
 

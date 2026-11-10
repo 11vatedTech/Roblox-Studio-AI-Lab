@@ -27,7 +27,7 @@
       "project": "test-world",
       "scope": "Test-only local MCP owner and reviewer processes staged an assigned Luau module, ran pinned checks, accepted the reviewed output, and verified persistence after server restart.",
       "reference": "evidence/p0/lab-task-execution-20261108T032409820Z.json",
-      "referenceSha256": "e1d7c9860da307b5b579ccbb34ece15d6800f4f5e1e7efe4b7b671603f22d5bb",
+      "referenceSha256": "a8672751cadf75bc298bc6a8efa412e41730c869b06caf11dc224902576c0f06",
       "limitations": [
         "The evidence is explicitly test-only; its fixture project was removed after the run.",
         "Different MCP process and session identities are recorded, but client names are self-reported and no AI provider, model, or human identity is attested.",
@@ -43,7 +43,7 @@
       "project": "lab",
       "scope": "Twenty-five local Node tests covered evidence reference integrity, source snapshot capture, capability-to-evidence enforcement, and API/overview integration.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T161954122Z.json",
-      "referenceSha256": "70a8b8e8bf6a18d803034730790ec1703ffec32a458bcb7081650e02c25c0504",
+      "referenceSha256": "e662df1b45a7f6af5e065891d0b02942d1844a08141272292569d176a74accb4",
       "limitations": [
         "The source-tree digest covers tracked and nonignored workspace files but excludes evidence/ artifacts; the report records that scope.",
         "The working tree was dirty, so the report binds the base commit and exact source-tree digest rather than claiming a clean commit.",
@@ -59,7 +59,7 @@
       "project": "lab",
       "scope": "93 Node tests, Luau syntax for 38 files, and three pinned Rojo builds.",
       "reference": "evidence/p0/lab-offline-validation-20261108.json",
-      "referenceSha256": "3377843e9b465ec7c53ef960e40df7c695c9a495036f7c7aaf0c3716b7665d6c",
+      "referenceSha256": "b27df1ef1d0e93327394f0e620350761bea04991677f908e87ea5a0cb144d8c6",
       "limitations": [
         "No Studio engine, physical-device, input, performance, visual, player-research, or hosted-CI results are included.",
         "No independent human review is attached.",
@@ -75,7 +75,7 @@
       "project": "lab",
       "scope": "Two consecutive local start/health/read-only Studio-status/graceful-stop cycles.",
       "reference": "evidence/p0/lab-workstation-lifecycle-20261108.json",
-      "referenceSha256": "620a5703c0b0e2a3eacab916f7c004978b82a916c6b2ee86efd5739d26342d90",
+      "referenceSha256": "d817bc14441af4878d2aedf6077647de4d607550560b295242956e9f82b03ae3",
       "limitations": [
         "The Lab reported its Studio MCP connection as disconnected; no Studio place was changed.",
         "Task-state preservation during shutdown, shutdown interruption, and recovery from a killed process remain unverified.",
@@ -91,7 +91,7 @@
       "project": "lab",
       "scope": "A test listener occupied the Lab port; startup failed with EADDRINUSE and left that listener untouched.",
       "reference": "evidence/p0/lab-port-conflict-20261108.json",
-      "referenceSha256": "ad9b25e210b32b9c5d1713f3488f26face64140e8ab64be44bd700e31a67da67",
+      "referenceSha256": "13a990d417bb2cf8a99e0a2b872150de7c7ead369fdd0695f1d091af335a6967",
       "limitations": [
         "Failed startup leaves a dead child PID in the runtime record until the next start; the test restored its prior record.",
         "This does not cover interruption during shutdown or task execution.",
@@ -107,7 +107,7 @@
       "project": "lab",
       "scope": "27 local Node tests covered typed evidence integrity, source snapshots, capability gates, and API integration.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T170222149Z.json",
-      "referenceSha256": "b7c1b00829e48eaaab57366cac59703ec932c08e6ff6e5c552970b46fc6aeb06",
+      "referenceSha256": "dc9c014c5003a8aad6283aba3070f3e5dd4851b2283d3f346db212112bc9acae",
       "limitations": [
         "The source tree was dirty and excludes evidence/ artifacts.",
         "This is not an independent review or live Studio/device certification."
@@ -122,7 +122,7 @@
       "project": "lab",
       "scope": "A fresh 236-file archive restored to a unique temporary directory; all manifest lengths and SHA-256 digests matched, and traversal/tamper rejection are separately covered by PowerShell 5.1 tests.",
       "reference": "evidence/p0/lab-backup-restore-20261108.json",
-      "referenceSha256": "d6f0ea705e55f1537bcadd1dd5cdd074eef82dd4ba105619882ebacee8f573b6",
+      "referenceSha256": "0c435e16e4934be156caca05bdd809734068c8d00610e8b3c935066aec565f16",
       "limitations": [
         "No off-device copy or disaster-recovery restore was performed.",
         "Interrupted backup/restore and secret-content scanning remain unverified.",
@@ -139,7 +139,7 @@
       "project": "lab",
       "scope": "93 Node tests, Luau syntax parsing for 38 source files, and three pinned Rojo builds with per-artifact SHA-256 digests.",
       "reference": "evidence/p0/lab-final-offline-validation-20261108.json",
-      "referenceSha256": "09f1d0f1ccd7b91ef47eec78860642ce7164cff2e17685400758a5b6fb2f377a",
+      "referenceSha256": "4703790746779127f9cbd13e3058d0bc52cf16e16ed527c9c62ff7fda9887c63",
       "limitations": [
         "No Studio engine, physical-device, input, performance, visual, player-research, or hosted-CI results are included.",
         "No independent human review is attached.",
@@ -155,7 +155,7 @@
       "project": "lab",
       "scope": "27 local Node tests validated source-bound typed evidence, the capability register, API/overview integration, and server lifecycle boundaries.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171533275Z.json",
-      "referenceSha256": "7648608a84cb926d01e9002cc3bc813a3490cbaf25267df29cde790b6ce95738",
+      "referenceSha256": "e0d73bc6d3202c6e4c2e7140f600d3e64373c93eb482d0b59dd3d6e965b952f9",
       "limitations": [
         "The source tree is dirty; the report records exact source identity and excludes evidence/ artifacts.",
         "No separate independent reviewer, Studio runtime, physical-device, or hosted-CI certification is included."
@@ -170,7 +170,7 @@
       "project": "lab",
       "scope": "27 local Node tests passed after the capability register references were updated.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171620028Z.json",
-      "referenceSha256": "12a9ba97551d80f0161e4864bb249788b7adeaacfe176acd571f35d898b1389a",
+      "referenceSha256": "f298594f8c014daa017051d38add3f724acb88aa4eeca9acb4131aebfbf774c4",
       "limitations": [
         "This run is local and does not independently certify Studio gameplay, device behavior, performance, or hosted CI.",
         "The capability register references the immediately preceding equivalent verification report to avoid self-referential evidence pointers."
@@ -185,7 +185,7 @@
       "project": "lab",
       "scope": "The unused prior PID was not acted on; a new process reached loopback health and stopped gracefully.",
       "reference": "evidence/p0/lab-stale-pid-recovery-20261108.json",
-      "referenceSha256": "d4aec63e57c94f3c9c713a5389f1173c08255c256e9416a4159575d6a184435e",
+      "referenceSha256": "e2717b88a5ca4a3cd50177647d4b2f64a04d0d552260c30d45c3c324f9f04b1a",
       "limitations": [
         "The stale PID was confirmed absent before the test.",
         "This does not cover interrupted shutdown or task-state recovery.",
@@ -202,7 +202,7 @@
       "project": "lab",
       "scope": "27 local Node tests validated all 11 typed registry records and the current 23-capability register.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171940438Z.json",
-      "referenceSha256": "bae07c9c6ef76304f535ed07fba2ea5480ae6e4b5436b2bcce066cc30bdf87aa",
+      "referenceSha256": "7e873df626982c830764c5ef54a48609b7c2801991b9822582bfae2aade0550e",
       "limitations": [
         "This does not independently certify Studio gameplay, physical-device behavior, performance, or hosted CI.",
         "The report source snapshot was captured before the register pointer to this report was added."
@@ -217,7 +217,7 @@
       "project": "lab",
       "scope": "A Windows fixture confirmed EADDRINUSE, startup failure, and removal of only the matching dead process record.",
       "reference": "evidence/p0/lab-launcher-failed-start-20261108.json",
-      "referenceSha256": "0775a99c7a134490f202c36dcb44616ba744e5662919160a4300495bf1495eb1",
+      "referenceSha256": "661cfa73d78b1421aaff8645b5c90e25fcb7f9078895427179eedf724fce2acf",
       "limitations": [
         "Local fixture test only; no interrupted shutdown, staged-task recovery, or independent review."
       ]
@@ -231,7 +231,7 @@
       "project": "lab",
       "scope": "94 Node tests passed, 38 Luau source files parsed, and all three local Rojo projects built.",
       "reference": "evidence/p0/lab-full-offline-validation-20261108.json",
-      "referenceSha256": "6d07dbe074710416e51721c31431e700d21597104ebd9ff3be7f4a35884c8d94",
+      "referenceSha256": "2ef9a9335ada1d40c9c745f9584e9e92248fbb0ce5db5b6984c5a1d925aff8b5",
       "limitations": [
         "No Roblox engine analysis or live Studio, physical-device, performance, visual, hosted-CI, or player-research results.",
         "No independent human review is attached."
@@ -246,7 +246,7 @@
       "project": "lab",
       "scope": "A Windows package containing 258 manifest-listed source/tool files passed archive validation, 96 Node tests, 38 Luau parses, and three Rojo builds from a clean extraction.",
       "reference": "evidence/p0/lab-portable-package-verification-20261108.json",
-      "referenceSha256": "d7533aff9c7c6e7ca55d5aee8a05be45ec59b492952939c17fb270c42a9bfa5e",
+      "referenceSha256": "b12f17f205c90d8f3c524cbc7f290df3aae5ba1a50f3c68159e6763fbe779685",
       "limitations": [
         "Node.js 20 or newer must already be installed; Node is not bundled.",
         "This local run is not a hosted CI result, live Studio test, physical-device test, or independent review."
@@ -356,7 +356,7 @@
       "project": "lab",
       "scope": "Twenty-seven targeted tests validated the typed evidence records, capability gates, API overview, lifecycle behavior, and source snapshot logic.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T191301197Z.json",
-      "referenceSha256": "655160015080d6fa2558534fc26c47b1bd26b12234f12e1ac3b35dcb21bf48d3",
+      "referenceSha256": "75d26e29d9d48b402cccd913fb38e0491734573509fc71a1ec3f2f4204620e7d",
       "limitations": [
         "The report binds the 203-file source tree at digest ac98acfa5c7603e9ad3033242254c1183f30769e52b299d2a1b6ddc73150237b, excluding evidence/.",
         "It predates the current completion-ledger edit; a post-ledger verification is still required.",
@@ -389,7 +389,7 @@
       "project": "lab",
       "scope": "Twenty-seven targeted tests passed for typed evidence integrity, acceptance gates, API integration, local lifecycle, and source snapshot capture.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T192912546Z.json",
-      "referenceSha256": "6aec29b8d0e653b0c86929e7f8bd5b61e406059fb7ee29651375a29af90b8da4",
+      "referenceSha256": "e2d0425c6655c7f60ae6ab40e43643892888e7f48c3189679da2daa65a1e46e4",
       "limitations": [
         "The report binds the 203-file source tree at digest e0291fd0dd6ea7cb4f7766c1da6c6b26e6e1078a28893f6041a90fded0442257, excluding evidence/.",
         "It confirms the evidence registry and acceptance interfaces; it does not certify the gameplay scenarios or a hosted CI run."
@@ -419,7 +419,7 @@
       "project": "lab",
       "scope": "Twenty-seven targeted tests passed against the final branch source snapshot, including evidence integrity, capability gates, API integration, lifecycle, and deterministic source hashing.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T193101839Z.json",
-      "referenceSha256": "ec185cad839732b1e42408fc921d7f368f7dd04bf07a154f9b630f1e6a7c4bc1",
+      "referenceSha256": "7eb55a6c5a71f7d32def74e19a1961db855c188bd00fe5b3a80d1145cb078788",
       "limitations": [
         "The source tree was dirty and is bound at digest 43999988beb3ec7e408568aea3d2dc43f3aa882182bc21fecd7cd6f258b098d7 across 203 files, excluding evidence/.",
         "The test run does not certify the source-bound Studio replay, physical-device behavior, art approval, or hosted CI."
@@ -434,7 +434,7 @@
       "project": "lab",
       "scope": "Twenty-seven targeted tests passed after the completion ledger update, covering typed evidence integrity, capability traceability, API integration, lifecycle, and source snapshot behavior.",
       "reference": "evidence/p0/lab-evidence-registry-verification-20261108T193515543Z.json",
-      "referenceSha256": "442c73664cdf4a3448a204a4586e61e4b3d750e843038e1e969fa0bcd4265a0e",
+      "referenceSha256": "8590604b6175254fa7a8a85249b86981a7b729f3c145c7b6c44b048867bc5ad4",
       "limitations": [
         "The report binds source digest 375bcc3ffd868a58835499fa97a9941c86a0137c6e4663872a87f00461b2284b across 203 files, excluding evidence/.",
         "It does not certify live Studio gameplay, physical-device behavior, hosted CI, art review, or player research."
@@ -449,7 +449,7 @@
       "project": "lab",
       "scope": "Built a Windows portable archive from source tree 375bcc3ffd868a58835499fa97a9941c86a0137c6e4663872a87f00461b2284b; verified all restored manifest files and passed 96 Node tests, 38 Luau parses, and three pinned Rojo builds in clean extraction.",
       "reference": "evidence/p0/lab-portable-package-completion-20261108.json",
-      "referenceSha256": "f2e4e828f302c4a6b82f096d58e557386f44ec2ea09e4d5ecc90dc31d34f1838",
+      "referenceSha256": "e3cda3af898af01a3a995ad3b84831ed4aee1697fa8a1594b7c91515db8c506c",
       "limitations": [
         "Hosted GitHub Actions was not run because pushing was not authorized.",
         "The report does not certify Studio gameplay, physical-device behavior, player research, or independent review.",

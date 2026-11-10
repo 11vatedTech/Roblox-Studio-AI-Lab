@@ -15,6 +15,19 @@ const FIELDS = new Set(['id', 'type', 'status', 'title', 'capturedAt', 'project'
 const SHA256 = /^[a-f0-9]{64}$/;
 const SOURCE_REVISION = /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/i;
 const CAPABILITY_ID = /^LAB-[A-Z0-9]+-\d{3}$/;
+const TEXT_REFERENCE_EXTENSIONS = new Set(['.json', '.log', '.txt', '.md', '.csv']);
+
+/**
+ * Text evidence is digested in canonical LF form so a Windows working tree and
+ * a clean CI checkout of the same record produce the same digest. Binary
+ * references are hashed byte-for-byte.
+ */
+export function canonicalReferenceDigest(bytes, reference) {
+  const canonical = TEXT_REFERENCE_EXTENSIONS.has(path.extname(reference).toLowerCase())
+    ? Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n'), 'utf8')
+    : bytes;
+  return createHash('sha256').update(canonical).digest('hex');
+}
 
 function addError(errors, location, code, message) {
   errors.push({ path: location, code, message });
@@ -144,7 +157,7 @@ async function readReference(root, record) {
   }
   const target = resolveWithin(root, ...segments);
   const bytes = await fs.readFile(target);
-  const digest = createHash('sha256').update(bytes).digest('hex');
+  const digest = canonicalReferenceDigest(bytes, record.reference);
   if (digest !== record.referenceSha256) throw Object.assign(new Error(`Evidence reference hash changed: ${record.reference}.`), { code: 'EVIDENCE_REFERENCE_HASH_MISMATCH', status: 500 });
   let source;
   try { source = JSON.parse(bytes.toString('utf8')); }

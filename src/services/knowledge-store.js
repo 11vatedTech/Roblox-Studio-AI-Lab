@@ -257,13 +257,16 @@ export async function loadKnowledge(rootDir) {
 
   const diagnostics = [];
   const recordsRoot = root.directory;
+  // Compare resolved paths on both sides: a short (8.3) temp alias such as
+  // RUNNER~1 expands under realpath, which is a path alias, not a symlink.
   const realRecordsRoot = await fs.realpath(recordsRoot);
-  const realRootRelative = path.relative(recordsRoot, realRecordsRoot);
-  if (realRootRelative !== '' && realRootRelative !== '.') {
-    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory resolves through a symbolic link.');
+  const realRootDir = await fs.realpath(path.resolve(rootDir));
+  const realRootRelative = path.relative(realRootDir, realRecordsRoot);
+  if (!realRootRelative || realRootRelative === '..' || realRootRelative.startsWith(`..${path.sep}`) || path.isAbsolute(realRootRelative)) {
+    throw fail('KNOWLEDGE_PATH_INVALID', 'The records directory resolves outside the repository root.');
   }
 
-  const files = await enumerateRecordFiles(recordsRoot, diagnostics);
+  const files = await enumerateRecordFiles(realRecordsRoot, diagnostics);
   const candidateRecords = [];
   let totalBytes = 0;
   for (const file of files) {
