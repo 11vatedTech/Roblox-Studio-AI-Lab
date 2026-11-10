@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,      "updatedAt": "2026-11-09T00:18:10.408Z",
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-10T12:15:20.759Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -46,19 +47,21 @@
         "src/server/app.js",
         "src/core/path-policy.js",
         "tests/lab-server.test.js",
-        "tests/backup-scripts.test.js"
+        "tests/backup-scripts.test.js",
+        "src/services/project-store.js",
+        "tests/project-store.test.js"
       ],
       "acceptanceCriteria": [
         "Project creation uses a real local template and rejects unsafe names and paths.",
         "Project configuration and state remain recoverable after service restart."
       ],
-      "verificationMethod": "Exercise project creation, source inspection, path rejection, restart, and restore from a clean archive.",
+      "verificationMethod": "Create a project from the template, inspect it, restart the service, update bounded settings with a revision check, corrupt and rebuild the manifest, and remove stale staging output.",
       "verificationResult": "not_run",
       "evidenceRefs": [],
       "outstandingDefects": [
         {
           "severity": "medium",
-          "description": "Persistent registry state is derived from project folders; full project configuration and recovery are not yet certified."
+          "description": "Persistent identity, bounded settings with revision conflicts, corruption/incompatibility classification, interrupted-staging recovery, and restart persistence are implemented and locally tested; a source-bound evidence record with an independent reviewer is still required before VERIFIED."
         }
       ],
       "blockers": [],

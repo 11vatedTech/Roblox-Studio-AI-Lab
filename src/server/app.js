@@ -16,6 +16,7 @@ import { createTaskPlan, getTaskHandoff, listTaskPlans, readTaskPlan, updateTask
 import { buildRojoProject, getRojoBuildArtifact, inspectRojoProject } from '../services/rojo-workflows.js';
 import { loadCapabilityRegister } from '../services/capability-register.js';
 import { loadEvidenceRegistry } from '../services/evidence-registry.js';
+import { createProjectManifest, inspectProject, readProjectManifest, recoverProject, updateProjectSettings } from '../services/project-store.js';
 
 const MAX_BODY_BYTES = 16 * 1024;
 const MAX_CAPTURE_BODY_BYTES = 12 * 1024 * 1024;
@@ -151,12 +152,8 @@ async function listProjects(rootDir) {
     if (!entry.isDirectory() || entry.isSymbolicLink()) continue;
     try { validateProjectName(entry.name); } catch { continue; }
     const projectDir = resolveWithin(projectsRoot, entry.name);
-    let manifest = null;
-    try {
-      const raw = await fs.readFile(path.join(projectDir, 'lab.project.json'), 'utf8');
-      const value = JSON.parse(raw);
-      if (value && typeof value === 'object') manifest = value;
-    } catch { /* Existing projects do not need a Lab manifest to be listed. */ }
+    const manifestRead = await readProjectManifest(projectDir, { expectedName: entry.name });
+    const manifest = manifestRead.status === 'ok' ? manifestRead.manifest : null;
     const files = await walkFiles(projectDir, { maxDepth: 10, maxFiles: 1000 });
     const taskPlans = await listTaskPlans(rootDir, entry.name);
     projects.push({
@@ -167,6 +164,10 @@ async function listProjects(rootDir) {
       sourceFiles: files.filter((file) => ['.lua', '.luau'].includes(path.extname(file.path).toLowerCase())).length,
       fileCount: files.length,
       template: manifest?.template ?? null,
+      projectId: manifest?.projectId ?? null,
+      revision: manifest?.revision ?? null,
+      manifestStatus: manifestRead.status,
+      state: manifestRead.status === 'ok' ? (manifestRead.legacy ? 'legacy' : 'ready') : manifestRead.status === 'missing' ? 'unregistered' : manifestRead.status === 'invalid' ? 'corrupted' : 'incompatible',
       taskPlanCount: taskPlans.length,
       openTaskCount: taskPlans.flatMap((plan) => plan.tasks).filter((task) => !['passed', 'failed'].includes(task.status)).length,
     });
@@ -174,8 +175,11 @@ async function listProjects(rootDir) {
   return projects;
 }
 
-async function createProject(rootDir, name) {
+async function createProject(rootDir, name, { displayName } = {}) {
   validateProjectName(name);
+  if (displayName !== undefined && (typeof displayName !== 'string' || !displayName.trim() || displayName.length > 80)) {
+    throw Object.assign(new Error('A display name must be 1–80 characters when provided.'), { code: 'INVALID_DISPLAY_NAME', status: 400 });
+  }
   const projectsRoot = path.join(rootDir, 'projects');
   await fs.mkdir(projectsRoot, { recursive: true });
   const projectsStat = await fs.lstat(projectsRoot);
@@ -192,11 +196,10 @@ async function createProject(rootDir, name) {
   }
   try {
     await fs.cp(PROJECT_TEMPLATE, tempPath, { recursive: true, errorOnExist: true, force: false, verbatimSymlinks: false });
-    const createdAt = new Date().toISOString();
-    await fs.writeFile(path.join(tempPath, 'lab.project.json'), `${JSON.stringify({ schemaVersion: 1, name, template: 'roblox-base', createdAt }, null, 2)}\n`, { flag: 'wx' });
+    const manifest = await createProjectManifest(tempPath, { name, displayName });
     await fs.rename(tempPath, targetPath);
     const files = await walkFiles(targetPath);
-    return { name, path: `projects/${name}`, createdAt, template: 'roblox-base', fileCount: files.length };
+    return { name, path: `projects/${name}`, createdAt: manifest.createdAt, template: manifest.template, fileCount: files.length, projectId: manifest.projectId, revision: manifest.revision };
   } catch (error) {
     await fs.rm(tempPath, { recursive: true, force: true }).catch(() => {});
     if (error.code === 'EEXIST' || error.code === 'ENOTEMPTY') {
@@ -506,8 +509,21 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
       if (route === 'GET /api/projects') return json(response, 200, { projects: await listProjects(root) });
       if (route === 'POST /api/projects') {
         const body = await readJson(request);
-        const project = await createProject(root, body.name);
+        const project = await createProject(root, body.name, { displayName: body.displayName });
         return json(response, 201, { project });
+      }
+      const projectInspectRoute = url.pathname.match(/^\/api\/projects\/([a-zA-Z0-9][a-zA-Z0-9_-]{0,47})$/);
+      if (projectInspectRoute && request.method === 'GET') {
+        return json(response, 200, { project: await inspectProject(root, projectInspectRoute[1]) });
+      }
+      if (projectInspectRoute && request.method === 'PATCH') {
+        const body = await readJson(request);
+        return json(response, 200, { project: await updateProjectSettings(root, projectInspectRoute[1], body) });
+      }
+      const projectRecoveryRoute = url.pathname.match(/^\/api\/projects\/([a-zA-Z0-9][a-zA-Z0-9_-]{0,47})\/recover$/);
+      if (projectRecoveryRoute && request.method === 'POST') {
+        const body = await readJson(request);
+        return json(response, 200, await recoverProject(root, projectRecoveryRoute[1], body));
       }
       const projectRojoRoute = url.pathname.match(/^\/api\/projects\/([a-zA-Z0-9][a-zA-Z0-9_-]{0,47})\/(rojo|build)$/);
       if (projectRojoRoute && request.method === 'GET' && projectRojoRoute[2] === 'rojo') {
