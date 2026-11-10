@@ -56,6 +56,6 @@ Updated 2026-11-10. This ledger is a working handoff, not a release declaration.
 - `node --test tests/studio-mcp-client.test.js` — 6/6 targeted tests.
 - `npm run verify:evidence` — 27/27 checks, 33 registered records; report `evidence/p0/lab-evidence-registry-verification-20261110T133815323Z.json`.
 - Live inventory: `GET http://127.0.0.1:4177/api/studio` after reconnecting the official Studio MCP.
-- `scripts/test-all.ps1` — last recorded full offline run passed; rerun before release packaging.
+- `scripts/test-all.ps1` — passed on 2026-11-10: 117 Node tests, Luau syntax parsing, and 11 Rojo builds (base template, eight benchmarks, Misprint Menagerie, Signal Garden).
 - Local Studio: `d5f07df7-b8ce-4c9b-9e56-6891c6172a64` (Signal Garden) and empty instance `7728ef66-4a93-452f-99be-c528aa2851a7`; PlaceId 0, GameId 0, local file only. No save, upload, or publish occurred.
 - Remaining production work: Studio sync lifecycle, approved mutation surface, asset/game/test pipeline, adversarial security review, benchmark scenario execution, and the separate flagship. Two-client/device, art-direction, participant, and independent-review gates remain external. This is not a completion declaration.
