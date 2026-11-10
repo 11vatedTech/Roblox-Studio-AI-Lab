@@ -5,7 +5,7 @@ Updated 2026-11-08. This ledger is a working handoff, not a release declaration.
 ## Repository checkpoint
 
 - Branch: `codex/lab-recovery-p0`; HEAD: `9b9836d4ca4d02beda603c8c4e51050655cc4b66`; upstream is identical (0 ahead / 0 behind).
-- The working tree is clean; the previously uncommitted work is now in six reviewed commits and pushed.
+- The working tree is clean; the previously uncommitted work is now in nine commits and pushed.
 - The 19:13 evidence verification captured source-tree SHA-256 `ac98acfa5c7603e9ad3033242254c1183f30769e52b299d2a1b6ddc73150237b` across 203 files, excluding `evidence/`. That snapshot predates this ledger edit; the final verification report will bind the post-ledger source state.
 - Current scope is not complete: 0 VERIFIED, 4 IMPLEMENTED, 14 IN_PROGRESS, 3 NOT_STARTED, 2 BLOCKED_EXTERNAL, 0 BLOCKED_HUMAN_APPROVAL. Hosted CI is green on the current head; Studio runtime, device, and independent-review gates remain open.
 
