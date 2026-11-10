@@ -16,6 +16,13 @@ $restoreRootFull = [System.IO.Path]::GetFullPath($restoreRoot).TrimEnd([System.I
 $expectedFiles = @{}
 $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 
+function Get-Sha256Hex([string]$FilePath) {
+    $algorithm = [System.Security.Cryptography.SHA256]::Create()
+    $stream = [System.IO.File]::OpenRead($FilePath)
+    try { [System.BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+    finally { $stream.Dispose(); $algorithm.Dispose() }
+}
+
 function Get-SafeEntryPath([string]$name) {
     if ([string]::IsNullOrWhiteSpace($name) -or $name.Contains([char]0)) { throw 'Archive contains an empty or invalid entry name.' }
     $normalized = $name.Replace('\', '/')
@@ -61,7 +68,7 @@ try {
     $manifestRecord = $validated | Where-Object { $_.Safe.Relative -ceq 'manifest.json' -and -not $_.Safe.IsDirectory }
     if (-not $manifestRecord) { throw 'Archive is missing manifest.json.' }
     $manifestReader = [System.IO.StreamReader]::new($manifestRecord.Entry.Open())
-    try { $manifest = $manifestReader.ReadToEnd() | ConvertFrom-Json -Depth 20 } finally { $manifestReader.Dispose() }
+    try { $manifest = $manifestReader.ReadToEnd() | ConvertFrom-Json } finally { $manifestReader.Dispose() }
     if ($manifest.schemaVersion -ne 1 -or $manifest.files -isnot [array] -or $manifest.fileCount -ne $manifest.files.Count) {
         throw 'Backup manifest is invalid or unsupported.'
     }
@@ -92,7 +99,7 @@ try {
         $restored = Join-Path $restoreRootFull ($safe.Relative.Replace('/', [System.IO.Path]::DirectorySeparatorChar))
         if (-not (Test-Path -LiteralPath $restored -PathType Leaf)) { throw "Manifest path is not a restored file: $manifestPath" }
         $item = Get-Item -LiteralPath $restored
-        $hash = (Get-FileHash -LiteralPath $restored -Algorithm SHA256).Hash
+        $hash = Get-Sha256Hex $restored
         if ($item.Length -ne [long]$file.length -or $hash -ine [string]$file.sha256) {
             throw "Restored file hash or length does not match its manifest: $manifestPath"
         }
@@ -126,10 +133,21 @@ try {
         FilesVerified = $manifest.fileCount
         RequiredRoots = $requiredRoots -join ', '
         Hashes = 'All restored files match manifest SHA-256 and byte length.'
+        RestoreCleanup = 'The temporary restore directory is removed after verification.'
     } | Format-List
 } catch {
     Remove-Item -LiteralPath $restoreRoot -Recurse -Force -ErrorAction SilentlyContinue
     throw
 } finally {
     $zip.Dispose()
+    if (Test-Path -LiteralPath $restoreRoot) {
+        $restoreItem = Get-Item -LiteralPath $restoreRoot -Force
+        if ($restoreItem.LinkType -in @('SymbolicLink', 'Junction')) {
+            Remove-Item -LiteralPath $restoreRoot -Force
+        } elseif ($restoreItem.PSIsContainer) {
+            Remove-Item -LiteralPath $restoreRoot -Recurse -Force
+        } else {
+            Remove-Item -LiteralPath $restoreRoot -Force
+        }
+    }
 }

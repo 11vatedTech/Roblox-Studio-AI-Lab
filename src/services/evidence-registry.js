@@ -13,6 +13,8 @@ const TYPES = new Set(['studio-session', 'task-execution', 'verification-run', '
 const STATUSES = new Set(['passed', 'failed', 'blocked', 'unverified']);
 const FIELDS = new Set(['id', 'type', 'status', 'title', 'capturedAt', 'project', 'scope', 'reference', 'referenceSha256', 'limitations']);
 const SHA256 = /^[a-f0-9]{64}$/;
+const SOURCE_REVISION = /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/i;
+const CAPABILITY_ID = /^LAB-[A-Z0-9]+-\d{3}$/;
 
 function addError(errors, location, code, message) {
   errors.push({ path: location, code, message });
@@ -73,6 +75,35 @@ function assertSourceEvidence(record, source) {
   if (!isObject(source) || source.schemaVersion !== 1) throw Object.assign(new Error('The linked source evidence is not a version 1 JSON record.'), { code: 'EVIDENCE_SOURCE_INVALID', status: 500 });
   const sourceProject = source.project ?? source.task?.project;
   if (record.project && sourceProject !== record.project) throw Object.assign(new Error('The linked source evidence belongs to a different project.'), { code: 'EVIDENCE_SOURCE_PROJECT_MISMATCH', status: 500 });
+  if (source.sourceIdentity !== undefined) {
+    const identity = source.sourceIdentity;
+    if (!isObject(identity) || typeof identity.commit !== 'string' || !SOURCE_REVISION.test(identity.commit)
+      || typeof identity.treeSha256 !== 'string' || !SHA256.test(identity.treeSha256)
+      || typeof identity.dirty !== 'boolean') {
+      throw Object.assign(new Error('sourceIdentity must include a full Git revision, source-tree SHA-256, and dirty-tree flag.'), { code: 'EVIDENCE_SOURCE_IDENTITY_INVALID', status: 500 });
+    }
+  }
+  if (source.capabilityCoverage !== undefined) {
+    if (!Array.isArray(source.capabilityCoverage) || source.capabilityCoverage.length > 100) {
+      throw Object.assign(new Error('capabilityCoverage must be a bounded array of capability criterion scopes.'), { code: 'EVIDENCE_CAPABILITY_COVERAGE_INVALID', status: 500 });
+    }
+    for (const scope of source.capabilityCoverage) {
+      if (!isObject(scope) || typeof scope.capabilityId !== 'string' || !CAPABILITY_ID.test(scope.capabilityId)
+        || !Array.isArray(scope.acceptanceCriteriaIndexes) || scope.acceptanceCriteriaIndexes.length > 20
+        || scope.acceptanceCriteriaIndexes.some((index) => !Number.isInteger(index) || index < 0)
+        || new Set(scope.acceptanceCriteriaIndexes).size !== scope.acceptanceCriteriaIndexes.length) {
+        throw Object.assign(new Error('Each capability coverage scope needs a registered capability ID and unique zero-based acceptance criterion indexes.'), { code: 'EVIDENCE_CAPABILITY_COVERAGE_INVALID', status: 500 });
+      }
+    }
+  }
+  if (source.independentReview !== undefined) {
+    const review = source.independentReview;
+    if (!isObject(review) || !['passed', 'failed'].includes(review.status)
+      || !isText(review.authorIdentity, 200) || !isText(review.reviewerIdentity, 200)
+      || !['distinct-process', 'distinct-human'].includes(review.separation)) {
+      throw Object.assign(new Error('independentReview must record separate author and reviewer identities, a result, and the separation basis.'), { code: 'EVIDENCE_INDEPENDENT_REVIEW_INVALID', status: 500 });
+    }
+  }
   if (record.type === 'studio-session') {
     const sessions = source.studio?.sessionIds;
     const accepted = source.acceptance;
@@ -129,8 +160,13 @@ function summarize(records) {
 }
 
 function publicEvidenceDetails(record, source) {
+  const metadata = {};
+  if (source.sourceIdentity !== undefined) metadata.sourceIdentity = source.sourceIdentity;
+  if (source.capabilityCoverage !== undefined) metadata.capabilityCoverage = source.capabilityCoverage;
+  if (source.independentReview !== undefined) metadata.independentReview = source.independentReview;
   if (record.type === 'studio-session') {
     return {
+      ...metadata,
       place: { placeId: source.place.placeId, gameId: source.place.gameId, published: source.place.published },
       studio: { mode: source.studio.mode, sessionIds: source.studio.sessionIds },
       playerIdentities: ['Player1', 'Player2'],
@@ -141,6 +177,7 @@ function publicEvidenceDetails(record, source) {
   }
   if (record.type === 'task-execution') {
     return {
+      ...metadata,
       task: source.task,
       processSeparation: source.execution.processSeparation,
       outcome: source.execution.outcome,
@@ -149,7 +186,7 @@ function publicEvidenceDetails(record, source) {
       verificationRun: source.verificationRun,
     };
   }
-  return { project: source.project ?? source.task?.project };
+  return { ...metadata, project: source.project ?? source.task?.project };
 }
 
 export async function loadEvidenceRegistry(rootDir) {

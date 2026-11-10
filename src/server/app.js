@@ -435,9 +435,13 @@ async function listStudiosAfterConnect(studioClient) {
   return instances;
 }
 
-export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, studioClient = new StudioMcpClient(), referenceClient = new RobloxReferenceClient() } = {}) {
+export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, studioClient = new StudioMcpClient(), referenceClient = new RobloxReferenceClient(), shutdownGraceMs = 5_000 } = {}) {
+  if (!Number.isInteger(shutdownGraceMs) || shutdownGraceMs < 0 || shutdownGraceMs > 10_000) {
+    throw new RangeError('shutdownGraceMs must be an integer between 0 and 10000.');
+  }
   const root = path.resolve(rootDir);
   const toolRoot = path.resolve(toolRootDir);
+  let shutdownRequested = false;
   const server = createServer(async (request, response) => {
     setSecurityHeaders(response);
     if (!checkHost(request)) return json(response, 403, { error: { code: 'LOCAL_HOST_REQUIRED', message: 'The Lab accepts requests through localhost only.' } });
@@ -454,6 +458,19 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
     try {
       if (route === 'GET /api/health') {
         return json(response, 200, { status: 'ok', name: '11vatedTech AI Roblox Studio Lab', startedAt: new Date(server.startedAt).toISOString(), bindAddress: '127.0.0.1' });
+      }
+      if (route === 'POST /api/control/shutdown') {
+        await readJson(request);
+        if (shutdownRequested) return json(response, 409, { error: { code: 'SHUTDOWN_ALREADY_REQUESTED', message: 'The Lab is already shutting down.' } });
+        shutdownRequested = true;
+        response.setHeader('connection', 'close');
+        json(response, 202, { status: 'shutting_down' });
+        response.once('finish', () => {
+          const closeTimer = setTimeout(() => server.closeAllConnections(), shutdownGraceMs);
+          closeTimer.unref();
+          server.close(() => clearTimeout(closeTimer));
+        });
+        return;
       }
       if (route === 'GET /api/environment') {
         return json(response, 200, { environment: collectEnvironmentSnapshot({ cwd: root }) });

@@ -21,5 +21,9 @@ test('the Lab runs each Roblox-free Luau spec using its pinned CLI', { skip: ski
 
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 0, `Luau spec runner failed:\n${result.stderr}\n${result.stdout}`);
-  assert.match(result.stdout, /PASS: 3 Luau CLI specs/);
+  const completedSpecs = result.stdout.match(/PASS: (\d+) Luau CLI specs using pinned Luau 0\.745/);
+  const startedSpecs = result.stdout.match(/^Running .+\.cli\.spec\.luau$/gm) ?? [];
+  assert.ok(completedSpecs, result.stdout);
+  assert.equal(Number(completedSpecs[1]), startedSpecs.length);
+  assert.ok(startedSpecs.length > 0);
 });

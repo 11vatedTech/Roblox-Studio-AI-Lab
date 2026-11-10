@@ -31,10 +31,10 @@ test('validates the evidence registry contract and rejects duplicate identities 
   assert.ok(invalid.errors.some((item) => item.path === 'records[2].reference'));
 });
 
-test('loads the two-client Studio scenario and test-only task evidence with hashes and scoped status', async () => {
+test('loads scoped Studio, task, and source-bound verification evidence with hashes', async () => {
   const registry = await loadEvidenceRegistry(repositoryRoot);
-  assert.equal(registry.summary.total, 2);
-  assert.equal(registry.summary.passed, 2);
+  assert.ok(registry.summary.total >= 6);
+  assert.ok(registry.summary.passed >= 6);
   const studio = registry.records.find((record) => record.type === 'studio-session');
   assert.equal(studio.project, 'signal-garden');
   assert.equal(studio.referenceIntegrity.status, 'verified');
@@ -50,6 +50,26 @@ test('loads the two-client Studio scenario and test-only task evidence with hash
   const task = registry.records.find((record) => record.type === 'task-execution');
   assert.equal(task.status, 'passed');
   assert.ok(task.limitations.some((item) => item.includes('test-only')));
+
+  const verification = registry.records.find((record) => record.id === 'evidence.lab.evidence-registry-verification-20261108');
+  assert.equal(verification.status, 'passed');
+  assert.equal(verification.referenceIntegrity.status, 'verified');
+  assert.match(verification.validatedDetails.sourceIdentity.commit, /^[a-f0-9]{40}$/);
+  assert.match(verification.validatedDetails.sourceIdentity.treeSha256, /^[a-f0-9]{64}$/);
+  assert.equal(verification.validatedDetails.sourceIdentity.dirty, true);
+  assert.equal(verification.validatedDetails.capabilityCoverage, undefined);
+  assert.equal(verification.validatedDetails.independentReview, undefined);
+  for (const id of [
+    'evidence.lab.offline-validation-20261108',
+    'evidence.lab.workstation-lifecycle-20261108',
+    'evidence.lab.backup-restore-20261108',
+    'evidence.lab.evidence-registry-verification-20261109t001810408z',
+  ]) {
+    const record = registry.records.find((item) => item.id === id);
+    assert.equal(record.status, 'passed');
+    assert.equal(record.referenceIntegrity.status, 'verified');
+    assert.match(record.validatedDetails.sourceIdentity.treeSha256, /^[a-f0-9]{64}$/);
+  }
 });
 
 test('rejects a Studio evidence index that disagrees with the source acceptance record', async () => {
@@ -99,6 +119,32 @@ test('rejects a changed evidence reference instead of silently trusting its new 
     };
     await fs.writeFile(path.join(root, 'evidence', 'registry.json'), JSON.stringify(registry));
     await assert.rejects(loadEvidenceRegistry(root), { code: 'EVIDENCE_REFERENCE_HASH_MISMATCH' });
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('rejects malformed source snapshot claims inside a correctly hashed typed record', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lab-evidence-source-identity-'));
+  try {
+    await fs.mkdir(path.join(root, 'evidence'), { recursive: true });
+    const sourceBytes = Buffer.from(`${JSON.stringify({
+      schemaVersion: 1,
+      project: 'test-world',
+      sourceIdentity: { commit: 'a'.repeat(40), treeSha256: 'not-a-digest', dirty: false },
+    })}\n`);
+    await fs.writeFile(path.join(root, 'evidence', 'source.json'), sourceBytes);
+    const registry = {
+      schemaVersion: 1,
+      updatedAt: '2026-11-08T00:00:00Z',
+      records: [{
+        id: 'evidence.test.invalid-source-snapshot', type: 'verification-run', status: 'unverified', title: 'Malformed source snapshot',
+        capturedAt: '2026-11-07T20:46:21Z', project: 'test-world', scope: 'Malformed identity is rejected.',
+        reference: 'evidence/source.json', referenceSha256: createHash('sha256').update(sourceBytes).digest('hex'), limitations: [],
+      }],
+    };
+    await fs.writeFile(path.join(root, 'evidence', 'registry.json'), JSON.stringify(registry));
+    await assert.rejects(loadEvidenceRegistry(root), { code: 'EVIDENCE_SOURCE_IDENTITY_INVALID' });
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

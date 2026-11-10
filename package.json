@@ -14,6 +14,8 @@
     "test": "node --test",
     "lint:luau": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/lint-luau.ps1",
     "doctor": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/doctor.ps1",
-    "verify": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-all.ps1"
+    "verify": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/test-all.ps1",
+    "package:portable": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/package-lab.ps1",
+    "verify:package": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/verify-package.ps1"
   }
 }

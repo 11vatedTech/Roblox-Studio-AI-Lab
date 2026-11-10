@@ -9,6 +9,10 @@ import { makeTaskRequest, makeTaskWorkspace, removeTaskWorkspace } from './helpe
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const serverPath = path.join(repositoryRoot, 'src', 'mcp', 'lab-task-server.js');
+// Task validation launches pinned Luau and Rojo processes while the test suite
+// runs other process-heavy integration tests in parallel. Keep the RPC bound,
+// with enough headroom for that supported workload.
+const MCP_REQUEST_TIMEOUT_MS = 15_000;
 
 function startMcpClient(root, name) {
   const child = spawn(process.execPath, [serverPath], {
@@ -45,7 +49,7 @@ function startMcpClient(root, name) {
       const timeout = setTimeout(() => {
         pending.delete(id);
         reject(new Error(`MCP request timed out: ${method}. ${stderr}`));
-      }, 5000);
+      }, MCP_REQUEST_TIMEOUT_MS);
       pending.set(id, { resolve: (message) => { clearTimeout(timeout); resolve(message); } });
       child.stdin.write(`${JSON.stringify({ jsonrpc: '2.0', id, method, params })}\n`);
     });

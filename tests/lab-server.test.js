@@ -14,13 +14,14 @@ async function withServer(run, options = {}) {
     listStudios: async () => [],
     close: async () => {},
   };
-  const server = createLabServer({ rootDir, studioClient, referenceClient: options.referenceClient });
+  const server = createLabServer({ rootDir, studioClient, referenceClient: options.referenceClient, shutdownGraceMs: options.shutdownGraceMs });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const address = server.address();
   try {
-    await run({ baseUrl: `http://127.0.0.1:${address.port}`, rootDir, studioClient });
+    await run({ baseUrl: `http://127.0.0.1:${address.port}`, rootDir, studioClient, server });
   } finally {
-    await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    if (server.listening) await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    else server.closeAllConnections?.();
     await fs.rm(rootDir, { recursive: true, force: true });
   }
 }
@@ -34,6 +35,59 @@ test('health endpoint reports a live local service without exposing environment 
     assert.equal(body.name, '11vatedTech AI Roblox Studio Lab');
     assert.equal(Object.hasOwn(body, 'env'), false);
   });
+});
+
+test('local shutdown route responds before gracefully closing the service', async () => {
+  await withServer(async ({ baseUrl, server }) => {
+    const closed = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error('Service did not close after the shutdown request.')), 2_000);
+      server.once('close', () => { clearTimeout(timeout); resolve(); });
+    });
+    const denied = await fetch(`${baseUrl}/api/control/shutdown`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin: 'https://attacker.example' },
+      body: '{}',
+    });
+    assert.equal(denied.status, 403);
+    assert.equal(server.listening, true);
+    const response = await fetch(`${baseUrl}/api/control/shutdown`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin: baseUrl },
+      body: '{}',
+    });
+    assert.equal(response.status, 202);
+    assert.equal(response.headers.get('connection'), 'close');
+    assert.deepEqual(await response.json(), { status: 'shutting_down' });
+    await closed;
+    assert.equal(server.listening, false);
+  });
+});
+
+test('shutdown closes an in-flight local request after the bounded grace period', async () => {
+  let markConnectStarted;
+  const connectStarted = new Promise((resolve) => { markConnectStarted = resolve; });
+  const studioClient = {
+    getStatus: () => ({ state: 'connecting', connected: false, tools: [] }),
+    connect: async () => { markConnectStarted(); return new Promise(() => {}); },
+    close: async () => {},
+  };
+  await withServer(async ({ baseUrl, server }) => {
+    const closed = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error('Service did not close after the shutdown grace period.')), 2_000);
+      server.once('close', () => { clearTimeout(timeout); resolve(); });
+    });
+    const activeRequest = fetch(`${baseUrl}/api/studio/connect`, {
+      method: 'POST', headers: { 'content-type': 'application/json', origin: baseUrl }, body: '{}',
+    }).catch((error) => error);
+    await connectStarted;
+    const shutdown = await fetch(`${baseUrl}/api/control/shutdown`, {
+      method: 'POST', headers: { 'content-type': 'application/json', origin: baseUrl }, body: '{}',
+    });
+    assert.equal(shutdown.status, 202);
+    await closed;
+    assert.ok(await activeRequest instanceof Error);
+    assert.equal(server.listening, false);
+  }, { studioClient, shutdownGraceMs: 25 });
 });
 
 test('evidence endpoint returns the validated registry summary without accepting file paths', async () => {

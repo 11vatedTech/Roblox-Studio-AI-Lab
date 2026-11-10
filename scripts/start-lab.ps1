@@ -3,7 +3,8 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
-$port = 4177
+$port = if ($env:LAB_PORT) { [int]$env:LAB_PORT } else { 4177 }
+if ($port -lt 1024 -or $port -gt 65535) { throw 'LAB_PORT must be an integer from 1024 through 65535.' }
 $url = "http://127.0.0.1:$port"
 $runtimeDirectory = Join-Path $root '.lab-runtime'
 $pidFile = Join-Path $runtimeDirectory 'server.json'
@@ -29,6 +30,8 @@ $state = [pscustomobject]@{ pid = $process.Id; root = $root; port = $port; start
 
 $ready = $false
 for ($attempt = 0; $attempt -lt 30; $attempt++) {
+    $process.Refresh()
+    if ($process.HasExited) { break }
     try {
         $health = Invoke-RestMethod -Uri "$url/api/health" -TimeoutSec 1
         if ($health.name -eq '11vatedTech AI Roblox Studio Lab') { $ready = $true; break }
@@ -36,7 +39,16 @@ for ($attempt = 0; $attempt -lt 30; $attempt++) {
 }
 if (-not $ready) {
     $process.Refresh()
-    if ($process.HasExited) { throw "Lab exited during startup. Review $stderrLog" }
+    if ($process.HasExited) {
+        if (Test-Path -LiteralPath $pidFile) {
+            $recordOnDisk = Get-Content -LiteralPath $pidFile -Raw | ConvertFrom-Json
+            $recordedRoot = [IO.Path]::GetFullPath([string]$recordOnDisk.root)
+            if ([int]$recordOnDisk.pid -eq $process.Id -and $recordedRoot.Equals($root, [StringComparison]::OrdinalIgnoreCase)) {
+                Remove-Item -LiteralPath $pidFile -Force
+            }
+        }
+        throw "Lab exited during startup. Review $stderrLog"
+    }
     throw "Lab did not return a healthy response at $url. Review $stdoutLog and $stderrLog"
 }
 Write-Host "Lab is ready at $url"

@@ -1,24 +1,24 @@
 [CmdletBinding()]
-param()
+param(
+    [string]$ArchivePath
+)
 
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $rootPrefix = $root.TrimEnd([char[]]@('\', '/')) + [System.IO.Path]::DirectorySeparatorChar
 $backupDirectory = Join-Path $root '.lab-backups'
-New-Item -ItemType Directory -Path $backupDirectory -Force | Out-Null
-$timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssfff')
-$destination = Join-Path $backupDirectory "lab-source-$timestamp.zip"
-$sourceRoots = @('.agents', 'apps', 'src', 'tests', 'evidence', 'docs', 'projects', 'assets', 'skills', 'roblox', 'scripts')
+$sourceRoots = @('.agents', '.github', 'apps', 'src', 'tests', 'evidence', 'docs', 'projects', 'assets', 'skills', 'roblox', 'scripts')
 $rootFiles = @(
     '.gitattributes', '.gitignore', 'AGENTS.md', 'ARCHITECTURE.md', 'CHANGELOG.md',
     'CONTRIBUTING.md', 'OPERATIONS.md', 'QUALITY_STANDARDS.md', 'README.md',
-    'SECURITY.md', 'TROUBLESHOOTING.md', 'package.json', 'rokit.toml'
+    'SECURITY.md', 'TROUBLESHOOTING.md', '.env.example', 'package.json', 'rokit.toml'
 )
 
 function Test-SkippedRelativePath([string]$RelativePath) {
     $parts = $RelativePath -replace '\\', '/' -split '/'
     foreach ($part in $parts) {
         if ($part -in @('.git', 'node_modules', '.tools', '.lab-runtime', '.lab-backups')) { return $true }
+        if ($part -match '^\.env($|\.(?!example$))' -or $part -match '^(?i:secrets?|credentials?)$') { return $true }
         if ($part -eq '__pycache__') { return $true }
         if ($part -like '.rojo*') { return $true }
     }
@@ -38,6 +38,13 @@ function Assert-NotLink([System.IO.FileSystemInfo]$Item) {
     if ($Item.LinkType -in @('SymbolicLink', 'Junction')) {
         throw "Refusing to back up a symbolic link or junction: $($Item.FullName)"
     }
+}
+
+function Get-Sha256Hex([string]$FilePath) {
+    $algorithm = [System.Security.Cryptography.SHA256]::Create()
+    $stream = [System.IO.File]::OpenRead($FilePath)
+    try { [System.BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-', '').ToLowerInvariant() }
+    finally { $stream.Dispose(); $algorithm.Dispose() }
 }
 
 $files = [System.Collections.Generic.List[System.IO.FileInfo]]::new()
@@ -73,6 +80,29 @@ foreach ($relativeFile in $rootFiles) {
 
 $files = @($files | Sort-Object { Get-WorkspaceRelativePath $_.FullName } -Unique)
 if ($files.Count -eq 0) { throw 'No Lab source files were available to back up.' }
+$timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssfff')
+if ([string]::IsNullOrWhiteSpace($ArchivePath)) {
+    New-Item -ItemType Directory -Path $backupDirectory -Force | Out-Null
+    $destination = Join-Path $backupDirectory "lab-source-$timestamp.zip"
+} else {
+    $destination = if ([IO.Path]::IsPathRooted($ArchivePath)) { [IO.Path]::GetFullPath($ArchivePath) } else { [IO.Path]::GetFullPath((Join-Path $root $ArchivePath)) }
+    if (-not $destination.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetExtension($destination) -ine '.zip') {
+        throw 'ArchivePath must be a .zip file inside the Lab workspace.'
+    }
+    $destinationDirectory = Split-Path -Parent $destination
+    $relativeDirectory = if ($destinationDirectory.Equals($root, [System.StringComparison]::OrdinalIgnoreCase)) { '' } else { $destinationDirectory.Substring($rootPrefix.Length) }
+    $currentDirectory = $root
+    foreach ($segment in $relativeDirectory.Split([char[]]@('\', '/'), [StringSplitOptions]::RemoveEmptyEntries)) {
+        $currentDirectory = Join-Path $currentDirectory $segment
+        if (Test-Path -LiteralPath $currentDirectory) {
+            $directoryItem = Get-Item -LiteralPath $currentDirectory -Force
+            Assert-NotLink $directoryItem
+            if (-not $directoryItem.PSIsContainer) { throw 'ArchivePath parent components must be directories.' }
+        } else {
+            New-Item -ItemType Directory -Path $currentDirectory | Out-Null
+        }
+    }
+}
 if (Test-Path -LiteralPath $destination) { throw "Backup already exists; refusing to overwrite: $destination" }
 
 Add-Type -AssemblyName System.IO.Compression
@@ -93,7 +123,7 @@ try {
             $manifestFiles.Add([pscustomobject]@{
                 path = $relativePath
                 length = $file.Length
-                sha256 = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+                sha256 = Get-Sha256Hex $file.FullName
             })
         }
         $manifest = [pscustomobject]@{

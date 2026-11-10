@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { resolveWithin } from '../core/path-policy.js';
+import { loadEvidenceRegistry } from './evidence-registry.js';
 
 const REGISTER_PATH = ['docs', 'quality', 'lab-capability-register.json'];
 const MAX_REGISTER_BYTES = 2 * 1024 * 1024;
@@ -74,6 +75,61 @@ function summarize(capabilities) {
   return summary;
 }
 
+function validateVerifiedEvidence(item, base, records, errors) {
+  const references = Array.isArray(item.evidenceRefs) ? item.evidenceRefs : [];
+  const coveredCriteria = new Set();
+  const recordsByReference = new Map();
+  for (const record of records) {
+    const matches = recordsByReference.get(record.reference) ?? [];
+    matches.push(record);
+    recordsByReference.set(record.reference, matches);
+  }
+
+  for (let index = 0; index < references.length; index += 1) {
+    const reference = references[index];
+    const matches = recordsByReference.get(reference) ?? [];
+    const location = `${base}.evidenceRefs[${index}]`;
+    if (matches.length !== 1) {
+      addError(errors, location, 'VERIFIED_WITHOUT_TYPED_EVIDENCE', matches.length === 0
+        ? 'A VERIFIED capability reference must match a typed record in evidence/registry.json.'
+        : 'A VERIFIED capability reference must resolve to exactly one typed evidence record.');
+      continue;
+    }
+
+    const record = matches[0];
+    if (record.status !== 'passed') {
+      addError(errors, location, 'VERIFIED_WITHOUT_PASSED_EVIDENCE', 'A VERIFIED capability can use only typed evidence records with passed status.');
+    }
+    const sourceIdentity = record.validatedDetails?.sourceIdentity;
+    if (!sourceIdentity || !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/i.test(sourceIdentity.commit ?? '')
+      || !/^[a-f0-9]{64}$/.test(sourceIdentity.treeSha256 ?? '') || typeof sourceIdentity.dirty !== 'boolean') {
+      addError(errors, location, 'VERIFIED_EVIDENCE_SOURCE_UNBOUND', 'Typed evidence must identify its Git revision, source-tree digest, and dirty-tree state.');
+    }
+
+    const review = record.validatedDetails?.independentReview;
+    if (!review || review.status !== 'passed' || review.authorIdentity === review.reviewerIdentity
+      || !['distinct-process', 'distinct-human'].includes(review.separation)) {
+      addError(errors, location, 'VERIFIED_EVIDENCE_REVIEW_NOT_INDEPENDENT', 'Typed evidence must include a passed review by a separately identified process or human.');
+    }
+
+    for (const scope of record.validatedDetails?.capabilityCoverage ?? []) {
+      if (scope.capabilityId !== item.id) continue;
+      for (const criterionIndex of scope.acceptanceCriteriaIndexes) {
+        if (criterionIndex >= item.acceptanceCriteria.length) {
+          addError(errors, location, 'VERIFIED_EVIDENCE_COVERAGE_INVALID', 'Typed evidence references an acceptance criterion index that does not exist.');
+          continue;
+        }
+        coveredCriteria.add(criterionIndex);
+      }
+    }
+  }
+
+  const missingCriteria = item.acceptanceCriteria.map((_, index) => index).filter((index) => !coveredCriteria.has(index));
+  if (missingCriteria.length > 0) {
+    addError(errors, `${base}.evidenceRefs`, 'VERIFIED_EVIDENCE_COVERAGE_INCOMPLETE', `Typed passed evidence must cover every acceptance criterion; uncovered zero-based indexes: ${missingCriteria.join(', ')}.`);
+  }
+}
+
 export async function validateCapabilityRegister(rootDir, value) {
   const errors = [];
   if (!isObject(value)) return { valid: false, errors: [{ path: '$', code: 'REGISTER_INVALID', message: 'The capability register must be an object.' }] };
@@ -82,6 +138,15 @@ export async function validateCapabilityRegister(rootDir, value) {
   if (!Array.isArray(value.capabilities) || value.capabilities.length < 1 || value.capabilities.length > MAX_CAPABILITIES) {
     addError(errors, 'capabilities', 'REGISTER_SIZE_INVALID', `capabilities must contain 1 to ${MAX_CAPABILITIES} entries.`);
     return { valid: false, errors };
+  }
+
+  let typedEvidence = [];
+  if (value.capabilities.some((item) => isObject(item) && item.status === 'VERIFIED')) {
+    try {
+      typedEvidence = (await loadEvidenceRegistry(rootDir)).records;
+    } catch (error) {
+      addError(errors, 'evidence/registry.json', 'VERIFIED_EVIDENCE_REGISTRY_INVALID', `Typed evidence could not be validated: ${error.message}`);
+    }
   }
 
   const ids = new Set();
@@ -127,6 +192,7 @@ export async function validateCapabilityRegister(rootDir, value) {
       if (item.verificationResult !== 'passed') addError(errors, `${base}.verificationResult`, 'VERIFIED_WITHOUT_PASS', 'A VERIFIED capability needs a passing verification result.');
       if (!Array.isArray(item.evidenceRefs) || item.evidenceRefs.length === 0) addError(errors, `${base}.evidenceRefs`, 'VERIFIED_WITHOUT_EVIDENCE', 'A VERIFIED capability needs at least one evidence file.');
       if (Array.isArray(item.outstandingDefects) && item.outstandingDefects.some((defect) => defect?.severity === 'critical' || defect?.severity === 'high')) addError(errors, `${base}.outstandingDefects`, 'VERIFIED_WITH_OPEN_DEFECT', 'A capability with an open critical or high defect cannot be VERIFIED.');
+      validateVerifiedEvidence(item, base, typedEvidence, errors);
     }
     if (['BLOCKED_EXTERNAL', 'BLOCKED_HUMAN_APPROVAL', 'DEFERRED_WITH_JUSTIFICATION'].includes(item.status)
       && (!Array.isArray(item.blockers) || item.blockers.length === 0)) addError(errors, `${base}.blockers`, 'BLOCKER_REQUIRED', 'Blocked or deferred capabilities need an explicit blocker or justification.');

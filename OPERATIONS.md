@@ -11,7 +11,7 @@ Run `scripts/doctor.ps1`. It probes OS, CPU, memory, graphics names and NVIDIA V
 ## Start and stop
 
 - `scripts/start-lab.ps1` starts Node hidden at `127.0.0.1:4177`, records its PID and logs under ignored `.lab-runtime/`, polls the actual health endpoint, then opens the dashboard.
-- `scripts/stop-lab.ps1` verifies the PID still matches this workspace and Node executable, requests the monitor to disconnect, and stops only that process.
+- `scripts/stop-lab.ps1` verifies the PID still matches this workspace and Node executable, requests the named same-origin shutdown route, waits up to 10 seconds for graceful exit, then records the stopped state. A timeout leaves the process running for inspection.
 - `npm start` runs in the current terminal for interactive development.
 
 ## Build and validation

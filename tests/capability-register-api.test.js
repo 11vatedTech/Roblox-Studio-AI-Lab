@@ -6,7 +6,7 @@ import { createLabServer } from '../src/server/app.js';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-test('the Lab API and control-room overview read the same validated acceptance register', async () => {
+test('the Lab API and control-room overview expose the same corrected acceptance register', async () => {
   const server = createLabServer({ rootDir: repositoryRoot });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
@@ -14,7 +14,8 @@ test('the Lab API and control-room overview read the same validated acceptance r
     const response = await fetch(`${baseUrl}/api/capabilities`);
     const register = await response.json();
     assert.equal(response.status, 200, JSON.stringify(register));
-    assert.ok(register.capabilities.some((item) => item.id === 'LAB-ROJO-001' && item.status === 'VERIFIED'));
+    assert.ok(register.capabilities.some((item) => item.id === 'LAB-ROJO-001' && item.status === 'IN_PROGRESS'));
+    assert.ok(register.capabilities.some((item) => item.id === 'LAB-RECOVERY-001' && item.status === 'IN_PROGRESS'));
     assert.ok(register.summary.open > 0);
 
     const evidenceResponse = await fetch(`${baseUrl}/api/evidence`);
