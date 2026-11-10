@@ -31,9 +31,12 @@ async function readSafeFile(rootDir, segments, maxBytes) {
     typeof segment !== 'string' || !segment || segment === '.' || segment === '..' || /[\\/\0:]/.test(segment))) {
     throw fail('SPECIALIST_PATH_INVALID', 'A registry or role contract path is invalid.');
   }
-  const realRoot = path.resolve(rootDir);
-  const rootStat = await fs.lstat(realRoot);
+  const lexicalRoot = path.resolve(rootDir);
+  const rootStat = await fs.lstat(lexicalRoot);
   if (!rootStat.isDirectory() || rootStat.isSymbolicLink()) throw fail('SPECIALIST_PATH_INVALID', 'The Lab root must be a real directory.');
+  // Resolve the root too: a short (8.3) temp alias on Windows expands under
+  // realpath, which is a path alias rather than an escape from the workspace.
+  const realRoot = await fs.realpath(lexicalRoot);
 
   let current = realRoot;
   for (let index = 0; index < segments.length; index += 1) {
