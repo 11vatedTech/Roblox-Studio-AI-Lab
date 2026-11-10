@@ -1,0 +1,94 @@
+name: Lab Windows CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-validation:
+    name: Offline tests, evidence checks, and Rojo builds
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js 24 LTS
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Install pinned Roblox tools
+        shell: powershell
+        run: .\scripts\install.ps1 -SkipBootstrapTests
+
+      - name: Capture source identity
+        if: always()
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path '.lab-runtime\ci' -Force | Out-Null
+          $snapshot = & node 'scripts/source-snapshot.mjs' (Get-Location).Path
+          if ($LASTEXITCODE -ne 0) { throw 'Source snapshot capture failed.' }
+          [IO.File]::WriteAllText((Join-Path (Get-Location).Path '.lab-runtime\ci\source-snapshot.json'), $snapshot + [Environment]::NewLine, [Text.UTF8Encoding]::new($false))
+
+      - name: Run offline suite and Rojo builds
+        shell: powershell
+        run: .\scripts\test-all.ps1
+
+      - name: Run evidence registry checks
+        shell: powershell
+        run: npm run verify:evidence
+
+      - name: Build and verify portable offline package
+        shell: powershell
+        run: .\scripts\package-lab.ps1 -OutputPath '.lab-runtime\ci\lab-portable.zip'
+
+      - name: Hash built place files
+        if: always()
+        shell: powershell
+        run: |
+          $sourcePath = '.lab-runtime\ci\source-snapshot.json'
+          $source = if (Test-Path -LiteralPath $sourcePath) { Get-Content -Raw -LiteralPath $sourcePath | ConvertFrom-Json } else { $null }
+          $builds = @(Get-ChildItem -LiteralPath '.lab-runtime\builds' -Filter '*.rbxlx' -File -ErrorAction SilentlyContinue | ForEach-Object {
+            [ordered]@{
+              path = $_.FullName.Substring((Get-Location).Path.Length + 1).Replace('\', '/')
+              bytes = $_.Length
+              sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            }
+          })
+          $manifest = [ordered]@{ schemaVersion = 1; capturedAt = [DateTime]::UtcNow.ToString('o'); sourceIdentity = $source; builds = $builds }
+          [IO.File]::WriteAllText((Join-Path (Get-Location).Path '.lab-runtime\ci\build-output-digests.json'), ($manifest | ConvertTo-Json -Depth 10), [Text.UTF8Encoding]::new($false))
+
+      - name: Upload evidence and build artifacts
+        id: artifacts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lab-ci-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .lab-runtime/ci/**
+            .lab-runtime/builds/**
+            .lab-runtime/ci/lab-portable.zip
+            evidence/build-report.json
+            evidence/p0/lab-evidence-registry-verification-*.json
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 14
+
+      - name: Report artifact digest
+        if: always()
+        env:
+          ARTIFACT_DIGEST: ${{ steps.artifacts.outputs.artifact-digest }}
+        shell: powershell
+        run: |
+          if ($env:ARTIFACT_DIGEST) { Write-Host "Uploaded artifact SHA-256: $env:ARTIFACT_DIGEST" }
+          else { Write-Host 'No artifact digest was produced by the upload step.' }
