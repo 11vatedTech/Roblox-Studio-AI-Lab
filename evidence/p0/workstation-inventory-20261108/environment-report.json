@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-08T18:11:58.3775393Z",
+  "machine": {
+    "os": "Microsoft Windows 11 Home",
+    "version": "10.0.26200",
+    "build": "26200",
+    "cpu": "Intel(R) Core(TM) Ultra 9 275HX",
+    "ramGiB": 31.4,
+    "gpus": [
+      {
+        "Name": "Intel(R) Graphics",
+        "DriverVersion": "32.0.101.6629",
+        "TotalMemoryMiB": null,
+        "FreeMemoryMiB": null
+      },
+      {
+        "Name": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+        "DriverVersion": "32.0.16.1078",
+        "TotalMemoryMiB": 12227,
+        "FreeMemoryMiB": 11799
+      }
+    ],
+    "workspaceDrive": "C:",
+    "freeDiskGiB": 200.7
+  },
+  "tools": {
+    "git": {
+      "Available": true,
+      "Path": "C:\\Program Files\\Git\\cmd\\git.exe",
+      "Version": "git version 2.55.0.windows.3"
+    },
+    "node": {
+      "Available": true,
+      "Path": "C:\\Program Files\\nodejs\\node.exe",
+      "Version": "v24.18.0"
+    },
+    "npm": {
+      "Available": true,
+      "Path": "C:\\Program Files\\nodejs\\npm.ps1",
+      "Version": "12.2.2"
+    },
+    "python": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+      "Version": "Python 3.14.6"
+    },
+    "codex": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\AppData\\Local\\OpenAI\\Codex\\bin\\14b838c1d074ff01\\codex.exe",
+      "Version": "codex-cli 0.167.0-alpha.3.2"
+    },
+    "rojo": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.tools\\rojo-7.7.1\\rojo.exe",
+      "Version": "Rojo 7.7.1"
+    },
+    "luau": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.tools\\luau-0.745\\luau.exe",
+      "Version": "Luau 0.745 (pinned archive)"
+    },
+    "luau-analyze": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.tools\\luau-0.745\\luau-analyze.exe",
+      "Version": "Luau 0.745 (pinned archive)"
+    },
+    "luau-compile": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.tools\\luau-0.745\\luau-compile.exe",
+      "Version": "Luau 0.745 (pinned archive)"
+    },
+    "stylua": {
+      "Available": false,
+      "Path": null,
+      "Version": null
+    },
+    "selene": {
+      "Available": false,
+      "Path": null,
+      "Version": null
+    },
+    "wally": {
+      "Available": false,
+      "Path": null,
+      "Version": null
+    },
+    "blender": {
+      "Available": true,
+      "Path": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe",
+      "Version": "Blender 5.2.0 LTS"
+    },
+    "ollama": {
+      "Available": true,
+      "Path": "C:\\Users\\11vat\\AppData\\Local\\Programs\\Ollama\\ollama.exe",
+      "Version": "ollama version is 0.40.15"
+    },
+    "nvidia-smi": {
+      "Available": true,
+      "Path": "C:\\Windows\\system32\\nvidia-smi.exe",
+      "Version": "NVIDIA-SMI version  : 610.78"
+    }
+  },
+  "git": {
+    "initializedInWorkspace": true,
+    "root": "C:/Users/11vat/OneDrive/ai-Roblox-studio-lab"
+  },
+  "robloxStudio": {
+    "installed": true,
+    "executable": "C:\\Users\\11vat\\AppData\\Local\\Roblox\\Versions\\version-67c8b1dedbb74fed\\RobloxStudioBeta.exe",
+    "version": "0, 746, 0, 7461269",
+    "processRunning": true,
+    "mcpLauncherInstalled": true,
+    "mcpLauncher": "C:\\Users\\11vat\\AppData\\Local\\Roblox\\mcp.bat",
+    "liveMcpConnection": "not tested by this diagnostic; use the Lab bridge or ChatGPT official Studio tools"
+  },
+  "codex": {
+    "available": true,
+    "mcpServers": [
+      {
+        "name": "Roblox_Studio",
+        "enabled": true,
+        "transport": "stdio"
+      },
+      {
+        "name": "codex_app",
+        "enabled": false,
+        "transport": "stdio"
+      },
+      {
+        "name": "cua_repl",
+        "enabled": true,
+        "transport": "stdio"
+      },
+      {
+        "name": "exa",
+        "enabled": true,
+        "transport": "streamable_http"
+      },
+      {
+        "name": "node_repl",
+        "enabled": true,
+        "transport": "stdio"
+      }
+    ],
+    "plugins": [
+      {
+        "id": "documents@openai-primary-runtime",
+        "version": "26.1105.12137",
+        "enabled": true
+      },
+      {
+        "id": "pdf@openai-primary-runtime",
+        "version": "26.1105.12137",
+        "enabled": true
+      },
+      {
+        "id": "spreadsheets@openai-primary-runtime",
+        "version": "26.1105.12137",
+        "enabled": true
+      },
+      {
+        "id": "presentations@openai-primary-runtime",
+        "version": "26.1105.12137",
+        "enabled": true
+      },
+      {
+        "id": "template-creator@openai-primary-runtime",
+        "version": "26.1105.12137",
+        "enabled": true
+      },
+      {
+        "id": "codex-app-tools@openai-bundled",
+        "version": "26.1103.31037",
+        "enabled": true
+      },
+      {
+        "id": "browser@openai-bundled",
+        "version": "26.1103.31037",
+        "enabled": true
+      },
+      {
+        "id": "unified-computer-use@openai-bundled",
+        "version": "26.1103.31037",
+        "enabled": true
+      },
+      {
+        "id": "chrome@openai-bundled",
+        "version": "26.1103.31037",
+        "enabled": true
+      },
+      {
+        "id": "computer-use@openai-bundled",
+        "version": "26.1103.31037",
+        "enabled": true
+      },
+      {
+        "id": "visualize@openai-bundled",
+        "version": "1.0.84",
+        "enabled": true
+      },
+      {
+        "id": "roblox-studio@roblox-studio",
+        "version": "0.2.2",
+        "enabled": true
+      },
+      {
+        "id": "github@openai-curated-remote",
+        "version": "0.1.13-77c10e110b37",
+        "enabled": true
+      },
+      {
+        "id": "plugin-management@openai-curated-remote",
+        "version": "0.1.0",
+        "enabled": true
+      },
+      {
+        "id": "work-pets@openai-curated-remote",
+        "version": "0.1.6",
+        "enabled": true
+      },
+      {
+        "id": "visualize@openai-curated-remote",
+        "version": "1.0.89",
+        "enabled": true
+      }
+    ],
+    "status": "probed"
+  },
+  "localAi": {
+    "ollamaAvailable": true,
+    "models": [
+      {
+        "name": "qwen3-vl:8b",
+        "size": "6.1 GB"
+      },
+      {
+        "name": "qwen3-vl:4b",
+        "size": "3.3 GB"
+      },
+      {
+        "name": "moondream:latest",
+        "size": "1.7 GB"
+      },
+      {
+        "name": "qwen2.5:32b",
+        "size": "19 GB"
+      },
+      {
+        "name": "gemma2:9b",
+        "size": "5.4 GB"
+      },
+      {
+        "name": "codestral:22b",
+        "size": "12 GB"
+      },
+      {
+        "name": "deepseek-coder-v2:16b",
+        "size": "8.9 GB"
+      },
+      {
+        "name": "gspl-reasoner:latest",
+        "size": "4.7 GB"
+      },
+      {
+        "name": "gspl-fast:latest",
+        "size": "4.7 GB"
+      },
+      {
+        "name": "gspl-architect:latest",
+        "size": "9.0 GB"
+      },
+      {
+        "name": "qwen2.5-coder:7b",
+        "size": "4.7 GB"
+      },
+      {
+        "name": "nomic-embed-text:latest",
+        "size": "274 MB"
+      },
+      {
+        "name": "deepseek-r1:7b",
+        "size": "4.7 GB"
+      },
+      {
+        "name": "qwen2.5-coder:14b",
+        "size": "9.0 GB"
+      }
+    ],
+    "inferenceTested": false,
+    "note": "Model inventory came from the local Ollama CLI. No model inference or quality assessment was run."
+  },
+  "safety": {
+    "secretsCollected": false,
+    "credentialsWritten": false,
+    "accountSettingsChanged": false,
+    "networkServicesConfigured": false
+  }
+}

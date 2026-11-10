@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-portable-package-verification",
+  "project": "lab",
+  "capturedAt": "2026-11-08T18:03:17.2837830Z",
+  "command": ".\\scripts\\package-lab.ps1 -OutputPath .lab-runtime\\packages\\lab-portable-20261108-complete3.zip",
+  "parameters": [
+    "Clean Windows extraction to a short system temporary path",
+    "Node.js 24.18.0",
+    "Windows PowerShell 5.1",
+    "Pinned Rojo 7.7.1",
+    "Pinned Luau 0.745"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "e28aea70af3018209b37355ba800b9a4f152f00c4d9a391ace35241507767c45",
+    "sourceFileCount": 450,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-CI-001",
+      "acceptanceCriteriaIndexes": [
+        1
+      ]
+    },
+    {
+      "capabilityId": "LAB-RECOVERY-001",
+      "acceptanceCriteriaIndexes": [
+        0,
+        1
+      ]
+    }
+  ],
+  "packageArtifact": {
+    "sha256": "ba6a3e0ea22c753c56a44796d8623ae38a560a73f3655c8d5b92bdf3880453f7",
+    "nodeRuntimeBundled": false,
+    "bytes": 11502291,
+    "manifestFileCount": 258,
+    "reference": ".lab-runtime/packages/lab-portable-20261108-complete3.zip",
+    "toolchain": {
+      "rojo": "7.7.1",
+      "luau": "0.745"
+    },
+    "nodeMinimumMajor": 20
+  },
+  "verification": {
+    "archiveManifest": "262 entries restored and hash/length verified",
+    "packageExclusions": [
+      ".git",
+      "node_modules",
+      ".lab-runtime",
+      ".lab-backups",
+      ".env except .env.example",
+      "secret and credential directories"
+    ],
+    "cleanExtraction": {
+      "nodeTestsFailed": 0,
+      "nodeTestsPassed": 96,
+      "rojoBuilds": 3,
+      "result": "passed",
+      "luauParsedFiles": 38
+    }
+  },
+  "toolVersions": {
+    "powershell": "7.6.9",
+    "node": "v24.18.0",
+    "rojo": "7.7.1",
+    "luau": "0.745"
+  },
+  "rawOutput": {
+    "bytes": 11955,
+    "sha256": "8f35d95d24ad2d3aed25e3a3838fc53ee74a74cc6ade912f9ce68a75c6d26067",
+    "reference": "evidence/p0/lab-portable-package-verification-20261108.log"
+  },
+  "limitations": [
+    "The package is Windows-specific and requires Node.js 20 or newer already installed; the Node runtime is not bundled.",
+    "Hosted GitHub Actions was not run because publishing/pushing this local branch was not authorized.",
+    "The package archive has a timestamped manifest and is not claimed byte-identical across builds.",
+    "No Git history, live Studio, physical-device, player-research, or independent review evidence is included."
+  ]
+}

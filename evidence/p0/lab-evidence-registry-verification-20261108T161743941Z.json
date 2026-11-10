@@ -1,0 +1,129 @@
+{
+    "schemaVersion":  1,
+    "kind":  "lab-evidence-registry-verification",
+    "generatedAt":  "2026-11-08T16:17:48.2870700Z",
+    "command":  "node --test tests/evidence-registry.test.js tests/capability-register.test.js tests/capability-register-api.test.js tests/lab-server.test.js tests/source-snapshot.test.js",
+    "parameters":  [
+                       "--test",
+                       "tests/evidence-registry.test.js",
+                       "tests/capability-register.test.js",
+                       "tests/capability-register-api.test.js",
+                       "tests/lab-server.test.js",
+                       "tests/source-snapshot.test.js"
+                   ],
+    "result":  "failed",
+    "exitCode":  1,
+    "nodeVersion":  "v24.18.0",
+    "toolVersions":  {
+                         "node":  "v24.18.0",
+                         "git":  "git version 2.55.0.windows.3",
+                         "powershell":  "5.1.26100.9711"
+                     },
+    "operatingSystem":  "Microsoft Windows NT 10.0.26200.0",
+    "branch":  "codex/lab-recovery-p0",
+    "head":  "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "sourceIdentity":  {
+                           "branch":  "codex/lab-recovery-p0",
+                           "commit":  "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+                           "dirty":  true,
+                           "sourceTreeSha256":  "ebb311e69efb9396aab6043a6a33c4f948b7533a6d5024d73c4aadd9b2fb5c9a",
+                           "sourceFileCount":  193,
+                           "excludedRoots":  [
+                                                 "evidence"
+                                             ],
+                           "scope":  "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+                       },
+    "sourceDigests":  [
+                          {
+                              "path":  "src/services/evidence-registry.js",
+                              "sha256":  "d9baa139a13b6d372c4284ffc57a4ef639b54f610f9a41e700cec74a28e2b195"
+                          },
+                          {
+                              "path":  "src/services/capability-register.js",
+                              "sha256":  "16c2cd619ee0858f65adfb022774a99412646fd2319b3f66ac498504ed028e1b"
+                          },
+                          {
+                              "path":  "src/server/app.js",
+                              "sha256":  "6158f027f17e6b75b785b503ce4a421e1fd99e3168b7c75bb584e2066f810889"
+                          },
+                          {
+                              "path":  "apps/control-center/public/app.js",
+                              "sha256":  "f79f9f7b820ff52a827cc2993273121f1d4e845600d62afe1cb6cb97e2171f0a"
+                          },
+                          {
+                              "path":  "scripts/source-snapshot.mjs",
+                              "sha256":  "30ca70d0871df03645abfcbb2d538c2583df1952f80322ab2059b30e277450fb"
+                          },
+                          {
+                              "path":  "tests/capability-register.test.js",
+                              "sha256":  "286c8c7c8cd9343ae1c941ebe48a2ae52fca0db88b78e364a39b64c8c047184a"
+                          },
+                          {
+                              "path":  "docs/quality/evidence-registry.schema.json",
+                              "sha256":  "62db390f6d4cd02d2a4890422baa51238dc893a9053d7253c2ce29282539e402"
+                          },
+                          {
+                              "path":  "evidence/registry.json",
+                              "sha256":  "403f29e88d49e574c9281918c6afa01825a36d93ca5e281f2947f79d7e5dd69f"
+                          }
+                      ],
+    "rawOutputSha256":  "2f0f82b5c4d295ad65b7b78db8078d101ef744d61353ba8e4f6c5c42320dfb65",
+    "output":  [
+                   "✖ the Lab API and control-room overview read the same validated acceptance register (149.0672ms)",
+                   "✔ loads a validated machine-readable Lab capability register and summarizes precise statuses (63.9634ms)",
+                   "✔ rejects unverified completion, missing evidence, invalid paths, dangling dependencies, and cycles (33.7111ms)",
+                   "✔ rejects VERIFIED evidence files that have no matching typed registry record (18.572ms)",
+                   "✔ requires typed passing evidence to bind every criterion to a source snapshot and independent reviewer (34.9977ms)",
+                   "✔ requires a blocker for blocked status and rejects missing or symlinked evidence (17.1722ms)",
+                   "✔ validates the evidence registry contract and rejects duplicate identities and unsafe references (2.4054ms)",
+                   "✔ loads the two-client Studio scenario and test-only task evidence with hashes and scoped status (18.506ms)",
+                   "✔ rejects a Studio evidence index that disagrees with the source acceptance record (23.7235ms)",
+                   "✔ rejects a changed evidence reference instead of silently trusting its new contents (18.783ms)",
+                   "✔ rejects malformed source snapshot claims inside a correctly hashed typed record (16.9655ms)",
+                   "✔ health endpoint reports a live local service without exposing environment values (114.9399ms)",
+                   "✔ evidence endpoint returns the validated registry summary without accepting file paths (26.6084ms)",
+                   "✔ Studio status exposes discovered schemas while labeling non-allowlisted tools as unavailable to the dashboard (960.8725ms)",
+                   "✔ projects endpoint lists only directories in the local projects folder (42.5409ms)",
+                   "✔ project creation rejects invalid names and creates a Rojo template within the project root (82.3251ms)",
+                   "✔ opens nested source paths and rejects traversal in the project source route (33.5372ms)",
+                   "✔ rejects cross-origin mutations and does not create a project (13.4967ms)",
+                   "✔ reports disconnected Studio honestly and returns real connected instances from the bridge (1070.8715ms)",
+                   "✔ serves bounded structured knowledge search without accepting file paths (47.5392ms)",
+                   "✔ exposes the official Roblox API class catalog and current class reference (13.4598ms)",
+                   "✔ maps Lab requests to the live Studio MCP input schemas (78.0425ms)",
+                   "✔ persists viewport evidence only for a listed live Studio instance and serves the verified image (42.7088ms)",
+                   "✔ serves a real dashboard shell and rejects path traversal (15.6396ms)",
+                   "✔ captures a deterministic source-tree digest that changes with source edits but excludes evidence artifacts (1908.954ms)",
+                   "ℹ tests 25",
+                   "ℹ suites 0",
+                   "ℹ pass 24",
+                   "ℹ fail 1",
+                   "ℹ cancelled 0",
+                   "ℹ skipped 0",
+                   "ℹ todo 0",
+                   "ℹ duration_ms 2822.3703",
+                   "",
+                   "✖ failing tests:",
+                   "",
+                   "test at tests\\capability-register-api.test.js:9:1",
+                   "✖ the Lab API and control-room overview read the same validated acceptance register (149.0672ms)",
+                   "  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+                   "  ",
+                   "    assert.ok(register.capabilities.some((item) =\u003e item.id === \u0027LAB-ROJO-001\u0027 \u0026\u0026 item.status === \u0027VERIFIED\u0027))",
+                   "  ",
+                   "      at TestContext.\u003canonymous\u003e (file:///C:/Users/11vat/OneDrive/ai-Roblox-studio-lab/tests/capability-register-api.test.js:17:12)",
+                   "      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                   "      at async Test.run (node:internal/test_runner/test:1332:7)",
+                   "      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {",
+                   "    generatedMessage: true,",
+                   "    code: \u0027ERR_ASSERTION\u0027,",
+                   "    actual: false,",
+                   "    expected: true,",
+                   "    operator: \u0027==\u0027,",
+                   "    diff: \u0027simple\u0027",
+                   "  }"
+               ],
+    "limitations":  [
+                        "This verifies the local evidence loader, source binding checks, API routes, and API overview integration; it does not independently certify the referenced game scenarios or provider identity."
+                    ]
+}

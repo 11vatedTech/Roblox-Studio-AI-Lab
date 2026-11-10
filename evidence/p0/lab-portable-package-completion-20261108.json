@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-portable-package-verification",
+  "project": "lab",
+  "capturedAt": "2026-11-08T19:39:38.6533675Z",
+  "command": ".\\scripts\\package-lab.ps1 -OutputPath .lab-runtime\\packages\\lab-portable-20261108-completion-final2.zip",
+  "parameters": [
+    "Hash-verified archive restore",
+    "Clean Windows extraction",
+    "Node.js 24.18.0",
+    "Windows PowerShell 5.1",
+    "Pinned Rojo 7.7.1",
+    "Pinned Luau 0.745"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "dirty": true,
+    "treeSha256": "375bcc3ffd868a58835499fa97a9941c86a0137c6e4663872a87f00461b2284b",
+    "excludedRoots": [
+      "evidence"
+    ],
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots.",
+    "sourceFileCount": 203
+  },
+  "packageArtifact": {
+    "nodeRuntimeBundled": false,
+    "reference": ".lab-runtime/packages/lab-portable-20261108-completion-final2.zip",
+    "toolchain": {
+      "luau": "0.745",
+      "rojo": "7.7.1"
+    },
+    "sourceArchiveBytes": 4359839,
+    "sourceArchiveFileCount": 281,
+    "sha256": "d18a32804b02ff56217972defe2cf7b6eb6ccee3cee5f9655b068152699f1af7",
+    "bytes": 12339756,
+    "nodeMinimumMajor": 20
+  },
+  "verification": {
+    "archiveManifest": "285 restored package files verified against manifest SHA-256 and byte length; source archive contained 281 files",
+    "requiredRoots": [
+      ".agents",
+      "apps",
+      "src",
+      "tests",
+      "evidence",
+      "docs",
+      "projects",
+      "assets",
+      "skills",
+      "roblox",
+      "scripts"
+    ],
+    "cleanExtraction": {
+      "rojoBuilds": 3,
+      "nodeTestsPassed": 96,
+      "luauParsedFiles": 38,
+      "result": "passed",
+      "nodeTestsFailed": 0,
+      "runtime": "Node.js v24.18.0"
+    }
+  },
+  "toolVersions": {
+    "rojo": "7.7.1",
+    "node": "v24.18.0",
+    "luau": "0.745",
+    "powershell": "7.6.9"
+  },
+  "rawOutput": {
+    "sha256": "68fb623c9a85ad3c8565421d029eebf2e4948b5b7e5fa1ae18bde9f6d6623a19",
+    "bytes": 12565,
+    "reference": "evidence/p0/lab-portable-package-completion-20261108-output.log"
+  },
+  "limitations": [
+    "The package is Windows-specific and requires Node.js 20 or newer already installed; the Node runtime is not bundled.",
+    "Hosted GitHub Actions was not run because pushing this local branch was not authorized.",
+    "The archive has a timestamped manifest and is not claimed byte-identical across builds.",
+    "This package check does not certify live Studio gameplay, physical-device behavior, player research, or independent review.",
+    "The report and registry entry are stored outside the package archive to avoid recursive self-reference."
+  ]
+}

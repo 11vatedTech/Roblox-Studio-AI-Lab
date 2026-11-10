@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-port-conflict-verification",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:08:33.7907219Z",
+  "command": "Occupy 127.0.0.1:4177 with a test-only HTTP listener, then run scripts/start-lab.ps1",
+  "parameters": [],
+  "result": "passed",
+  "expectedOutcome": "Startup rejected because the port was already occupied.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "faf562cae1998cca1fb28bba12a7b0d42c927cbaf8ee58fb0cda3fd41a09dc7e",
+    "sourceFileCount": 196,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "toolVersions": {
+    "node": "v24.18.0",
+    "powershell": "7.6.9"
+  },
+  "listenerProcessPreserved": true,
+  "diagnostic": "Node reported EADDRINUSE on 127.0.0.1:4177; the test listener remained alive and was then stopped by its exact process identity.",
+  "rawOutput": {
+    "reference": "evidence/p0/lab-port-conflict-output-20261108.log",
+    "sha256": "68595003e37422f5d8fbf03674d4615fcc802d999abea81fff0f23cffb3e4996",
+    "bytes": 843
+  },
+  "limitations": [
+    "Failed startup leaves a dead child PID in the runtime record until the next start; the test restored its prior record.",
+    "This does not cover interruption during shutdown or task execution.",
+    "No independent review is attached."
+  ]
+}

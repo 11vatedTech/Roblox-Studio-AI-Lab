@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-workstation-inventory",
+  "project": "lab",
+  "capturedAt": "2026-11-08T18:11:58.3775393Z",
+  "command": "pwsh -NoProfile -File scripts/doctor.ps1 -OutputDirectory evidence/p0/workstation-inventory-20261108",
+  "result": "passed",
+  "exitCode": 0,
+  "inventory": {
+    "rawJson": {
+      "reference": "evidence/p0/workstation-inventory-20261108/environment-report.json",
+      "sha256": "556c23199f062087b081c76a36714b145ad2b8695ee3f4b219c3d530730f9acb"
+    },
+    "rawMarkdown": {
+      "reference": "evidence/p0/workstation-inventory-20261108/environment-report.md",
+      "sha256": "65ac76660af35b67fed65a794cacb036ec49179172c54f8d35d08c112f186ac"
+    },
+    "os": "Windows 11 Home 10.0.26200",
+    "cpu": "Intel Core Ultra 9 275HX",
+    "memoryGiB": 31.4,
+    "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+    "gpuMemoryMiB": 12227,
+    "freeWorkspaceDiskGiB": 200.7,
+    "tools": {
+      "node": "v24.18.0",
+      "npm": "12.2.2",
+      "git": "2.55.0.windows.3",
+      "powershell": "7.6.9",
+      "rojo": "7.7.1",
+      "luau": "0.745",
+      "robloxStudio": "0, 746, 0, 7461269",
+      "blender": "5.2.0 LTS",
+      "ollama": "0.40.15",
+      "codexCli": "0.167.0-alpha.3.2"
+    },
+    "localModelInventoryRead": true,
+    "modelInferenceRun": false
+  },
+  "limitations": [
+    "The initial restricted CIM probe failed; the successful inventory was rerun with the approved workstation probe context.",
+    "This records installed tools and machine characteristics only; no local model inference or quality assessment was run.",
+    "The report is not a source-code test and does not establish Studio gameplay, physical-device, or performance certification."
+  ]
+}

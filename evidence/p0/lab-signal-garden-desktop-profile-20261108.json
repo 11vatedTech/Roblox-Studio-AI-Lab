@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-desktop-performance-profile",
+  "project": "signal-garden",
+  "capturedAt": "2026-11-08T18:42:06Z",
+  "command": "Official Roblox Studio MCP: start_stop_play; execute_luau client sample using RunService.RenderStepped and Stats:GetTotalMemoryUsageMb; stop without saving",
+  "parameters": {
+    "studioInstanceId": "a6258a04-49cc-4211-b597-02ecc25d9aa2",
+    "placeName": "signal-garden-20261107-175946294.rbxlx",
+    "placeId": 0,
+    "gameId": 0,
+    "mode": "local Play in Studio",
+    "frames": 300,
+    "scenario": "World initialized; static local solo scene; no route interaction during sample"
+  },
+  "result": "passed",
+  "sourceBindingStatus": "unverified",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "4b1b61a52d44339ddf4834fb4b7dabce6c39cf14e25e3a99122e35d86841685d",
+    "sourceFileCount": 201,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding evidence artifacts."
+  },
+  "toolVersions": {
+    "robloxStudio": "0, 746, 0, 7461269",
+    "robloxStudioPlugin": "0.2.2",
+    "os": "Windows 11 Home 10.0.26200"
+  },
+  "measurements": {
+    "sampleCount": 300,
+    "elapsedSeconds": 4.99891250001383,
+    "meanFrameMs": 16.667180309693016,
+    "medianFrameMs": 16.655899584293365,
+    "p95FrameMs": 17.920300364494324,
+    "maxFrameMs": 18.603499978780746,
+    "approxMedianFps": 60.03878655362496,
+    "clientMemoryMiB": 1711.73046875,
+    "instanceCount": 54289,
+    "sceneDrawcalls": 44,
+    "sceneTriangles": 28137
+  },
+  "method": "Collected 300 positive RenderStepped delta values below two seconds, sorted them, and reported mean/median/p95/maximum. Read Stats:GetTotalMemoryUsageMb, InstanceCount, SceneDrawcallCount, and SceneTriangleCount after sampling.",
+  "limitations": [
+    "The sample report records a workspace digest, but a digest of the exact loaded place artifact and a contemporaneous sample log were not retained. Treat the measurement as an unverified development baseline, not source-bound acceptance or device certification.",
+    "A single high-end laptop Studio sample is not a representative mobile or standalone Roblox client profile; Studio overhead skews frame rate.",
+    "No sustained thermal test, touch/controller, two-client, network, cold-load, or hardware memory budget test was run.",
+    "The result proves instrumentation can be collected locally, not that the project meets a product/device budget."
+  ],
+  "officialReferences": [
+    "https://create.roblox.com/docs/reference/engine/classes/Stats",
+    "https://create.roblox.com/docs/performance-optimization/identify",
+    "https://create.roblox.com/docs/performance-optimization/test-on-hardware"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-backup-restore-verification",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:12:09.8304234Z",
+  "command": "scripts/backup.ps1; scripts/verify-backup.ps1 -ArchivePath <fresh-archive>",
+  "parameters": [],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "faf562cae1998cca1fb28bba12a7b0d42c927cbaf8ee58fb0cda3fd41a09dc7e",
+    "sourceFileCount": 196,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-RECOVERY-001",
+      "acceptanceCriteriaIndexes": [
+        1
+      ]
+    }
+  ],
+  "toolVersions": {
+    "powershell": "7.6.9",
+    "archiveBytes": 3477742
+  },
+  "archive": {
+    "reference": ".lab-backups/lab-source-20261108-171208743.zip",
+    "bytes": 3477742,
+    "sha256": "5a8784e306b16e77ccdb06a05ff7295ae44bf8581a2e43063827c12260b5ec59",
+    "fileCount": 236
+  },
+  "restore": {
+    "result": "passed",
+    "filesVerified": 236,
+    "requiredRoots": [
+      ".agents",
+      "apps",
+      "src",
+      "tests",
+      "evidence",
+      "docs",
+      "projects",
+      "assets",
+      "skills",
+      "roblox",
+      "scripts"
+    ],
+    "forbiddenRuntimeOrCacheEntries": 0,
+    "hashesMatch": true,
+    "temporaryDirectoryRemoved": true
+  },
+  "rawOutput": {
+    "reference": "evidence/p0/lab-backup-restore-output-20261108.log",
+    "sha256": "4b9a5721822aee62cca49628af17ffae9fbfe8eca06db6aa5d310e4953997db7",
+    "bytes": 1100
+  },
+  "limitations": [
+    "No off-device copy or disaster-recovery restore was performed.",
+    "Interrupted backup/restore and secret-content scanning remain unverified.",
+    "No independent reviewer is attached.",
+    "The archive is a source/evidence snapshot; it excludes .tools, .lab-runtime, and .lab-backups."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-workstation-lifecycle",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:04:37.1198123Z",
+  "command": "scripts/start-lab.ps1; GET /api/health; GET /api/studio; scripts/stop-lab.ps1",
+  "parameters": [
+    "Two consecutive cycles on 127.0.0.1:4177"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "be96e31951a99feb8238d3ee47a5cf228a3a591e6fa3a7109e97e0684ed7c02c",
+    "sourceFileCount": 196,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-CORE-001",
+      "acceptanceCriteriaIndexes": [
+        0,
+        1
+      ]
+    }
+  ],
+  "toolVersions": {
+    "node": "v24.18.0",
+    "powershell": "7.6.9",
+    "os": "Microsoft Windows NT 10.0.26200.0"
+  },
+  "cycles": [
+    {
+      "cycle": 1,
+      "startedAt": "2026-11-08T17:04:19.943Z",
+      "health": {
+        "status": "ok",
+        "name": "11vatedTech AI Roblox Studio Lab",
+        "bindAddress": "127.0.0.1",
+        "environmentValuesExposed": false
+      },
+      "studioConnection": {
+        "state": "disconnected",
+        "connected": false
+      },
+      "stoppedAt": "2026-11-08T17:04:27.1750504Z",
+      "processExited": true
+    },
+    {
+      "cycle": 2,
+      "startedAt": "2026-11-08T17:04:29.755Z",
+      "health": {
+        "status": "ok",
+        "name": "11vatedTech AI Roblox Studio Lab",
+        "bindAddress": "127.0.0.1",
+        "environmentValuesExposed": false
+      },
+      "studioConnection": {
+        "state": "disconnected",
+        "connected": false
+      },
+      "stoppedAt": "2026-11-08T17:04:36.7656615Z",
+      "processExited": true
+    }
+  ],
+  "rawOutput": {
+    "reference": "evidence/p0/lab-workstation-lifecycle-output-20261108.log",
+    "sha256": "8a20ba2ff7e93d84d782fd184ad7ed96589201d21986c3e41970a16e5fd2df54",
+    "bytes": 1332
+  },
+  "limitations": [
+    "The Lab reported its Studio MCP connection as disconnected; no Studio place was changed.",
+    "Task-state preservation during shutdown, shutdown interruption, and recovery from a killed process remain unverified.",
+    "No independent review is attached."
+  ]
+}

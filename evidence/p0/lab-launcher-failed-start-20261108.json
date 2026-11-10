@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-launcher-failed-start",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:25:32.2204888Z",
+  "command": "node --test tests/start-lab-script.test.js",
+  "parameters": [
+    "Windows PowerShell 5.1",
+    "ephemeral 127.0.0.1 port held by a separate HTTP process"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "79d6faa67d350909e0433d9bb2c7e82bf285dab77b40231713415d81b0e7f6ac",
+    "sourceFileCount": 197,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "capabilityCoverage": [
+    {
+      "acceptanceCriteriaIndexes": [
+        1
+      ],
+      "capabilityId": "LAB-CORE-001"
+    }
+  ],
+  "assertions": [
+    "The launcher child failed to bind with EADDRINUSE.",
+    "The launcher exited with a startup error.",
+    "The matching dead PID record was removed."
+  ],
+  "toolVersions": {
+    "node": "v24.18.0",
+    "powershell": "7.6.9"
+  },
+  "rawOutput": {
+    "reference": "evidence/p0/lab-launcher-failed-start-20261108.log",
+    "sha256": "fa3a0fc7c0b2d57548b4f30a61ee7e1ac1f5aee36973d175ba6d96b4dbbc9e66",
+    "bytes": 204
+  },
+  "limitations": [
+    "This is a local fixture test of failed-start cleanup; it does not cover interrupted shutdown or staged-task recovery.",
+    "No independent reviewer is attached."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-final-offline-validation",
+  "project": "lab",
+  "capturedAt": "2026-11-08T19:24:38.4459685Z",
+  "command": "pwsh -NoProfile -File scripts/test-all.ps1",
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "2830703430942801337de22257c6f6d18ce12b867bc8a1d9b8251c71bf68058b",
+    "sourceFileCount": 203,
+    "excludedRoots": ["evidence"],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding evidence artifacts. Captured immediately before this validation run."
+  },
+  "toolVersions": {
+    "node": "v24.18.0",
+    "powershell": "7.6.9",
+    "windowsPowerShellFixture": "5.1.26100.9711",
+    "rojo": "7.7.1",
+    "luau": "0.745"
+  },
+  "grades": {
+    "nodeTests": {"passed": 96, "failed": 0},
+    "luauSyntax": {"parsedFiles": 38, "failedFiles": 0},
+    "rojoBuilds": {"builtProjects": 3, "failedProjects": 0},
+    "robloxEngineTypeAnalysis": "not run; stock Luau CLI bundle does not include Roblox engine type definitions",
+    "runtimeStudioGameplay": "separate; not passed by this offline suite"
+  },
+  "rawOutput": {
+    "reference": "evidence/p0/lab-final-offline-validation-output-20261108-release.log",
+    "bytes": 10549,
+    "sha256": "3516e1d85e3eb13aeb3a596fa2553957b64815384bd6df4d474518e1dd493ed2"
+  },
+  "rojoArtifacts": [
+    {"project": "roblox/templates/base", "reference": ".lab-runtime/builds/base-20261108-192437740.rbxlx", "bytes": 9913, "sha256": "b61dc42a50fe2bcee2da17bb6690be6156626f2937e441cff1f29c33557681f6"},
+    {"project": "projects/misprint-menagerie", "reference": ".lab-runtime/builds/misprint-menagerie-20261108-192437926.rbxlx", "bytes": 115832, "sha256": "f6a12e7a4d7ea30838515285c110f2f91ca1b6d646b4648862e08bebc9b2ba0c"},
+    {"project": "projects/signal-garden", "reference": ".lab-runtime/builds/signal-garden-20261108-192438147.rbxlx", "bytes": 30071, "sha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0"}
+  ],
+  "limitations": [
+    "This local run does not certify live Studio behavior, physical-device performance, hosted CI, player research, final art quality, or release readiness.",
+    "The host could not create a file symlink for one conditional test (EPERM); the suite reported that limitation and passed the remaining path-bound checks.",
+    "The working tree is dirty; this report binds the exact pre-run workspace source snapshot rather than a clean commit."
+  ]
+}

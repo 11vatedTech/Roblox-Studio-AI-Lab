@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-full-offline-validation",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:32:25.7035985Z",
+  "command": ".\\scripts\\test-all.ps1",
+  "parameters": [
+    "94 Node tests",
+    "38 Luau sources parsed with Luau 0.745",
+    "3 local Rojo projects built with 7.7.1"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "4be94879d44e397f0829afe32021dc37199e473f3869f9efd7dd2e543bb97ae2",
+    "sourceFileCount": 197,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "verification": {
+    "nodeTests": {
+      "failed": 0,
+      "passed": 94
+    },
+    "luauSyntax": {
+      "typeAnalysis": "not_claimed",
+      "parsedFiles": 38,
+      "result": "passed"
+    },
+    "rojoBuilds": {
+      "version": "7.7.1",
+      "buildReportSha256": "757e81ee9e15e68f2069ff875cf878fb1f2781bcdcb3b9d227d5ce51b86eab8f",
+      "builtProjects": [
+        "roblox/templates/base",
+        "projects/misprint-menagerie",
+        "projects/signal-garden"
+      ],
+      "buildReport": "evidence/build-report.json"
+    }
+  },
+  "toolVersions": {
+    "rojo": "7.7.1",
+    "powershell": "7.6.9",
+    "luau": "0.745",
+    "node": "v24.18.0"
+  },
+  "rawOutput": {
+    "sha256": "5a096d46ac50eccfad8fe5810fee221d310e05d4d5b800759d632e53140a88d3",
+    "bytes": 10005,
+    "reference": "evidence/p0/lab-full-offline-validation-output-20261108.log"
+  },
+  "limitations": [
+    "No Roblox engine type analysis is included.",
+    "No live Studio gameplay, visual, physical-device, input, performance, hosted-CI, or player-research certification is included.",
+    "No independent review is attached."
+  ]
+}

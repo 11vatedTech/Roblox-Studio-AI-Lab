@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-studio-playtest-attempt",
+  "project": "signal-garden",
+  "capturedAt": "2026-11-08T19:02:03Z",
+  "command": "Official Roblox Studio MCP: list_roblox_studios, get_studio_state, execute_luau (read-only), start_stop_play, character_navigation, user_keyboard_input",
+  "parameters": {
+    "studioInstanceId": "a6258a04-49cc-4211-b597-02ecc25d9aa2",
+    "placeName": "signal-garden-20261107-175946294.rbxlx",
+    "placeFile": ".lab-runtime/builds/signal-garden-20261107-175946294.rbxlx",
+    "placeFileSha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0",
+    "placeId": 0,
+    "gameId": 0,
+    "placeVersion": 0,
+    "mode": "local Play; returned to Edit",
+    "players": 1,
+    "input": "ProximityPrompt keyboard E held 400 ms",
+    "save": "none",
+    "publish": "none"
+  },
+  "result": "failed",
+  "exitCode": 1,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "f9c2c76c4e57a8c2e58a01945a296c6e63accb8b87867b14d35abb98285c9fea",
+    "sourceFileCount": 203,
+    "excludedRoots": ["evidence"],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding evidence artifacts. This identifies the workspace snapshot at the time of the run; the loaded Studio place file itself was not hashed."
+  },
+  "toolVersions": {
+    "robloxStudio": "0, 746, 0, 7461269",
+    "robloxStudioPlugin": "0.2.2"
+  },
+  "scenario": {
+    "expected": "Gather three Echoes, deposit them at the archive, select a route, activate both route plates, and observe one restoration.",
+    "outcome": "Server-authoritative collection reached three Echoes, but the character navigation tool could not find a route from the north bank to the central archive. The archive remained at 0/3, no route was selected, and no restoration occurred.",
+    "steps": [
+      {
+        "action": "Confirmed the selected Studio instance was signal-garden-20261107-175946294.rbxlx in Edit mode; read-only Luau returned PlaceId 0 and GameId 0.",
+        "result": "Studio entered local Play with one player; read-only server inspection showed PlaceId 0, GameId 0, Echoes 0, Restorations 0, and the SignalGarden field present."
+      },
+      {
+        "action": "Navigated to EchoFragment01 and checked the server-observed character-to-fragment distance before sending E for 400 ms.",
+        "result": "Distance was 7.575 studs. The server increased Echoes to 1, removed the SignalGardenEcho tag, set Collected true, hid the fragment, and disabled its prompt."
+      },
+      {
+        "action": "Attempted EchoFragment02 through instance navigation and then an explicit nearby coordinate.",
+        "result": "Both tool calls returned success, but the server still observed distance about 20.64 studs and Echoes remained 1. This confirms tool-call success alone did not establish movement or interaction."
+      },
+      {
+        "action": "After EchoFragment01 respawned, collected it twice more with normal E input and checked the server after each action.",
+        "result": "The server reported Echoes 2 and then 3; each collection removed the tag and disabled the prompt until respawn."
+      },
+      {
+        "action": "Attempted navigation to ResonanceArchive, NorthRootBridge, and a coordinate on the bridge.",
+        "result": "Navigation to ResonanceArchive returned 'Can not find a route to the destination'. The later calls returned success but the server position stayed near (-7.33, 5.54, -70.55), so no deposit occurred."
+      },
+      {
+        "action": "Stopped local Play and queried Studio state.",
+        "result": "Studio returned to Edit. No save or publish operation was made."
+      }
+    ],
+    "serverStateAtFailure": {
+      "playerCount": 1,
+      "echoes": 3,
+      "restorations": 0,
+      "archiveDeposits": 0,
+      "route": null,
+      "characterPosition": "approximately -7.33, 5.54, -70.55",
+      "studioModeAfterCleanup": "Edit"
+    },
+    "console": "Not captured for this attempt."
+  },
+  "limitations": [
+    "This is a failed navigation procedure, not evidence of a gameplay-code defect; the normal collection prompt and server inventory update worked.",
+    "The place file itself was not hashed, so this record binds the workspace snapshot and named local Studio place, not a verified build artifact identity.",
+    "No screenshot or console output was captured during this attempt.",
+    "Single-player desktop only; no multiplayer, touch/controller, physical-device, performance, visual-approval, or release certification."
+  ]
+}

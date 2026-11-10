@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-offline-validation",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:03:30.3506115Z",
+  "command": ".\\scripts\\test-all.ps1",
+  "parameters": [],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "be96e31951a99feb8238d3ee47a5cf228a3a591e6fa3a7109e97e0684ed7c02c",
+    "sourceFileCount": 196,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "toolVersions": {
+    "node": "v24.18.0",
+    "powershell": "7.6.9",
+    "windows": "Microsoft Windows NT 10.0.26200.0",
+    "luau": "0.745",
+    "rojo": "Rojo 7.7.1"
+  },
+  "results": {
+    "nodeTests": {
+      "passed": 93,
+      "failed": 0
+    },
+    "luauSyntax": {
+      "status": "passed",
+      "sourceFiles": 38,
+      "typeAnalysis": "not claimed; stock CLI does not include Roblox engine type definitions"
+    },
+    "rojoBuilds": {
+      "count": 3,
+      "projects": [
+        {
+          "project": "roblox\\templates\\base",
+          "output": ".lab-runtime/builds/base-20261108-170329972.rbxlx",
+          "bytes": 9913,
+          "sha256": "b61dc42a50fe2bcee2da17bb6690be6156626f2937e441cff1f29c33557681f6"
+        },
+        {
+          "project": "projects\\misprint-menagerie",
+          "output": ".lab-runtime/builds/misprint-menagerie-20261108-170330076.rbxlx",
+          "bytes": 115832,
+          "sha256": "f6a12e7a4d7ea30838515285c110f2f91ca1b6d646b4648862e08bebc9b2ba0c"
+        },
+        {
+          "project": "projects\\signal-garden",
+          "output": ".lab-runtime/builds/signal-garden-20261108-170330167.rbxlx",
+          "bytes": 30071,
+          "sha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0"
+        }
+      ]
+    }
+  },
+  "buildReport": {
+    "reference": "evidence/build-report.json",
+    "sha256": "2d7df6c842bb60debe2c2f8ef9fde7665890377924cd10ccbb6ebc6d1e96b58b"
+  },
+  "rawOutput": {
+    "reference": "evidence/p0/lab-offline-validation-output-20261108.log",
+    "sha256": "c566b8ff69bbf25fde916a4b0f6fbb430d3b46afe911035ff2a95b7ed9f8bb6a",
+    "bytes": 10255
+  },
+  "limitations": [
+    "No Studio engine, physical-device, input, performance, visual, player-research, or hosted-CI results are included.",
+    "No independent human review is attached.",
+    "The report is bound to the dirty source snapshot recorded at the time of the 93-test run."
+  ]
+}

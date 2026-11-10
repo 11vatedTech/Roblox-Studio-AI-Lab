@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-08T03:30:00.000Z",
+  "updatedAt": "2026-11-08T19:39:38.6533675Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -32,6 +32,428 @@
         "The evidence is explicitly test-only; its fixture project was removed after the run.",
         "Different MCP process and session identities are recorded, but client names are self-reported and no AI provider, model, or human identity is attested.",
         "No live Studio engine test is included."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Source-bound Lab evidence registry and capability gate checks",
+      "capturedAt": "2026-11-08T16:19:58.2596395Z",
+      "project": "lab",
+      "scope": "Twenty-five local Node tests covered evidence reference integrity, source snapshot capture, capability-to-evidence enforcement, and API/overview integration.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T161954122Z.json",
+      "referenceSha256": "70a8b8e8bf6a18d803034730790ec1703ffec32a458bcb7081650e02c25c0504",
+      "limitations": [
+        "The source-tree digest covers tracked and nonignored workspace files but excludes evidence/ artifacts; the report records that scope.",
+        "The working tree was dirty, so the report binds the base commit and exact source-tree digest rather than claiming a clean commit.",
+        "This verification run is not a separate independent review and does not certify live Studio, gameplay, device, performance, or player research behavior."
+      ]
+    },
+    {
+      "id": "evidence.lab.offline-validation-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Windows offline tests, Luau parse, and Rojo builds",
+      "capturedAt": "2026-11-08T17:03:30.3506115Z",
+      "project": "lab",
+      "scope": "93 Node tests, Luau syntax for 38 files, and three pinned Rojo builds.",
+      "reference": "evidence/p0/lab-offline-validation-20261108.json",
+      "referenceSha256": "3377843e9b465ec7c53ef960e40df7c695c9a495036f7c7aaf0c3716b7665d6c",
+      "limitations": [
+        "No Studio engine, physical-device, input, performance, visual, player-research, or hosted-CI results are included.",
+        "No independent human review is attached.",
+        "The report is bound to the dirty source snapshot recorded at the time of the 93-test run."
+      ]
+    },
+    {
+      "id": "evidence.lab.workstation-lifecycle-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Local Lab start, health, Studio status, and graceful stop",
+      "capturedAt": "2026-11-08T17:04:37.1198123Z",
+      "project": "lab",
+      "scope": "Two consecutive local start/health/read-only Studio-status/graceful-stop cycles.",
+      "reference": "evidence/p0/lab-workstation-lifecycle-20261108.json",
+      "referenceSha256": "620a5703c0b0e2a3eacab916f7c004978b82a916c6b2ee86efd5739d26342d90",
+      "limitations": [
+        "The Lab reported its Studio MCP connection as disconnected; no Studio place was changed.",
+        "Task-state preservation during shutdown, shutdown interruption, and recovery from a killed process remain unverified.",
+        "No independent review is attached."
+      ]
+    },
+    {
+      "id": "evidence.lab.port-conflict-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Occupied Lab port startup rejection",
+      "capturedAt": "2026-11-08T17:08:33.7907219Z",
+      "project": "lab",
+      "scope": "A test listener occupied the Lab port; startup failed with EADDRINUSE and left that listener untouched.",
+      "reference": "evidence/p0/lab-port-conflict-20261108.json",
+      "referenceSha256": "ad9b25e210b32b9c5d1713f3488f26face64140e8ab64be44bd700e31a67da67",
+      "limitations": [
+        "Failed startup leaves a dead child PID in the runtime record until the next start; the test restored its prior record.",
+        "This does not cover interruption during shutdown or task execution.",
+        "No independent review is attached."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-170222149",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Source-bound evidence registry and capability gate checks",
+      "capturedAt": "2026-11-08T17:02:22.149Z",
+      "project": "lab",
+      "scope": "27 local Node tests covered typed evidence integrity, source snapshots, capability gates, and API integration.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T170222149Z.json",
+      "referenceSha256": "b7c1b00829e48eaaab57366cac59703ec932c08e6ff6e5c552970b46fc6aeb06",
+      "limitations": [
+        "The source tree was dirty and excludes evidence/ artifacts.",
+        "This is not an independent review or live Studio/device certification."
+      ]
+    },
+    {
+      "id": "evidence.lab.backup-restore-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Fresh Lab source backup and hash-verified restore",
+      "capturedAt": "2026-11-08T17:12:09.8304234Z",
+      "project": "lab",
+      "scope": "A fresh 236-file archive restored to a unique temporary directory; all manifest lengths and SHA-256 digests matched, and traversal/tamper rejection are separately covered by PowerShell 5.1 tests.",
+      "reference": "evidence/p0/lab-backup-restore-20261108.json",
+      "referenceSha256": "d6f0ea705e55f1537bcadd1dd5cdd074eef82dd4ba105619882ebacee8f573b6",
+      "limitations": [
+        "No off-device copy or disaster-recovery restore was performed.",
+        "Interrupted backup/restore and secret-content scanning remain unverified.",
+        "No independent reviewer is attached.",
+        "The archive is a source/evidence snapshot; it excludes .tools, .lab-runtime, and .lab-backups."
+      ]
+    },
+    {
+      "id": "evidence.lab.final-offline-suite-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Final local offline suite and all Rojo builds",
+      "capturedAt": "2026-11-08T17:13:53.7547582Z",
+      "project": "lab",
+      "scope": "93 Node tests, Luau syntax parsing for 38 source files, and three pinned Rojo builds with per-artifact SHA-256 digests.",
+      "reference": "evidence/p0/lab-final-offline-validation-20261108.json",
+      "referenceSha256": "09f1d0f1ccd7b91ef47eec78860642ce7164cff2e17685400758a5b6fb2f377a",
+      "limitations": [
+        "No Studio engine, physical-device, input, performance, visual, player-research, or hosted-CI results are included.",
+        "No independent human review is attached.",
+        "The source snapshot is dirty and binds the exact working-tree contents at this local run."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-171533275",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Final source-bound evidence and capability register checks",
+      "capturedAt": "2026-11-08T17:15:33.275Z",
+      "project": "lab",
+      "scope": "27 local Node tests validated source-bound typed evidence, the capability register, API/overview integration, and server lifecycle boundaries.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171533275Z.json",
+      "referenceSha256": "7648608a84cb926d01e9002cc3bc813a3490cbaf25267df29cde790b6ce95738",
+      "limitations": [
+        "The source tree is dirty; the report records exact source identity and excludes evidence/ artifacts.",
+        "No separate independent reviewer, Studio runtime, physical-device, or hosted-CI certification is included."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-171620028",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-register evidence integrity verification",
+      "capturedAt": "2026-11-08T17:16:20.028Z",
+      "project": "lab",
+      "scope": "27 local Node tests passed after the capability register references were updated.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171620028Z.json",
+      "referenceSha256": "12a9ba97551d80f0161e4864bb249788b7adeaacfe176acd571f35d898b1389a",
+      "limitations": [
+        "This run is local and does not independently certify Studio gameplay, device behavior, performance, or hosted CI.",
+        "The capability register references the immediately preceding equivalent verification report to avoid self-referential evidence pointers."
+      ]
+    },
+    {
+      "id": "evidence.lab.stale-pid-recovery-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Local launcher recovery from stale PID record",
+      "capturedAt": "2026-11-08T17:18:57.4Z",
+      "project": "lab",
+      "scope": "The unused prior PID was not acted on; a new process reached loopback health and stopped gracefully.",
+      "reference": "evidence/p0/lab-stale-pid-recovery-20261108.json",
+      "referenceSha256": "d4aec63e57c94f3c9c713a5389f1173c08255c256e9416a4159575d6a184435e",
+      "limitations": [
+        "The stale PID was confirmed absent before the test.",
+        "This does not cover interrupted shutdown or task-state recovery.",
+        "The launcher still writes a dead child PID after a failed start on an occupied port.",
+        "No independent review is attached."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-171940438",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-stale-PID evidence and register verification",
+      "capturedAt": "2026-11-08T17:19:40.438Z",
+      "project": "lab",
+      "scope": "27 local Node tests validated all 11 typed registry records and the current 23-capability register.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T171940438Z.json",
+      "referenceSha256": "bae07c9c6ef76304f535ed07fba2ea5480ae6e4b5436b2bcce066cc30bdf87aa",
+      "limitations": [
+        "This does not independently certify Studio gameplay, physical-device behavior, performance, or hosted CI.",
+        "The report source snapshot was captured before the register pointer to this report was added."
+      ]
+    },
+    {
+      "id": "evidence.lab.launcher-failed-start-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Launcher cleanup after occupied-port startup failure",
+      "capturedAt": "2026-11-08T17:25:32.2204888Z",
+      "project": "lab",
+      "scope": "A Windows fixture confirmed EADDRINUSE, startup failure, and removal of only the matching dead process record.",
+      "reference": "evidence/p0/lab-launcher-failed-start-20261108.json",
+      "referenceSha256": "0775a99c7a134490f202c36dcb44616ba744e5662919160a4300495bf1495eb1",
+      "limitations": [
+        "Local fixture test only; no interrupted shutdown, staged-task recovery, or independent review."
+      ]
+    },
+    {
+      "id": "evidence.lab.full-offline-validation-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Full offline tests, Luau syntax, and Rojo builds",
+      "capturedAt": "2026-11-08T17:32:25.7035985Z",
+      "project": "lab",
+      "scope": "94 Node tests passed, 38 Luau source files parsed, and all three local Rojo projects built.",
+      "reference": "evidence/p0/lab-full-offline-validation-20261108.json",
+      "referenceSha256": "6d07dbe074710416e51721c31431e700d21597104ebd9ff3be7f4a35884c8d94",
+      "limitations": [
+        "No Roblox engine analysis or live Studio, physical-device, performance, visual, hosted-CI, or player-research results.",
+        "No independent human review is attached."
+      ]
+    },
+    {
+      "id": "evidence.lab.portable-package-verification-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Portable package, clean extraction, and offline recovery checks",
+      "capturedAt": "2026-11-08T18:03:17.283783Z",
+      "project": "lab",
+      "scope": "A Windows package containing 258 manifest-listed source/tool files passed archive validation, 96 Node tests, 38 Luau parses, and three Rojo builds from a clean extraction.",
+      "reference": "evidence/p0/lab-portable-package-verification-20261108.json",
+      "referenceSha256": "d7533aff9c7c6e7ca55d5aee8a05be45ec59b492952939c17fb270c42a9bfa5e",
+      "limitations": [
+        "Node.js 20 or newer must already be installed; Node is not bundled.",
+        "This local run is not a hosted CI result, live Studio test, physical-device test, or independent review."
+      ]
+    },
+    {
+      "id": "evidence.lab.workstation-inventory-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Current workstation and installed-tool inventory",
+      "capturedAt": "2026-11-08T18:11:58.3775393Z",
+      "project": "lab",
+      "scope": "The workstation probe recorded operating system, CPU, memory, GPU, free disk, installed local tools, and local model names without running inference.",
+      "reference": "evidence/p0/lab-workstation-inventory-20261108.json",
+      "referenceSha256": "f096dc68c743d769d07a05535f88d2b307d4f03d6e21d1527d35f3d14dd084ef",
+      "limitations": [
+        "The first restricted CIM probe failed; a second workstation inventory completed successfully.",
+        "No local model inference or quality assessment was run.",
+        "This is an environment inventory, not a source-code, gameplay, or device certification."
+      ]
+    },
+    {
+      "id": "evidence.lab.studio-inventory-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Direct Roblox Studio and host-tool inventory",
+      "capturedAt": "2026-11-08T18:42:06Z",
+      "project": "lab",
+      "scope": "The official Studio connection identified two instances, confirmed the local Signal Garden place identity and Edit state, and recorded the direct host tool catalog; this is distinct from the Lab dashboard's read-only bridge.",
+      "reference": "evidence/p0/workstation-inventory-20261108/lab-studio-inventory-20261108.json",
+      "referenceSha256": "d1853e3dd765621c1c849cd29b3c98ce0200060be69541021ed5ccf6402dd6f8",
+      "limitations": [
+        "The direct host catalog includes mutating tools; it is not the Lab dashboard's fixed read-only allowlist.",
+        "The Lab bridge inventory was not compared to the direct host catalog.",
+        "The local place had PlaceId 0 and GameId 0; no save or publish occurred."
+      ]
+    },
+    {
+      "id": "evidence.lab.desktop-performance-baseline-20261108",
+      "type": "performance-profile",
+      "status": "unverified",
+      "title": "Signal Garden Studio desktop development baseline",
+      "capturedAt": "2026-11-08T18:42:06Z",
+      "project": "signal-garden",
+      "scope": "A single local 300-frame Studio sample recorded frame timing, client-reported memory, total instances, scene draw calls, and triangles.",
+      "reference": "evidence/p0/lab-signal-garden-desktop-profile-20261108.json",
+      "referenceSha256": "22e956ebb20ac7a8b556ada07bd7c3e52fdae876b88289137f835b95d68990cb",
+      "limitations": [
+        "The exact loaded place artifact and contemporaneous sample log were not retained, so source binding is unverified.",
+        "Studio overhead and the high-end laptop make this a development baseline, not representative device certification.",
+        "No sustained thermal, network, cold-load, graphics-tier, touch, controller, or physical-device measurements were taken."
+      ]
+    },
+    {
+      "id": "evidence.lab.historical-solo-playtest-20261108",
+      "type": "verification-run",
+      "status": "unverified",
+      "title": "Historical Signal Garden solo restoration report",
+      "capturedAt": "2026-11-08T18:42:06Z",
+      "project": "lab",
+      "scope": "The retained historical report describes one solo run that collected three Echoes, charged the archive, selected Moss, activated two plates, and observed one restoration.",
+      "reference": "evidence/p0/lab-studio-solo-playtest-20261108.json",
+      "referenceSha256": "e2c2b5f773e87569b49fca090685609d38768d24ce976163eda8d840ee389156",
+      "limitations": [
+        "The source digest was attached when the report was written rather than captured with the loaded build; the exact historical source and place artifact cannot be verified.",
+        "The narrative and captures remain historical observations, not source-bound acceptance evidence.",
+        "Single-player desktop only; no multiplayer, physical-device, hostile-client, or release certification."
+      ]
+    },
+    {
+      "id": "evidence.lab.solo-playtest-source-audit-20261108",
+      "type": "verification-run",
+      "status": "unverified",
+      "title": "Audit of historical solo playtest source binding",
+      "capturedAt": "2026-11-08T19:02:03Z",
+      "project": "lab",
+      "scope": "The earlier solo report and its source/build provenance were reviewed; the result remains unverified for source-bound acceptance.",
+      "reference": "evidence/p0/lab-studio-solo-playtest-source-audit-20261108.json",
+      "referenceSha256": "e65568c1697cbd38f41be7cfd8f4a774a66ee1130db68be07d5fbace1ecb65b9",
+      "limitations": [
+        "This audit does not independently reproduce or invalidate the historical gameplay observation.",
+        "A current workspace-bound replay was attempted separately and failed at navigation to the archive."
+      ]
+    },
+    {
+      "id": "evidence.lab.solo-playtest-navigation-failure-20261108",
+      "type": "verification-run",
+      "status": "failed",
+      "title": "Source-bound solo playtest stopped at archive navigation",
+      "capturedAt": "2026-11-08T19:02:03Z",
+      "project": "signal-garden",
+      "scope": "Normal prompt input raised server Echoes to three, but the navigation tool could not reach the central archive; no deposit or restoration occurred.",
+      "reference": "evidence/p0/lab-studio-solo-playtest-attempt-20261108.json",
+      "referenceSha256": "37833e95ac862e0255fe8996a35085cb9c5d127a8d4b0e99d8c9481ed32093ea",
+      "limitations": [
+        "This is a failed navigation procedure, not a confirmed gameplay-code defect.",
+        "The local place file hash is recorded, but no place source synchronization was performed during the run.",
+        "No screenshot or console output was captured for this attempt."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-191301197",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-ledger evidence registry and capability pointer verification",
+      "capturedAt": "2026-11-08T19:13:10.1884627Z",
+      "project": "lab",
+      "scope": "Twenty-seven targeted tests validated the typed evidence records, capability gates, API overview, lifecycle behavior, and source snapshot logic.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T191301197Z.json",
+      "referenceSha256": "655160015080d6fa2558534fc26c47b1bd26b12234f12e1ac3b35dcb21bf48d3",
+      "limitations": [
+        "The report binds the 203-file source tree at digest ac98acfa5c7603e9ad3033242254c1183f30769e52b299d2a1b6ddc73150237b, excluding evidence/.",
+        "It predates the current completion-ledger edit; a post-ledger verification is still required.",
+        "It does not independently certify Studio gameplay, target-device behavior, visual quality, or hosted CI."
+      ]
+    },
+    {
+      "id": "evidence.lab.final-offline-validation-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-timeout-fix full offline suite and all Rojo builds",
+      "capturedAt": "2026-11-08T19:24:38.4459685Z",
+      "project": "lab",
+      "scope": "The 96-test Node suite, Luau syntax validation for 38 files, and three pinned Rojo project builds passed after the MCP fixture timeout was widened from five to fifteen seconds.",
+      "reference": "evidence/p0/lab-final-offline-validation-post-timeout-fix-20261108.json",
+      "referenceSha256": "d75c52160a9e0739b626314b5d4ba01e8526bd7ef862e2727e376a5298ccfa18",
+      "limitations": [
+        "The report binds source digest 2830703430942801337de22257c6f6d18ce12b867bc8a1d9b8251c71bf68058b captured immediately before the suite.",
+        "Roblox engine type analysis is not claimed; the stock Luau CLI bundle has no Roblox engine definitions.",
+        "A conditional file-symlink test was unavailable on this host with EPERM; other path-bound checks passed.",
+        "No live Studio, physical-device, hosted-CI, visual approval, player research, or release certification is included."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261108-192912546",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-ledger evidence registry and capability trace verification",
+      "capturedAt": "2026-11-08T19:29:20.6611305Z",
+      "project": "lab",
+      "scope": "Twenty-seven targeted tests passed for typed evidence integrity, acceptance gates, API integration, local lifecycle, and source snapshot capture.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T192912546Z.json",
+      "referenceSha256": "6aec29b8d0e653b0c86929e7f8bd5b61e406059fb7ee29651375a29af90b8da4",
+      "limitations": [
+        "The report binds the 203-file source tree at digest e0291fd0dd6ea7cb4f7766c1da6c6b26e6e1078a28893f6041a90fded0442257, excluding evidence/.",
+        "It confirms the evidence registry and acceptance interfaces; it does not certify the gameplay scenarios or a hosted CI run."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-verification-20261109t001810408z",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Lab capability and evidence registry verification run with typed passed independent review",
+      "capturedAt": "2026-11-09T00:18:10.408Z",
+      "project": "lab",
+      "scope": "Verification of the Lab capability register, the typed evidence registry, source binding, evidence reference SHA-256 integrity, capability verification gate requirements, and the local Lab API/control-room overview. Any capability claimed VERIFIED under this run must be covered by its capabilityCoverage and meet the typed passed evidence gate, including a distinct-author/distinct-reviewer independent review and full acceptance criterion coverage; this run does not certify live Studio gameplay, physical-device behavior, visual approval, or hosted CI for any game scenario.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261109T001810408Z.json",
+      "referenceSha256": "ecad336c07135241982ede93a30c798a8de14345b0bf36de28cae71e35624603",
+      "limitations": [
+        "The source tree was dirty and is bound at digest c3fb9d2d941edfc021678b36b074c422886bb9418e9c84d9bcb8054693126cf7 across 250 workspace files, excluding evidence/ artifacts, so the record is bound to the current working-tree contents rather than a clean commit.",
+        "This run is local and does not independently certify Studio gameplay, physical-device behavior, visual approval, or hosted CI."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-final-20261108-193101839",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Final source-bound evidence registry verification",
+      "capturedAt": "2026-11-08T19:31:10.8404242Z",
+      "project": "lab",
+      "scope": "Twenty-seven targeted tests passed against the final branch source snapshot, including evidence integrity, capability gates, API integration, lifecycle, and deterministic source hashing.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T193101839Z.json",
+      "referenceSha256": "ec185cad839732b1e42408fc921d7f368f7dd04bf07a154f9b630f1e6a7c4bc1",
+      "limitations": [
+        "The source tree was dirty and is bound at digest 43999988beb3ec7e408568aea3d2dc43f3aa882182bc21fecd7cd6f258b098d7 across 203 files, excluding evidence/.",
+        "The test run does not certify the source-bound Studio replay, physical-device behavior, art approval, or hosted CI."
+      ]
+    },
+    {
+      "id": "evidence.lab.evidence-registry-post-ledger-20261108-193515543",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Post-ledger evidence and capability register verification",
+      "capturedAt": "2026-11-08T19:35:24.8091969Z",
+      "project": "lab",
+      "scope": "Twenty-seven targeted tests passed after the completion ledger update, covering typed evidence integrity, capability traceability, API integration, lifecycle, and source snapshot behavior.",
+      "reference": "evidence/p0/lab-evidence-registry-verification-20261108T193515543Z.json",
+      "referenceSha256": "442c73664cdf4a3448a204a4586e61e4b3d750e843038e1e969fa0bcd4265a0e",
+      "limitations": [
+        "The report binds source digest 375bcc3ffd868a58835499fa97a9941c86a0137c6e4663872a87f00461b2284b across 203 files, excluding evidence/.",
+        "It does not certify live Studio gameplay, physical-device behavior, hosted CI, art review, or player research."
+      ]
+    },
+    {
+      "id": "evidence.lab.portable-package-completion-20261108",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Final source-bound portable package and clean extraction",
+      "capturedAt": "2026-11-08T19:39:38.6533675Z",
+      "project": "lab",
+      "scope": "Built a Windows portable archive from source tree 375bcc3ffd868a58835499fa97a9941c86a0137c6e4663872a87f00461b2284b; verified all restored manifest files and passed 96 Node tests, 38 Luau parses, and three pinned Rojo builds in clean extraction.",
+      "reference": "evidence/p0/lab-portable-package-completion-20261108.json",
+      "referenceSha256": "f2e4e828f302c4a6b82f096d58e557386f44ec2ea09e4d5ecc90dc31d34f1838",
+      "limitations": [
+        "Hosted GitHub Actions was not run because pushing was not authorized.",
+        "The report does not certify Studio gameplay, physical-device behavior, player research, or independent review.",
+        "Node.js 20 or newer must already be installed; the runtime is not bundled."
       ]
     }
   ]

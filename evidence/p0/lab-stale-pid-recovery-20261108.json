@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-stale-pid-recovery",
+  "project": "lab",
+  "capturedAt": "2026-11-08T17:18:57.4Z",
+  "command": "Seed an unused stale PID record; scripts/start-lab.ps1; GET /api/health; scripts/stop-lab.ps1",
+  "parameters": [
+    "stale PID 27812"
+  ],
+  "result": "passed",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "e46aaa9ac8b50a4f462478bfd6cb67501e74eb0690e8408550a8abde3ec6782b",
+    "sourceFileCount": 196,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-CORE-001",
+      "acceptanceCriteriaIndexes": [
+        1
+      ]
+    }
+  ],
+  "newProcess": {
+    "pid": 30152,
+    "health": {
+      "status": "ok",
+      "bindAddress": "127.0.0.1"
+    },
+    "gracefulStop": true,
+    "processExited": true
+  },
+  "rawOutput": {
+    "reference": "evidence/p0/lab-stale-pid-recovery-output-20261108.log",
+    "sha256": "1cb41e522e320f60b4580b79792c8131f6155302a9eb4af4d07e3dde41717eb9",
+    "bytes": 416
+  },
+  "limitations": [
+    "The stale PID was confirmed absent before the test.",
+    "This does not cover interrupted shutdown or task-state recovery.",
+    "The launcher still writes a dead child PID after a failed start on an occupied port.",
+    "No independent review is attached."
+  ]
+}

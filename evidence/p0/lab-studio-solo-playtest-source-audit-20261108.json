@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-evidence-source-audit",
+  "project": "lab",
+  "capturedAt": "2026-11-08T19:02:03Z",
+  "command": "Manual provenance audit of the earlier solo Studio report and local place identity",
+  "result": "unverified",
+  "exitCode": 0,
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "b850a18e008ba8ce9fd82679dfb743e61689a8da",
+    "dirty": true,
+    "treeSha256": "f9c2c76c4e57a8c2e58a01945a296c6e63accb8b87867b14d35abb98285c9fea",
+    "sourceFileCount": 203,
+    "excludedRoots": ["evidence"],
+    "scope": "Current Git-tracked and nonignored workspace files, excluding evidence artifacts. This identifies the audit workspace, not the historical test snapshot."
+  },
+  "auditedReference": "evidence/p0/lab-studio-solo-playtest-20261108.json",
+  "auditedClaim": "The historical report states a solo run gathered three Echoes, deposited them, selected Moss, activated both plates, and reached one restoration.",
+  "finding": "The report was written after the run and its source identity was captured at report time. The local place file was not hashed, and the historical run was not recorded as a source-bound build artifact. The narrated result and screenshots remain historical observations, but they cannot establish acceptance against an exact source snapshot.",
+  "toolVersions": {
+    "robloxStudio": "0, 746, 0, 7461269",
+    "robloxStudioPlugin": "0.2.2"
+  },
+  "limitations": [
+    "This audit does not independently reproduce the earlier success claim.",
+    "The new source-bound repeat is recorded separately as failed because navigation did not reach the archive.",
+    "The historical report is retained for transparency and must not be used as source-bound passing evidence."
+  ]
+}
