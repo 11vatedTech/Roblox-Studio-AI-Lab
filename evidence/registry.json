@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T12:56:35.301Z",
+  "updatedAt": "2026-11-10T13:04:24.103Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -471,6 +471,25 @@
         "The runtime world and gameplay are not proven.",
         "The local place and game IDs were not exposed by the read routes.",
         "The source snapshot is dirty and no independent review is attached."
+      ]
+    },
+    {
+      "id": "evidence.studio.signal-garden-runtime-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Signal Garden runtime scene, support geometry, and live viewport",
+      "capturedAt": "2026-11-10T13:03:09Z",
+      "project": "signal-garden",
+      "scope": "Single local desktop Studio Play session: runtime scene construction, bootstrap console output, collidable switch-support geometry, initial Echo state, and one viewport capture.",
+      "reference": "evidence/studio/signal-garden-runtime-20261110.json",
+      "referenceSha256": "78d69a9aeacc0863811386cd5c86afb7b4b900154264134bcedc1e449f1486c8",
+      "limitations": [
+        "One local desktop client only; no second player or replication check.",
+        "No player input or full gameplay loop was completed; the HUD shows the initial 0/3 state.",
+        "Touch, controller, physical-device, and performance behavior were not measured.",
+        "No place change was saved, no asset was uploaded, and nothing was published.",
+        "The place and game IDs were not exposed by the read routes; this is a local unpublished place.",
+        "No independent reviewer is attached; this record supports only the narrow checks it names."
       ]
     }
   ]

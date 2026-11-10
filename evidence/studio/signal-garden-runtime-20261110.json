@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "passed",
+  "title": "Signal Garden runtime scene, support geometry, and viewport in a local Studio Play session",
+  "capturedAt": "2026-11-10T13:03:09Z",
+  "project": "signal-garden",
+  "scope": "Runtime scene construction, script boot, switch-support geometry, initial Echo state, and one live viewport capture in a single local desktop Studio Play session. This does not cover player input, the full gameplay loop, multiplayer, touch/controller input, device performance, saving, publishing, or visual approval.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "140f132fd7876971dc2b9e266e90d9cdb8f490e6",
+    "treeSha256": "5eaa86c116e039042faaf9a9292612411e5b99599b3f03475ce9879c7ffd5d26",
+    "dirty": false,
+    "sourceFileCount": 258,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots.",
+    "note": "The opened place was built from 0a2e97d; `git diff 0a2e97d..140f132 -- projects/signal-garden` is empty, so the runtime source matches this clean snapshot."
+  },
+  "studio": {
+    "instanceId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+    "placeName": "signal-garden-20261110T124445Z.rbxlx",
+    "mode": "Play",
+    "dataModels": [
+      "Client",
+      "Server"
+    ],
+    "protocolVersion": "2026-07-28",
+    "discoveredToolCount": 36
+  },
+  "build": {
+    "path": ".lab-runtime/builds/signal-garden-20261110T124445Z.rbxlx",
+    "sha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0",
+    "bytes": 30071,
+    "builder": "Rojo 7.7.1 (pinned in .tools/)"
+  },
+  "runtime": {
+    "sceneRoot": "Workspace.SignalGarden",
+    "counts": {
+      "rootWalkwayParts": 6,
+      "marshLandmarkModels": 4,
+      "gameplayNodes": 18
+    },
+    "console": "[Signal Garden] Cooperative marsh loop started; live Studio validation remains an explicit release gate.",
+    "checks": [
+      "get_studio_state returned Play with Client and Server DataModels.",
+      "Both the server and client Workspace trees contained SignalGarden with RootWalkways, MarshLandmarks, and GameplayNodes.",
+      "GameplayNodes contained 18 Parts: eight Echo fragments, the ResonanceArchive, four route cores or altars, and four route switches.",
+      "MossSwitchASupport and BloomSwitchBSupport exist under RootWalkways with GameplayRole=CollidableTraversalSupport and CanCollide=true.",
+      "The ArchivePlatform top is Y=9 and its X edge is -22; each support top is Y=9 and overlaps the platform by 2 studs.",
+      "EchoFragment01 was at (-10, 13, -72) with Collected=false.",
+      "The console contained the Signal Garden bootstrap message and no error output.",
+      "screen_capture returned a 222687-byte JPEG with SHA-256 2198ef5536e0803374fbd19b56ca8f536be7f9819ece6d410439f99a314bd5f7."
+    ]
+  },
+  "geometry": {
+    "archivePlatform": {
+      "name": "ArchivePlatform",
+      "position": [
+        0,
+        6.5,
+        0
+      ],
+      "size": [
+        44,
+        5,
+        44
+      ],
+      "topY": 9,
+      "xEdge": -22,
+      "canCollide": true
+    },
+    "supports": [
+      {
+        "name": "MossSwitchASupport",
+        "position": [
+          -27,
+          8,
+          -12
+        ],
+        "size": [
+          14,
+          2,
+          14
+        ],
+        "topY": 9,
+        "xRange": [
+          -34,
+          -20
+        ],
+        "overlapWithPlatformStuds": 2,
+        "canCollide": true,
+        "gameplayRole": "CollidableTraversalSupport"
+      },
+      {
+        "name": "BloomSwitchBSupport",
+        "position": [
+          27,
+          8,
+          12
+        ],
+        "size": [
+          14,
+          2,
+          14
+        ],
+        "topY": 9,
+        "xRange": [
+          20,
+          34
+        ],
+        "overlapWithPlatformStuds": 2,
+        "canCollide": true,
+        "gameplayRole": "CollidableTraversalSupport"
+      }
+    ],
+    "switches": [
+      {
+        "name": "MossSwitchA",
+        "position": [
+          -27,
+          9.6,
+          -12
+        ],
+        "canCollide": false
+      },
+      {
+        "name": "BloomSwitchB",
+        "position": [
+          27,
+          9.6,
+          12
+        ],
+        "canCollide": false
+      }
+    ]
+  },
+  "capture": {
+    "id": "ccf28d01-1f7d-41e4-8aad-3a418d06951e",
+    "path": "evidence/studio/ccf28d01-1f7d-41e4-8aad-3a418d06951e.jpg",
+    "sha256": "2198ef5536e0803374fbd19b56ca8f536be7f9819ece6d410439f99a314bd5f7",
+    "bytes": 222687,
+    "mimeType": "image/jpeg",
+    "framing": {
+      "cameraPosition": [
+        70,
+        55,
+        70
+      ],
+      "lookAtPosition": [
+        0,
+        8,
+        0
+      ]
+    },
+    "hud": [
+      "FIELD NOTES / SIGNAL GARDEN",
+      "Gather Echoes - 0 carried",
+      "Archive charge 0/3 - Restorations 0",
+      "Welcome to the marsh. Find three Echoes to charge the archive."
+    ]
+  },
+  "limitations": [
+    "One local desktop client only; no second player or replication check.",
+    "No player input or full gameplay loop was completed; the HUD shows the initial 0/3 state.",
+    "Touch, controller, physical-device, and performance behavior were not measured.",
+    "No place change was saved, no asset was uploaded, and nothing was published.",
+    "The place and game IDs were not exposed by the read routes; this is a local unpublished place.",
+    "No independent reviewer is attached; this record supports only the narrow checks it names."
+  ]
+}

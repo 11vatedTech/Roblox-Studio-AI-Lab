@@ -1,0 +1,113 @@
+{
+    "schemaVersion":  1,
+    "kind":  "lab-evidence-registry-verification",
+    "project":  "lab",
+    "generatedAt":  "2026-11-10T13:04:33.8191819Z",
+    "command":  "node --test tests/evidence-registry.test.js tests/capability-register.test.js tests/capability-register-api.test.js tests/lab-server.test.js tests/source-snapshot.test.js",
+    "parameters":  [
+                       "--test",
+                       "tests/evidence-registry.test.js",
+                       "tests/capability-register.test.js",
+                       "tests/capability-register-api.test.js",
+                       "tests/lab-server.test.js",
+                       "tests/source-snapshot.test.js"
+                   ],
+    "result":  "passed",
+    "exitCode":  0,
+    "nodeVersion":  "v24.18.0",
+    "toolVersions":  {
+                         "node":  "v24.18.0",
+                         "git":  "git version 2.56.0.windows.2",
+                         "powershell":  "5.1.26100.9711"
+                     },
+    "operatingSystem":  "Microsoft Windows NT 10.0.26200.0",
+    "branch":  "codex/lab-recovery-p0",
+    "head":  "140f132fd7876971dc2b9e266e90d9cdb8f490e6",
+    "sourceIdentity":  {
+                           "branch":  "codex/lab-recovery-p0",
+                           "commit":  "140f132fd7876971dc2b9e266e90d9cdb8f490e6",
+                           "dirty":  false,
+                           "treeSha256":  "5eaa86c116e039042faaf9a9292612411e5b99599b3f03475ce9879c7ffd5d26",
+                           "sourceFileCount":  258,
+                           "excludedRoots":  [
+                                                 "evidence"
+                                             ],
+                           "scope":  "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+                       },
+    "sourceTreeSha256":  "5eaa86c116e039042faaf9a9292612411e5b99599b3f03475ce9879c7ffd5d26",
+    "sourceDigests":  [
+                          {
+                              "path":  "src/services/evidence-registry.js",
+                              "sha256":  "c80e2f0b536b9542bea2c5e484e7d4e61540e6174062e762b89f8207f78bf0ee"
+                          },
+                          {
+                              "path":  "src/services/capability-register.js",
+                              "sha256":  "16c2cd619ee0858f65adfb022774a99412646fd2319b3f66ac498504ed028e1b"
+                          },
+                          {
+                              "path":  "src/server/app.js",
+                              "sha256":  "59b12cc13178360f9d78de4bf3984b4b75d87d51e0c956cae44486cf4dff8d1b"
+                          },
+                          {
+                              "path":  "apps/control-center/public/app.js",
+                              "sha256":  "f79f9f7b820ff52a827cc2993273121f1d4e845600d62afe1cb6cb97e2171f0a"
+                          },
+                          {
+                              "path":  "scripts/source-snapshot.mjs",
+                              "sha256":  "2a5c3b7a27d054f4214dd557abe75995d0c72e1872fb250b2bb07285fc2fbe20"
+                          },
+                          {
+                              "path":  "tests/capability-register.test.js",
+                              "sha256":  "1ccbf08f1c838b3553368847d5380bd3da91c46ee6a509582163a0038cbac1ad"
+                          },
+                          {
+                              "path":  "docs/quality/evidence-registry.schema.json",
+                              "sha256":  "62db390f6d4cd02d2a4890422baa51238dc893a9053d7253c2ce29282539e402"
+                          },
+                          {
+                              "path":  "evidence/registry.json",
+                              "sha256":  "94b5f344eaf0eadbd52d3fe938ebb0c9a4b73b0bf6561914756825d6deff51f2"
+                          }
+                      ],
+    "rawOutputSha256":  "e4a266f17dddc5fbf6c4c013d06c96c611603622b8ba65639ad0658784d1e81e",
+    "output":  [
+                   "Γ£ö the Lab API and control-room overview expose the same corrected acceptance register (1929.0943ms)",
+                   "Γ£ö loads a validated machine-readable Lab capability register and summarizes precise statuses (203.3412ms)",
+                   "Γ£ö rejects unverified completion, missing evidence, invalid paths, dangling dependencies, and cycles (81.4119ms)",
+                   "Γ£ö rejects VERIFIED evidence files that have no matching typed registry record (49.3787ms)",
+                   "Γ£ö requires typed passing evidence to bind every criterion to a source snapshot and independent reviewer (166.8623ms)",
+                   "Γ£ö requires a blocker for blocked status and rejects missing or symlinked evidence (58.6289ms)",
+                   "Γ£ö validates the evidence registry contract and rejects duplicate identities and unsafe references (6.7485ms)",
+                   "Γ£ö loads scoped Studio, task, and source-bound verification evidence with hashes (238.9831ms)",
+                   "Γ£ö rejects a Studio evidence index that disagrees with the source acceptance record (53.7562ms)",
+                   "Γ£ö rejects a changed evidence reference instead of silently trusting its new contents (50.4182ms)",
+                   "Γ£ö rejects malformed source snapshot claims inside a correctly hashed typed record (36.3724ms)",
+                   "Γ£ö health endpoint reports a live local service without exposing environment values (339.1266ms)",
+                   "Γ£ö local shutdown route responds before gracefully closing the service (91.9604ms)",
+                   "Γ£ö shutdown closes an in-flight local request after the bounded grace period (103.9524ms)",
+                   "Γ£ö evidence endpoint returns the validated registry summary without accepting file paths (59.0551ms)",
+                   "Γ£ö Studio status exposes discovered schemas while labeling non-allowlisted tools as unavailable to the dashboard (1068.3048ms)",
+                   "Γ£ö projects endpoint lists only directories in the local projects folder (71.1938ms)",
+                   "Γ£ö project creation rejects invalid names and creates a Rojo template within the project root (127.7927ms)",
+                   "Γ£ö opens nested source paths and rejects traversal in the project source route (39.2866ms)",
+                   "Γ£ö rejects cross-origin mutations and does not create a project (17.8941ms)",
+                   "Γ£ö reports disconnected Studio honestly and returns real connected instances from the bridge (1013.1738ms)",
+                   "Γ£ö serves bounded structured knowledge search without accepting file paths (60.6168ms)",
+                   "Γ£ö exposes the official Roblox API class catalog and current class reference (15.3698ms)",
+                   "Γ£ö maps Lab requests to the live Studio MCP input schemas (78.2711ms)",
+                   "Γ£ö persists viewport evidence only for a listed live Studio instance and serves the verified image (57.9833ms)",
+                   "Γ£ö serves a real dashboard shell and rejects path traversal (15.995ms)",
+                   "Γ£ö captures a deterministic source-tree digest that changes with source edits but excludes evidence artifacts (3905.069ms)",
+                   "Γä╣ tests 27",
+                   "Γä╣ suites 0",
+                   "Γä╣ pass 27",
+                   "Γä╣ fail 0",
+                   "Γä╣ cancelled 0",
+                   "Γä╣ skipped 0",
+                   "Γä╣ todo 0",
+                   "Γä╣ duration_ms 4328.3009"
+               ],
+    "limitations":  [
+                        "This verifies the local evidence loader, source binding checks, API routes, and API overview integration; it does not independently certify the referenced game scenarios or provider identity."
+                    ]
+}
