@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "type": "independent-review",
+  "project": "lab",
+  "status": "passed",
+  "reviewerIdentity": "process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626",
+  "authorIdentity": "implementation-agent:buffy",
+  "separation": "distinct-process",
+  "capacity": "automated distinct process; not a human",
+  "reviewedCapability": "LAB-STUDIO-002",
+  "reviewedSourceCommit": "2b6210c64120f94e87324b2bcd6d7f95d8d70a8c",
+  "reviewedSourceTreeSha256": "ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f",
+  "reviewedEvidence": "evidence/studio/lab-playtest-governance-20261110.json",
+  "reviewedEvidenceSha256": "744da95aa1e9966965c633125cac0de1a87fca002f550e1792f3f32dc59e52ad",
+  "reviewedEvidenceCommit": "fc11ac3be3aee65eed110602abbd20f35c995fd3",
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-STUDIO-002",
+      "acceptanceCriteriaIndexes": [
+        0,
+        1
+      ]
+    }
+  ],
+  "criteria": [
+    {
+      "index": 0,
+      "result": "passed",
+      "basis": "Five ordered classes and a closed catalog with no dashboard-exposed mutation."
+    },
+    {
+      "index": 1,
+      "result": "passed",
+      "basis": "A live reversible operation used a single-use, scope-bound approval and a token-free, source-bound audit."
+    }
+  ],
+  "checks": [
+    {
+      "name": "evidence_status",
+      "status": "passed",
+      "detail": "Evidence status: passed."
+    },
+    {
+      "name": "source_commit",
+      "status": "passed",
+      "detail": "Source commit: 2b6210c64120f94e87324b2bcd6d7f95d8d70a8c."
+    },
+    {
+      "name": "source_tree",
+      "status": "passed",
+      "detail": "Source tree: ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f, dirty=false."
+    },
+    {
+      "name": "commit_exists",
+      "status": "passed",
+      "detail": "The reviewed source commit is present in this repository."
+    },
+    {
+      "name": "evidence_registry_reference",
+      "status": "passed",
+      "detail": "Registry reference hash: 744da95aa1e9966965c633125cac0de1a87fca002f550e1792f3f32dc59e52ad."
+    },
+    {
+      "name": "capability_reference",
+      "status": "passed",
+      "detail": "Capability refs: [\"evidence/studio/lab-playtest-governance-20261110.json\"]."
+    },
+    {
+      "name": "coverage",
+      "status": "passed",
+      "detail": "Covered criteria: [0,1]."
+    },
+    {
+      "name": "five_risk_classes",
+      "status": "passed",
+      "detail": "Risk classes: inspection, reversible_mutation, destructive_mutation, upload, publishing."
+    },
+    {
+      "name": "closed_catalog_classes",
+      "status": "passed",
+      "detail": "Every risk class has at least one catalog operation."
+    },
+    {
+      "name": "playtest_catalog",
+      "status": "passed",
+      "detail": "Start and stop are cataloged as start_stop_play."
+    },
+    {
+      "name": "mutations_not_dashboard_exposed",
+      "status": "passed",
+      "detail": "No mutation operation is dashboard-exposed."
+    },
+    {
+      "name": "start_operation",
+      "status": "passed",
+      "detail": "Start: Game Started; state Play."
+    },
+    {
+      "name": "stop_operation",
+      "status": "passed",
+      "detail": "Stop: Game Stopped; state Edit."
+    },
+    {
+      "name": "distinct_approvals",
+      "status": "passed",
+      "detail": "Approval IDs: eeaabd5d-b58a-4a27-8138-013831c77cb7, 467b38fa-f09a-4a02-912f-acb296139fde."
+    },
+    {
+      "name": "distinct_parameter_digests",
+      "status": "passed",
+      "detail": "Start and stop use distinct parameter digests."
+    },
+    {
+      "name": "audit_presence",
+      "status": "passed",
+      "detail": "Both operations have issued, started, and succeeded audit decisions."
+    },
+    {
+      "name": "audit_no_token",
+      "status": "passed",
+      "detail": "The captured audit entries contain no approval token or token hash."
+    },
+    {
+      "name": "scope_bound",
+      "status": "passed",
+      "detail": "Approval and audit scopes bind the reviewed Studio instance, place, and source revision."
+    },
+    {
+      "name": "audit_source_digest",
+      "status": "passed",
+      "detail": "Audit bytes=4403, sha256=bd782e799b13cb1c3afef09cf74f4895ce76baa8d4c99df268be3f54a9d3ca87."
+    },
+    {
+      "name": "full_node_suite",
+      "status": "passed",
+      "detail": "npm test exit=0, pass=118, fail=0."
+    },
+    {
+      "name": "live_state_observation",
+      "status": "passed",
+      "detail": "Current mode: Edit"
+    }
+  ],
+  "commands": [
+    "node scripts/review-studio-governance.mjs",
+    "npm test",
+    "git cat-file -e 2b6210c64120f94e87324b2bcd6d7f95d8d70a8c^{commit}",
+    "GET /api/studio/state?studio_id=d5f07df7-b8ce-4c9b-9e56-6891c6172a64 (read-only)"
+  ],
+  "limitations": [
+    "This is an automated distinct process, not a human reviewer; it does not add human judgment or identity attestation.",
+    "The review did not re-run the live Studio start/stop sequence; it verified the source-bound record and the current read-only Studio state.",
+    "The live evidence covers reversible playtest only; Rojo sync, save, destructive mutation, upload, publishing, and multiplayer/device behavior are out of scope.",
+    "The approval issuer label is supplied by the local mission and is not cryptographically authenticated."
+  ],
+  "decidedAt": "2026-11-10T18:39:44.622Z"
+}

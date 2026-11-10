@@ -2,9 +2,9 @@
 
 ## Current status
 
-**PENDING — no reviewer identity has been supplied.** The Lab does not self-appoint a reviewer and does not treat the author's local tests as independent review. This is why the register currently has **0 VERIFIED** capabilities even where implementation and local checks pass.
+**APPOINTED — automated distinct process, limited scope (not human).** A separate Node process, `process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626`, reviewed the recorded `LAB-STUDIO-002` evidence on 2026-11-10 and passed 21 of 21 checks, including the full 118-test suite. It is a real separate execution surface, but the same operator wrote the implementation, evidence, and review script; it is not human-independent judgment. The register remains at **0 VERIFIED**.
 
-Appointing a reviewer is a human/project-owner action. The appointment is not complete until a named person or a separately identified process accepts a defined scope and can be attributed in the evidence record.
+The project owner has not supplied a human reviewer. This appointment covers the recorded reversible start/stop gate and the approval/audit model only. It does not cover live save, destructive mutation, upload, publishing, or Rojo sync; those executors remain absent. `LAB-STUDIO-002` therefore remains `IN_PROGRESS` with a high open defect.
 
 ## Eligibility
 
@@ -24,14 +24,18 @@ Fill this before any capability is submitted for `VERIFIED`:
 
 | Field | Value |
 |---|---|
-| Reviewer identity | **PENDING** |
-| Capacity | **PENDING** (human or distinct process) |
-| Separation basis | **PENDING** |
-| Accepted capability IDs | **PENDING** |
-| Accepted criterion indexes | **PENDING** |
-| Evidence commit and tree digest | **PENDING** |
-| Reproduction commands / runtime scope | **PENDING** |
-| Decision and date | **PENDING** |
+| Reviewer identity | `process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626` |
+| Capacity | Automated Node.js distinct process (not human) |
+| Separation basis | Separate OS process and PID/session; author `implementation-agent:buffy`; same operator wrote both, so this is not human-independent judgment |
+| Accepted capability IDs | `LAB-STUDIO-002` |
+| Accepted criterion indexes | `0, 1` for the recorded reversible gate and approval/audit model |
+| Evidence commit and tree digest | Reviewed `2b6210c64120f94e87324b2bcd6d7f95d8d70a8c` / `ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f`; evidence commit `fc11ac3be3aee65eed110602abbd20f35c995fd3`; merged evidence SHA-256 `4645d216d466a7050cb050cd92774ff0bfad1eed0ce1c2bb9cc8551dea99a582` |
+| Reproduction commands / runtime scope | `npm run review:studio`; `npm test` (118/118); read-only `GET /api/studio/state`; no live start/stop rerun |
+| Decision and date | `passed` on the recorded evidence, 2026-11-10; no `VERIFIED` promotion |
+
+## Review finding
+
+The automated process passed all 21 checks. It verified the recorded reversible start/stop evidence, the five risk classes, the closed catalog, approval binding, token-free audit, current read-only Studio state, and the full Node suite. It did not re-run the live operation and did not exercise save, destructive mutation, upload, publishing, or Rojo sync. Raw report: `evidence/studio/lab-studio-002-independent-review-20261110.json` (SHA-256 `f82be867be087add867e719189e2d7bdf848fb5b0cd7795006280ddc10ed531a`).
 
 ## Attestation requirements
 
@@ -49,9 +53,10 @@ The evidence source record must include an `independentReview` object with:
 
 ## Immediate consequence
 
-Until a reviewer is appointed:
+Until the high-impact executors and a human reviewer are in place:
 
-- no capability may move to `VERIFIED`;
+- no capability may move to `VERIFIED` on this automated review alone;
+- `LAB-STUDIO-002` remains `IN_PROGRESS` with its high open defect;
 - the four `IMPLEMENTED` capabilities remain evidence-packaged but unreviewed;
-- the new solo-loop and live-inventory records support narrow observations only;
+- the solo-loop and live-inventory records support narrow observations only;
 - `LAB-SEC-001`, `LAB-RELEASE-001`, and every production gate that requires independent review remain open.

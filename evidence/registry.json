@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T18:30:57.255Z",
+  "updatedAt": "2026-11-10T18:46:01.198Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -536,13 +536,32 @@
       "project": "lab",
       "scope": "A local Signal Garden playtest was started and stopped through the fixed Lab CLI. Each reversible mutation required its own single-use approval bound to the exact project, source revision, Studio instance, place name, place ID, and parameter digest. The run returned to Edit mode; no place save, sync, upload, publish, script replacement, or arbitrary Luau execution occurred.",
       "reference": "evidence/studio/lab-playtest-governance-20261110.json",
-      "referenceSha256": "744da95aa1e9966965c633125cac0de1a87fca002f550e1792f3f32dc59e52ad",
+      "referenceSha256": "4645d216d466a7050cb050cd92774ff0bfad1eed0ce1c2bb9cc8551dea99a582",
       "limitations": [
         "This is a reversible local playtest only; it does not exercise Rojo live sync, DataModel mutation, save, upload, publishing, or destructive operations.",
         "The approval identity is a local project-owner label supplied by the mission; the Lab does not cryptographically authenticate a person or provider.",
         "One local desktop Studio client only; no two-client replication, touch/controller, physical-device, performance, or visual review.",
-        "No independent reviewer is attached; the local tests are not independent certification.",
-        "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name."
+        "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name.",
+        "The attached review is an automated distinct process with a separate PID/session, not a human reviewer; it does not add human judgment or identity attestation.",
+        "The review verified the source-bound record and the current read-only Studio state; it did not re-run the live Studio start/stop sequence.",
+        "The review covers the reversible start/stop gate and the approval/audit model; no live destructive, upload, publishing, save, or Rojo-sync operation was exercised.",
+        "The approval issuer label is supplied by the local mission and is not cryptographically authenticated."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-studio-002-independent-review-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Automated distinct-process review of LAB-STUDIO-002 evidence",
+      "capturedAt": "2026-11-10T18:39:44.622Z",
+      "project": "lab",
+      "scope": "A separate Node process re-verified the LAB-STUDIO-002 source-bound live playtest record: source identity, registry hash, both capability criteria, five risk classes, closed catalog, scope-bound approvals, token-free audit, current read-only Studio state, and the full Node test suite. It passed 21 of 21 checks. This is not a human review and did not re-run the live start/stop sequence.",
+      "reference": "evidence/studio/lab-studio-002-independent-review-20261110.json",
+      "referenceSha256": "f82be867be087add867e719189e2d7bdf848fb5b0cd7795006280ddc10ed531a",
+      "limitations": [
+        "The reviewer is an automated distinct process, not a human; the same operator wrote the implementation, evidence, and review script.",
+        "The review did not re-run the live Studio start/stop sequence and did not exercise destructive, upload, publishing, save, or Rojo-sync operations.",
+        "The approval issuer label is a local mission label, not a cryptographically authenticated identity."
       ]
     }
   ]

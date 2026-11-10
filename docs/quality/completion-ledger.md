@@ -6,13 +6,13 @@ Updated 2026-11-10. This ledger is a working handoff, not a release declaration.
 
 - Branch: `codex/lab-recovery-p0`; the live playtest was captured against clean source checkpoint `2b6210c64120f94e87324b2bcd6d7f95d8d70a8c`. The evidence and this ledger are committed in the following handoff commit; use `git rev-parse HEAD` for that immutable record.
 - Source snapshot at the live capture: 261 files, tree SHA-256 `ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f` (clean), excluding `evidence/`.
-- Verification: `npm test` passed 118/118; `npm run verify:evidence` passed 27/27 with 34 registered records.
+- Verification: `npm test` passed 118/118; `npm run verify:evidence` passed 27/27 with 35 registered records.
 - The live CLI exercised `studio.start_playtest` and `studio.stop_playtest` with two distinct single-use approvals, returned Studio to Edit, and wrote a token-free audit trail. Hosted CI for the handoff commit is run after the evidence commit.
-- Current scope: **0 VERIFIED, 4 IMPLEMENTED, 14 IN_PROGRESS, 3 NOT_STARTED, 2 BLOCKED_EXTERNAL.** No independent reviewer is appointed; two-client, device, visual, release, and independent-review gates remain open.
+- Current scope: **0 VERIFIED, 4 IMPLEMENTED, 14 IN_PROGRESS, 3 NOT_STARTED, 2 BLOCKED_EXTERNAL.** An automated distinct-process review of `LAB-STUDIO-002` passed 21/21 checks; it is not a human reviewer, and high-impact Studio execution remains open. Two-client, device, visual, release, and human-review gates remain open.
 
 ## Independent reviewer
 
-**Status: PENDING.** No reviewer identity has been supplied. The Lab cannot self-appoint one, and the author's local tests are not independent review. The required identity, separation, criterion coverage, and attestation fields are in `docs/quality/independent-review.md`. Until that gate is filled, no capability may move to `VERIFIED`.
+**Status: APPOINTED — automated distinct process, limited scope (not human).** On 2026-11-10, `process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626` reviewed the source-bound `LAB-STUDIO-002` evidence and passed 21/21 checks, including `npm test` 118/118. The same operator wrote the implementation, evidence, and review script; the review did not re-run the live Studio sequence and does not add human judgment. The reviewer covers the recorded reversible start/stop gate and the approval/audit model only. `LAB-STUDIO-002` remains `IN_PROGRESS` with a high open defect because save, destructive mutation, upload, publishing, and Rojo sync are not executed. No capability is `VERIFIED`. Full appointment details: `docs/quality/independent-review.md`.
 
 ## Latest reconciled observations
 
@@ -20,6 +20,7 @@ Updated 2026-11-10. This ledger is a working handoff, not a release declaration.
 - The live official Studio MCP inventory reports 36 tools with no missing schemas. The Lab now advertises exactly seven callable named read routes; 29 are blocked, including four Studio-read-only tools without a Lab route (`http_get`, `script_grep`, `script_search`, `skill`). Record: `evidence.studio.lab-live-studio-inventory-20261110`.
 - The eight benchmark source projects exist and build, but none has source-bound scenario execution, target-device/visual evidence, or independent certification. The separate flagship is not audited or audience-tested.
 - The fixed CLI exercised the reversible playtest gate end to end. Each operation was bound to project `signal-garden`, the clean source revision, Studio instance `d5f07df7-b8ce-4c9b-9e56-6891c6172a64`, and place `signal-garden-20261110T124445Z.rbxlx`; start returned Play and stop returned Edit. Record: `evidence.studio.lab-playtest-governance-20261110`. No save, sync, upload, or publish was invoked.
+- The automated distinct-process review passed 21/21 checks against the live evidence and full Node suite. It is recorded in `evidence.studio.lab-studio-002-independent-review-20261110` and merged into the evidence record. It is not human review; `LAB-STUDIO-002` remains `IN_PROGRESS` because high-impact executors are absent.
 - Two-client, touch/controller, physical-device, art-direction, participant, and release gates remain external. The exact two-client/device protocol is in `docs/quality/multiplayer-device-gate.md`.
 
 ## Capability work queue
@@ -31,8 +32,8 @@ Updated 2026-11-10. This ledger is a working handoff, not a release declaration.
 | LAB-ROJO-001 | IN_PROGRESS | Three pinned local Rojo builds and source/output evidence | Verify executable digest, reproducibility, output tampering, concurrent builds, artifact confinement | Independent review remains |
 | LAB-ROJO-002 | NOT_STARTED | Static builds only; Studio identity is known; no sync executor | Implement named loopback sync lifecycle bound to project, revision, Studio instance, and place | Only a playtest CLI exists; DataModel-changing sync needs target-specific approval and audit evidence |
 | LAB-STUDIO-001 | IMPLEMENTED | Live 36-tool comparison: 7 callable, 29 blocked, 0 missing schemas; targeted 6/6 | Test disconnect/reconnect and Studio-upgrade schema changes; independent review | Dashboard remains read-only; the fixed CLI is the only mutation surface |
-| LAB-STUDIO-002 | IN_PROGRESS | Five risk classes, closed catalog, 12 adversarial tests; live start/stop passed with two single-use approvals and token-free audit | Rojo sync, destructive/upload/publish executors, independent review | Only reversible playtest is live; sync/save/upload/publish remain blocked |
-| LAB-EVIDENCE-001 | IN_PROGRESS | Typed records, SHA-256 references, source snapshots, criterion gates, 27/27 checks | Add independently attributable review, stale-evidence reporting, capability traceability | No independent reviewer identity |
+| LAB-STUDIO-002 | IN_PROGRESS | Five risk classes, closed catalog, 12 adversarial tests; live start/stop passed with two single-use approvals and token-free audit; automated distinct-process review passed 21/21 | Rojo sync, destructive/upload/publish executors, human review | Only reversible playtest is live; sync/save/upload/publish remain blocked; automated review is not human |
+| LAB-EVIDENCE-001 | IN_PROGRESS | Typed records, SHA-256 references, source snapshots, criterion gates, 27/27 checks | Add independently attributable review, stale-evidence reporting, capability traceability | Only an automated reviewer is attached; no human identity |
 | LAB-INTEL-001 | IN_PROGRESS | Versioned knowledge records and official API references | Expand provenance-backed coverage for networking, security, animation, UI, mobile, audio/VFX, persistence, release | Coverage incomplete |
 | LAB-INTEL-002 | IN_PROGRESS | Open taxonomy/reasoning foundations | Run coverage report and held-out hybrid composition exercise | LAB-INTEL-001 coverage incomplete |
 | LAB-ORCH-001 | IMPLEMENTED | Role matching, plans, artifact contracts, handoff tests | Demonstrate plan-to-reviewed-artifact workflow on a non-fixture project | Independent review remains |
@@ -54,7 +55,8 @@ Updated 2026-11-10. This ledger is a working handoff, not a release declaration.
 
 - `npm test` — 118/118 Node tests (includes the Studio read allowlist and fixed mutation boundary).
 - `node scripts/studio-playtest.mjs --help` — fixed CLI surface.
-- `npm run verify:evidence` — 27/27 checks, 34 registered records; report `evidence/p0/lab-evidence-registry-verification-20261110T183058577Z.json`.
+- `npm run review:studio` — 21/21 checks; reviewer `process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626`; full `npm test` 118/118; report `evidence/studio/lab-studio-002-independent-review-20261110.json`.
+- `npm run verify:evidence` — 27/27 checks, 35 registered records; report `evidence/p0/lab-evidence-registry-verification-20261110T184652178Z.json`.
 - Live inventory: `GET http://127.0.0.1:4177/api/studio` after reconnecting the official Studio MCP.
 - `npm run studio:playtest -- --action start ...` and `--action stop ...` — two distinct approvals; start result Game Started / state Play; stop result Game Stopped / state Edit; audit digest `bd782e799b13cb1c3afef09cf74f4895ce76baa8d4c99df268be3f54a9d3ca87`.
 - `scripts/test-all.ps1` — passed on 2026-11-10: 118 Node tests, Luau syntax parsing, and 11 Rojo builds (base template, eight benchmarks, Misprint Menagerie, Signal Garden).

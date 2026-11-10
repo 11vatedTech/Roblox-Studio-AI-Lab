@@ -174,7 +174,36 @@
     "This is a reversible local playtest only; it does not exercise Rojo live sync, DataModel mutation, save, upload, publishing, or destructive operations.",
     "The approval identity is a local project-owner label supplied by the mission; the Lab does not cryptographically authenticate a person or provider.",
     "One local desktop Studio client only; no two-client replication, touch/controller, physical-device, performance, or visual review.",
-    "No independent reviewer is attached; the local tests are not independent certification.",
-    "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name."
-  ]
+    "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name.",
+    "The attached review is an automated distinct process with a separate PID/session, not a human reviewer; it does not add human judgment or identity attestation.",
+    "The review verified the source-bound record and the current read-only Studio state; it did not re-run the live Studio start/stop sequence.",
+    "The review covers the reversible start/stop gate and the approval/audit model; no live destructive, upload, publishing, save, or Rojo-sync operation was exercised.",
+    "The approval issuer label is supplied by the local mission and is not cryptographically authenticated."
+  ],
+  "independentReview": {
+    "status": "passed",
+    "authorIdentity": "implementation-agent:buffy",
+    "reviewerIdentity": "process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626",
+    "separation": "distinct-process",
+    "capacity": "automated distinct process; not a human",
+    "decidedAt": "2026-11-10T18:39:44.622Z",
+    "report": "evidence/studio/lab-studio-002-independent-review-20261110.json",
+    "reviewedSourceCommit": "2b6210c64120f94e87324b2bcd6d7f95d8d70a8c",
+    "reviewedSourceTreeSha256": "ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f",
+    "reviewedEvidenceSha256": "744da95aa1e9966965c633125cac0de1a87fca002f550e1792f3f32dc59e52ad",
+    "checksPassed": 21,
+    "checksFailed": 0,
+    "criteria": [
+      {
+        "index": 0,
+        "result": "passed",
+        "basis": "Five ordered classes and a closed catalog with no dashboard-exposed mutation."
+      },
+      {
+        "index": 1,
+        "result": "passed",
+        "basis": "A live reversible operation used a single-use, scope-bound approval and a token-free, source-bound audit."
+      }
+    ]
+  }
 }

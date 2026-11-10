@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T18:30:57.258Z",
+  "updatedAt": "2026-11-10T18:43:01.460Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -202,11 +202,11 @@
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "Only the reversible start/stop playtest executor is live. Rojo live sync, DataModel replacement, save, destructive mutation, upload, publishing, and independent review remain unexercised."
+          "description": "Only the reversible start/stop playtest executor is live. Save, destructive mutation, upload, publishing, and the approved Rojo sync path have no executor and remain unexercised; the attached review is an automated distinct process, not a human reviewer."
         }
       ],
       "blockers": [
-        "The fixed CLI now exercises reversible start/stop playtest with a single-use approval and audit. Rojo live sync, save, upload, publish, destructive operations, and independent review remain open."
+        "High-impact Studio execution (save, destructive mutation, upload, publishing, Rojo sync) and a human independent review remain open."
       ],
       "approvalRequirements": [
         "Require operation-specific approval for DataModel mutation, destructive actions, asset upload, purchase, publishing, production settings, or live/player-data changes."

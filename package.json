@@ -10,6 +10,7 @@
     "start": "node src/server/start.js",
     "mcp:tasks": "node src/mcp/lab-task-server.js",
     "studio:playtest": "node scripts/studio-playtest.mjs",
+    "review:studio": "node scripts/review-studio-governance.mjs",
     "verify:task-execution": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/verify-task-execution.ps1",
     "verify:evidence": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/verify-evidence-registry.ps1",
     "test": "node --test",
