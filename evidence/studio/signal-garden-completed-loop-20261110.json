@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "passed",
+  "title": "Signal Garden solo loop completed with three restorations in live Studio",
+  "capturedAt": "2026-11-10T13:15:12.200Z",
+  "project": "signal-garden",
+  "scope": "Manual player-input completion of the Signal Garden solo loop in one local desktop Studio Play session, corroborated by two HUD captures showing Restorations 1 and 3 and by the post-restoration Echo reset. This does not cover two clients, touch/controller input, physical-device performance, visual approval, saving, or publishing.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "682a24a76996b474d7b7a1bf915f05dc793d135a",
+    "treeSha256": "d68aafba44a6203ca7053426ad4d9397418d9f1bd04a4fb12000c281ff5db98f",
+    "dirty": false,
+    "sourceFileCount": 258,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots.",
+    "note": "The running place was built from 0a2e97d; projects/signal-garden is unchanged between 0a2e97d and 682a24a."
+  },
+  "studio": {
+    "instanceId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+    "placeName": "signal-garden-20261110T124445Z.rbxlx",
+    "mode": "Play",
+    "dataModels": [
+      "Client",
+      "Server"
+    ],
+    "protocolVersion": "2026-07-28",
+    "discoveredToolCount": 36
+  },
+  "build": {
+    "path": ".lab-runtime/builds/signal-garden-20261110T124445Z.rbxlx",
+    "sha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0",
+    "bytes": 30071,
+    "builder": "Rojo 7.7.1 (pinned in .tools/)"
+  },
+  "run": {
+    "input": "Manual player input in the Studio Play session",
+    "restorationsObserved": 3,
+    "captures": [
+      {
+        "id": "04b6b453-7cb5-4c24-a1cf-d97a4a68459c",
+        "path": "evidence/studio/04b6b453-7cb5-4c24-a1cf-d97a4a68459c.jpg",
+        "capturedAt": "2026-11-10T13:10:43.705Z",
+        "sha256": "991c9c95867eb59e724bf4cf01f0727c54e8d059b6682ccb661f78db7140c5f5",
+        "bytes": 220275,
+        "hud": [
+          "Gather Echoes - 5 carried",
+          "Archive charge 0/3 - Restorations 1",
+          "The archive is ready for another expedition."
+        ]
+      },
+      {
+        "id": "cbf9fc2c-ab80-406d-a751-b6849e954c3e",
+        "path": "evidence/studio/cbf9fc2c-ab80-406d-a751-b6849e954c3e.jpg",
+        "capturedAt": "2026-11-10T13:15:12.200Z",
+        "sha256": "74d2d48e1ade2143c767974fe055edf6b52d99708a638b5b569f7fcfb46a932c",
+        "bytes": 214274,
+        "hud": [
+          "Gather Echoes - 0 carried",
+          "Archive charge 2/3 - Restorations 3",
+          "Gather an Echo before returning to the archive."
+        ]
+      }
+    ]
+  },
+  "observations": [
+    "The first capture, at 13:10:43Z, shows Restorations 1 with five Echoes carried and the message that the archive is ready for another expedition.",
+    "The second capture, at 13:15:12Z, shows Restorations 3 with archive charge 2/3 and no Echo carried.",
+    "All eight EchoFragment parts reported Collected=false at 13:15, consistent with the documented post-restoration reset.",
+    "The console contained only the Signal Garden bootstrap message and no error output.",
+    "The same Play session retained both Client and Server DataModels and the 18-node SignalGarden runtime scene."
+  ],
+  "limitations": [
+    "Player actions were not instrumented per step; completion is corroborated by two HUD captures and the post-restoration reset, not by a timestamped server event log.",
+    "One local desktop client only; no second player or replication check.",
+    "Touch, controller, physical-device, and performance behavior were not measured.",
+    "No place change was saved, no asset was uploaded, and nothing was published.",
+    "Visual approval and independent review are not attached; this record supports only the narrow solo-loop completion it describes."
+  ]
+}

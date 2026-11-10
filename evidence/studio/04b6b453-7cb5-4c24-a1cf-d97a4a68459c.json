@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "04b6b453-7cb5-4c24-a1cf-d97a4a68459c",
+  "imageName": "04b6b453-7cb5-4c24-a1cf-d97a4a68459c.jpg",
+  "mimeType": "image/jpeg",
+  "bytes": 220275,
+  "sha256": "991c9c95867eb59e724bf4cf01f0727c54e8d059b6682ccb661f78db7140c5f5",
+  "capturedAt": "2026-11-10T13:10:43.705Z",
+  "studioId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+  "project": "signal-garden",
+  "framing": {
+    "cameraPosition": [
+      70,
+      55,
+      70
+    ],
+    "lookAtPosition": [
+      0,
+      8,
+      0
+    ]
+  },
+  "assessment": {
+    "status": "unreviewed",
+    "note": null
+  },
+  "source": "Roblox Studio screen_capture MCP tool"
+}

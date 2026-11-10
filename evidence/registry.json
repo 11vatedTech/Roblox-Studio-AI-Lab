@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T13:04:24.103Z",
+  "updatedAt": "2026-11-10T13:16:37.657Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -490,6 +490,24 @@
         "No place change was saved, no asset was uploaded, and nothing was published.",
         "The place and game IDs were not exposed by the read routes; this is a local unpublished place.",
         "No independent reviewer is attached; this record supports only the narrow checks it names."
+      ]
+    },
+    {
+      "id": "evidence.studio.signal-garden-completed-loop-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Signal Garden solo loop completed with three restorations",
+      "capturedAt": "2026-11-10T13:15:12.200Z",
+      "project": "signal-garden",
+      "scope": "Manual player-input completion of the solo loop in one local desktop Studio Play session, corroborated by HUD captures at Restorations 1 and 3 and the post-restoration Echo reset.",
+      "reference": "evidence/studio/signal-garden-completed-loop-20261110.json",
+      "referenceSha256": "d2e7c767f7cc51819b5c43ce93fc9f6500979c843c512fe059823303bcb2c443",
+      "limitations": [
+        "Player actions were not instrumented per step; completion is corroborated by two HUD captures and the post-restoration reset, not by a timestamped server event log.",
+        "One local desktop client only; no second player or replication check.",
+        "Touch, controller, physical-device, and performance behavior were not measured.",
+        "No place change was saved, no asset was uploaded, and nothing was published.",
+        "Visual approval and independent review are not attached; this record supports only the narrow solo-loop completion it describes."
       ]
     }
   ]
