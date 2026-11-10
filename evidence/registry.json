@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T13:36:32.087Z",
+  "updatedAt": "2026-11-10T18:30:57.255Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -525,6 +525,24 @@
         "The source snapshot is dirty because the allowlist correction is not yet committed; this record cannot support a VERIFIED capability.",
         "No independent reviewer is attached.",
         "The comparison covers the current Studio build and the current 36-tool inventory only; a Studio upgrade can change the list."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-playtest-governance-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Live Studio playtest exercised through the single-use approval gate",
+      "capturedAt": "2026-11-10T18:28:39.852Z",
+      "project": "lab",
+      "scope": "A local Signal Garden playtest was started and stopped through the fixed Lab CLI. Each reversible mutation required its own single-use approval bound to the exact project, source revision, Studio instance, place name, place ID, and parameter digest. The run returned to Edit mode; no place save, sync, upload, publish, script replacement, or arbitrary Luau execution occurred.",
+      "reference": "evidence/studio/lab-playtest-governance-20261110.json",
+      "referenceSha256": "744da95aa1e9966965c633125cac0de1a87fca002f550e1792f3f32dc59e52ad",
+      "limitations": [
+        "This is a reversible local playtest only; it does not exercise Rojo live sync, DataModel mutation, save, upload, publishing, or destructive operations.",
+        "The approval identity is a local project-owner label supplied by the mission; the Lab does not cryptographically authenticate a person or provider.",
+        "One local desktop Studio client only; no two-client replication, touch/controller, physical-device, performance, or visual review.",
+        "No independent reviewer is attached; the local tests are not independent certification.",
+        "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name."
       ]
     }
   ]

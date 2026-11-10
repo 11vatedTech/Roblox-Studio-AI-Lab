@@ -71,3 +71,11 @@
 - Added `docs/quality/multiplayer-device-gate.md` with the exact two-client, touch/controller, and physical-device protocol. The gate remains `BLOCKED_EXTERNAL`: no confirmed midrange phone, the native multi-client UI run was not performed, and the Lab bridge is read-only.
 - The eight benchmark source projects exist and build; none has source-bound scenario/device/visual certification, and the flagship is not audited or audience-tested. No art, asset, research, or release claim was added.
 - Full offline suite passed: 117 Node tests, Luau syntax parsing, and 11 Rojo builds (base template, eight benchmarks, Misprint Menagerie, Signal Garden). This is a build/parse result only, not runtime, device, visual, or multiplayer certification.
+
+## 2026-11-10 — approval-gated live playtest and evidence commit
+
+- Added a fixed CLI, `npm run studio:playtest`, that binds a single-use approval to the project, full source revision, Studio instance, place name, place ID, and parameter digest. The only callable mutation is `start_stop_play` with exact `{ studio_id, is_start }` arguments. No dashboard mutation route, save, sync, upload, publish, script replacement, or arbitrary Luau execution was added.
+- Exercised the gate live on Signal Garden. Start approval `eeaabd5d…` returned `Game Started` and Studio state `Play`; stop approval `467b38fa…` returned `Game Stopped` and state `Edit`. Both operations produced approval-issued, started, and succeeded audit entries; the audit contains no token.
+- Added and registered `evidence.studio.lab-playtest-governance-20261110` (`passed`, source-bound to clean `2b6210c`, tree `ab61cdb6…`, audit SHA-256 `bd782e79…`). `LAB-STUDIO-002` is now `verificationResult: passed` but remains `IN_PROGRESS`: sync, destructive, save, upload, publish, and independent review are still unexercised.
+- `npm test` passed 118/118. `npm run verify:evidence` passed 27/27 with 34 registered records. The live inventory still shows 7 callable read routes and 29 blocked tools; the dashboard remains read-only.
+- No independent reviewer identity has been supplied. `docs/quality/independent-review.md` remains **PENDING**; no capability was marked `VERIFIED`.

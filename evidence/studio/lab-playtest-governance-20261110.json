@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "passed",
+  "title": "Live Studio playtest exercised through the single-use approval gate",
+  "capturedAt": "2026-11-10T18:28:39.852Z",
+  "project": "lab",
+  "scope": "A local Signal Garden playtest was started and stopped through the fixed Lab CLI. Each reversible mutation required its own single-use approval bound to the exact project, source revision, Studio instance, place name, place ID, and parameter digest. The run returned to Edit mode; no place save, sync, upload, publish, script replacement, or arbitrary Luau execution occurred.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "2b6210c64120f94e87324b2bcd6d7f95d8d70a8c",
+    "dirty": false,
+    "treeSha256": "ab61cdb600033d5c9a1b2a4f038afe230718851ddd7338765d5fb207e1ccdb3f",
+    "sourceFileCount": 261,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "studio": {
+    "instanceId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+    "placeName": "signal-garden-20261110T124445Z.rbxlx",
+    "placeId": "0",
+    "gameId": "0",
+    "published": false,
+    "protocolVersion": "2026-07-28",
+    "modeBefore": "Edit",
+    "modeAfter": "Edit"
+  },
+  "operations": [
+    {
+      "operationId": "studio.start_playtest",
+      "riskClass": "reversible_mutation",
+      "approvalId": "eeaabd5d-b58a-4a27-8138-013831c77cb7",
+      "executionId": "b76fa08f-4455-4725-b2c7-3b888361f00e",
+      "approver": "project-owner-mission-20261110",
+      "requestedAt": "2026-11-10T18:28:23.543Z",
+      "expiresAt": "2026-11-10T18:33:23.543Z",
+      "parameterDigest": "2bfcdb7fdcd36935d40a1f7b9940ecdfadbecb7ba622c8d83fbbf519d52c37e4",
+      "resultDigest": "69d8ca0448a0e0362dd61323f2cd2678766f4bd51a97322da775ee8a3e93ebff",
+      "durationMs": 8057,
+      "toolResult": "Game Started",
+      "stateAfter": "Play"
+    },
+    {
+      "operationId": "studio.stop_playtest",
+      "riskClass": "reversible_mutation",
+      "approvalId": "467b38fa-f09a-4a02-912f-acb296139fde",
+      "executionId": "be5b4e0f-3a7a-458e-937d-53135dd1bf84",
+      "approver": "project-owner-mission-20261110",
+      "requestedAt": "2026-11-10T18:28:38.381Z",
+      "expiresAt": "2026-11-10T18:33:38.381Z",
+      "parameterDigest": "e47ff6c079962efb3d412758e8cc6b2b08e5d1278b04920c98152837fbb051ba",
+      "resultDigest": "a78fb9a3b9fc855c1ea1a1fcbb8ae7300eb0708a2961bd371b65d045e5a60c94",
+      "durationMs": 1453,
+      "toolResult": "Game Stopped",
+      "stateAfter": "Edit"
+    }
+  ],
+  "audit": {
+    "path": ".lab-runtime/studio-governance/audit.jsonl",
+    "bytes": 4403,
+    "sha256": "bd782e799b13cb1c3afef09cf74f4895ce76baa8d4c99df268be3f54a9d3ca87",
+    "entries": [
+      {
+        "schemaVersion": 1,
+        "id": "72ec7930-af68-4d5d-9afb-5f0a5f0051a1",
+        "at": "2026-11-10T18:28:23.547Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "approvalId": "eeaabd5d-b58a-4a27-8138-013831c77cb7",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T18:33:23.543Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "e3ce8c29-df83-4cdb-adb9-06bcd109974d",
+        "at": "2026-11-10T18:28:23.555Z",
+        "executionId": "b76fa08f-4455-4725-b2c7-3b888361f00e",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "eeaabd5d-b58a-4a27-8138-013831c77cb7",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "e786561c-f141-49cb-b4de-593c01066553",
+        "at": "2026-11-10T18:28:31.606Z",
+        "executionId": "b76fa08f-4455-4725-b2c7-3b888361f00e",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "eeaabd5d-b58a-4a27-8138-013831c77cb7",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 8057,
+        "resultDigest": "69d8ca0448a0e0362dd61323f2cd2678766f4bd51a97322da775ee8a3e93ebff"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "43b10b0d-42d4-4e0c-a1b4-c7b6a759b1a4",
+        "at": "2026-11-10T18:28:38.397Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "approvalId": "467b38fa-f09a-4a02-912f-acb296139fde",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T18:33:38.381Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "9d7c87b9-30fa-446c-9479-ef8d034e0e47",
+        "at": "2026-11-10T18:28:38.402Z",
+        "executionId": "be5b4e0f-3a7a-458e-937d-53135dd1bf84",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "467b38fa-f09a-4a02-912f-acb296139fde",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "e2993868-b608-49a9-9a87-c452acfdf614",
+        "at": "2026-11-10T18:28:39.852Z",
+        "executionId": "be5b4e0f-3a7a-458e-937d-53135dd1bf84",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "467b38fa-f09a-4a02-912f-acb296139fde",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 1453,
+        "resultDigest": "a78fb9a3b9fc855c1ea1a1fcbb8ae7300eb0708a2961bd371b65d045e5a60c94"
+      }
+    ]
+  },
+  "localChecks": {
+    "npmTest": {
+      "command": "npm test",
+      "result": "passed",
+      "tests": 118,
+      "passed": 118,
+      "failed": 0
+    },
+    "scope": "Node tests include the Studio MCP argument boundary, the five risk classes, single-use approval, scope mismatch, replay denial, expiry, concurrent execution, audit failure, and corrupted-store fail-closed behavior."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-STUDIO-002",
+      "acceptanceCriteriaIndexes": [
+        0,
+        1
+      ]
+    }
+  ],
+  "observations": [
+    "Studio was in Edit before the start approval and reported Play after the start operation.",
+    "Studio was in Play before the stop approval and reported Edit after the stop operation.",
+    "Both operations used distinct single-use approvals with distinct parameter digests and were preceded by approval-issued and started audit records.",
+    "The audit log contains no approval token; it records the operation, scope, approval ID, approver, timing, decision, and result digest.",
+    "No save, sync, upload, publish, script replacement, or arbitrary Luau execution was invoked."
+  ],
+  "limitations": [
+    "This is a reversible local playtest only; it does not exercise Rojo live sync, DataModel mutation, save, upload, publishing, or destructive operations.",
+    "The approval identity is a local project-owner label supplied by the mission; the Lab does not cryptographically authenticate a person or provider.",
+    "One local desktop Studio client only; no two-client replication, touch/controller, physical-device, performance, or visual review.",
+    "No independent reviewer is attached; the local tests are not independent certification.",
+    "The Studio instance reports a null place_id; the approval uses the recorded local place_id 0 and the exact live instance and place name."
+  ]
+}

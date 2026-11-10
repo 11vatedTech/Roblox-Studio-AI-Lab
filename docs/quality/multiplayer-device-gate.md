@@ -41,7 +41,7 @@
 
 - Native Studio multi-client UI approval timed out in the earlier attempt.
 - No confirmed physical midrange phone is available.
-- The Lab bridge is read-only, so it cannot start or drive the two-client UI.
+- The Lab has only a reversible start/stop playtest CLI; it can start a local play session but cannot drive the native two-client UI or synthesize a second player.
 - No independent reviewer is appointed.
 
 A solo desktop pass must never be substituted for this gate.

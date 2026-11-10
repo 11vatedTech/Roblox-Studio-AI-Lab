@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T13:37:37.652Z",
+  "updatedAt": "2026-11-10T18:30:57.258Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -135,7 +135,7 @@
         }
       ],
       "blockers": [
-        "LAB-STUDIO-002 is not yet verified, and the Lab task server does not expose a Studio mutation surface. A live sync verification needs an explicit Studio instance and place plus an approved mutation workflow."
+        "Only a reversible playtest CLI exists; there is no Rojo serve/sync executor. A live sync still needs an explicit Studio instance and place plus an approved mutation workflow."
       ],
       "approvalRequirements": [
         "Before a sync writes to Studio, bind the user approval to the exact project, source revision, Studio instance, and place."
@@ -169,7 +169,7 @@
       "outstandingDefects": [
         {
           "severity": "medium",
-          "description": "The live 36-tool inventory now matches the seven named read routes: 7 callable, 29 blocked, 0 missing schemas. Disconnect/reconnect behavior, Studio-upgrade schema changes, and independent review remain open."
+          "description": "The live 36-tool inventory matches seven named read routes: 7 callable, 29 blocked, 0 missing schemas. Disconnect/reconnect behavior, Studio-upgrade schema changes, and independent review remain open. The fixed CLI is the only mutation surface and has no dashboard route."
         }
       ],
       "blockers": [],
@@ -187,24 +187,26 @@
         "src/services/studio-mcp-client.js",
         "src/services/studio-governance.js",
         "src/server/app.js",
-        "docs/workflows/studio-connect.md",
+        "scripts/studio-playtest.mjs",
         "tests/studio-governance.test.js"
       ],
       "acceptanceCriteria": [
         "Inspection, reversible mutation, destructive mutation, upload, and publishing operations have separate risk classes.",
         "High-impact operations require specific approval and record request, result, Studio identity, place identity, and evidence."
       ],
-      "verificationMethod": "Review the complete operation matrix and adversarially test every exposed Studio route and permission gate.",
-      "verificationResult": "not_run",
-      "evidenceRefs": [],
+      "verificationMethod": "Review the complete operation matrix, run the adversarial approval tests, and exercise the fixed local CLI through approval, execution, Studio state transition, and audit.",
+      "verificationResult": "passed",
+      "evidenceRefs": [
+        "evidence/studio/lab-playtest-governance-20261110.json"
+      ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "The five-class matrix, scope-bound single-use approvals, replay protection, and append-only audit model are implemented and exercised with local adversarial tests. The dashboard remains read-only, so no approved live mutation has exercised the gate end to end."
+          "description": "Only the reversible start/stop playtest executor is live. Rojo live sync, DataModel replacement, save, destructive mutation, upload, publishing, and independent review remain unexercised."
         }
       ],
       "blockers": [
-        "No approved, bounded mutation surface exists yet. The gate has a closed catalog and an executor boundary, but no live high-impact operation has been authorized, executed, and audited against the open place."
+        "The fixed CLI now exercises reversible start/stop playtest with a single-use approval and audit. Rojo live sync, save, upload, publish, destructive operations, and independent review remain open."
       ],
       "approvalRequirements": [
         "Require operation-specific approval for DataModel mutation, destructive actions, asset upload, purchase, publishing, production settings, or live/player-data changes."
@@ -507,7 +509,7 @@
         }
       ],
       "blockers": [
-        "Two-client, physical-device, visual-approval, and independent-review gates remain. The Lab bridge is read-only; a writable Studio path has not been authorized for this capability."
+        "Two-client, physical-device, visual-approval, and independent-review gates remain. Only a reversible local playtest CLI is authorized; no gameplay sync or DataModel mutation is certified."
       ],
       "approvalRequirements": [
         "Specific user approval is required before saving changes to a live or user-owned DataModel; use an unpublished local test place."
