@@ -11,7 +11,7 @@ export const STUDIO_RISK_CLASSES = Object.freeze([
   Object.freeze({ id: 'publishing', rank: 4, approvalRequired: true, description: 'Publishes, releases, or changes a live experience, place, or production setting.' }),
 ]);
 
-function operation(id, riskClass, tool, description) {
+function operation(id, riskClass, tool, description, { labExposed = riskClass === 'inspection' } = {}) {
   const risk = STUDIO_RISK_CLASSES.find((entry) => entry.id === riskClass);
   if (!risk) throw new Error(`Unknown risk class ${riskClass}.`);
   return Object.freeze({
@@ -20,7 +20,7 @@ function operation(id, riskClass, tool, description) {
     tool,
     description,
     approvalRequired: risk.approvalRequired,
-    labExposed: riskClass === 'inspection',
+    labExposed,
   });
 }
 
@@ -35,6 +35,9 @@ export const STUDIO_OPERATION_CATALOG = Object.freeze([
   operation('studio.inspect_instance', 'inspection', 'inspect_instance', 'Read one instance and its properties.'),
   operation('studio.read_script', 'inspection', 'script_read', 'Read a script source.'),
   operation('studio.capture_viewport', 'inspection', 'screen_capture', 'Capture the local Studio viewport for review.'),
+  operation('studio.inspect_players', 'inspection', 'execute_luau', 'Read the engine-owned player list from the Server or Client DataModel with fixed Luau; no player is created.', { labExposed: false }),
+  operation('studio.select_device_simulator', 'reversible_mutation', 'execute_luau', 'Select the latest built-in phone in Studio Device Simulator with fixed Luau after a single-use approval.'),
+  operation('studio.reset_device_simulator', 'reversible_mutation', 'execute_luau', 'Reset Studio Device Simulator to the current desktop device with fixed Luau after a single-use approval.'),
   operation('studio.start_playtest', 'reversible_mutation', 'start_stop_play', 'Start a local play session through the fixed CLI after a single-use approval; no save.'),
   operation('studio.stop_playtest', 'reversible_mutation', 'start_stop_play', 'Stop a local play session through the fixed CLI after a single-use approval; no save.'),
   operation('studio.create_sandbox_script', 'reversible_mutation', 'multi_edit', 'Create the fixed LabSandboxProbe script in the disposable sandbox place.'),
@@ -194,7 +197,7 @@ export class StudioGovernance {
         approvals: 'A high-impact operation requires a single-use token bound to the operation, project, source revision, Studio instance, place, and a digest of its parameters.',
         ttlMs: { min: MIN_TTL_MS, max: MAX_TTL_MS, default: this.defaultTtlMs },
         audit: 'Approval issuance, authorization, execution start, result, and denial are appended to a local audit log without storing the token.',
-        dashboard: 'The dashboard is read-only. Fixed local CLIs support start/stop playtest and the sealed disposable-sandbox probe; no mutation HTTP route exists.',
+        dashboard: 'The dashboard is read-only. Fixed local CLIs support start/stop playtest, the sealed disposable-sandbox probe, and the fixed multiplayer/device gate probe; no mutation HTTP route exists.',
       },
     };
   }

@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   SANDBOX_DELETE_CODE,
+  SANDBOX_DEVICE_RESET_CODE,
+  SANDBOX_DEVICE_SELECT_CODE,
+  SANDBOX_PLAYER_COUNT_CODE,
   SANDBOX_PROBE_V1,
   SANDBOX_PROBE_V2,
   SANDBOX_SCRIPT_CLASS,
@@ -30,6 +33,13 @@ const ALLOWED_READ_TOOLS = new Set([
 const ALLOWED_MUTATION_TOOLS = new Set(['start_stop_play', 'multi_edit', 'execute_luau', 'upload_image']);
 const MAX_MESSAGE_CHARS = 12 * 1024 * 1024;
 const SANDBOX_UPLOAD_IMAGE_PATH = path.resolve(process.cwd(), ...SANDBOX_UPLOAD_IMAGE_RELATIVE.split('/'));
+const SANDBOX_LUAU_OPERATIONS = new Map([
+  ['delete', { code: SANDBOX_DELETE_CODE, datamodel: 'Edit' }],
+  ['select_device', { code: SANDBOX_DEVICE_SELECT_CODE, datamodel: 'Edit' }],
+  ['reset_device', { code: SANDBOX_DEVICE_RESET_CODE, datamodel: 'Edit' }],
+  ['count_players_server', { code: SANDBOX_PLAYER_COUNT_CODE, datamodel: 'Server' }],
+  ['count_players_client', { code: SANDBOX_PLAYER_COUNT_CODE, datamodel: 'Client' }],
+]);
 
 function mutationArgumentsInvalid(message) {
   return Object.assign(new Error(message), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
@@ -205,7 +215,7 @@ export class StudioMcpClient {
             'io.modelcontextprotocol/clientInfo': CLIENT_INFO,
             'io.modelcontextprotocol/clientCapabilities': {},
           },
-        }, { timeoutMs: Math.min(1800, this.timeoutMs) });
+        }, { timeoutMs: this.timeoutMs });
       } catch {
         discovery = null;
       }
@@ -336,8 +346,9 @@ export class StudioMcpClient {
     } else if (name === 'execute_luau') {
       requireExactMutationKeys(args, ['code', 'datamodel_type', 'studio_id']);
       requireBoundedMutationString(args.studio_id, 'studio_id');
-      if (args.datamodel_type !== 'Edit' || args.code !== SANDBOX_DELETE_CODE) {
-        throw mutationArgumentsInvalid('The only permitted sandbox Luau is the fixed probe deletion in the Edit DataModel.');
+      const allowed = [...SANDBOX_LUAU_OPERATIONS.values()].some((entry) => entry.code === args.code && entry.datamodel === args.datamodel_type);
+      if (!allowed) {
+        throw mutationArgumentsInvalid('The only permitted sandbox Luau is a fixed probe operation in its declared DataModel.');
       }
     } else if (name === 'upload_image') {
       requireExactMutationKeys(args, ['imagePaths', 'studio_id']);
@@ -349,6 +360,18 @@ export class StudioMcpClient {
     const payload = { name, arguments: args };
     if (this.#protocolEra === 'modern') payload._meta = this.#metadata();
     return this.#request('tools/call', payload);
+  }
+
+  async callSandboxLuau(name, studioId) {
+    const entry = SANDBOX_LUAU_OPERATIONS.get(name);
+    if (!entry) {
+      throw Object.assign(new Error('This fixed sandbox Luau operation is not registered.'), { code: 'STUDIO_SANDBOX_LUAU_INVALID' });
+    }
+    return this.callMutationTool('execute_luau', {
+      code: entry.code,
+      datamodel_type: entry.datamodel,
+      studio_id: studioId,
+    });
   }
 
   #metadata() {

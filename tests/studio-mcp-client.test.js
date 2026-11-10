@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 import { createMinimalChildEnvironment, StudioMcpClient } from '../src/services/studio-mcp-client.js';
 import {
   SANDBOX_DELETE_CODE,
+  SANDBOX_DEVICE_RESET_CODE,
+  SANDBOX_DEVICE_SELECT_CODE,
+  SANDBOX_PLAYER_COUNT_CODE,
   SANDBOX_PROBE_V1,
   SANDBOX_PROBE_V2,
   SANDBOX_SCRIPT_CLASS,
@@ -92,8 +95,19 @@ test('allows only the fixed playtest and sealed sandbox mutations with exact bou
       studio_id: 'fixture-studio',
     });
     assert.equal(JSON.parse(uploaded.content[0].text).ok, true);
+    const device = await client.callSandboxLuau('select_device', 'fixture-studio');
+    assert.equal(JSON.parse(device.content[0].text).arguments.code, SANDBOX_DEVICE_SELECT_CODE);
+    const reset = await client.callSandboxLuau('reset_device', 'fixture-studio');
+    assert.equal(JSON.parse(reset.content[0].text).arguments.code, SANDBOX_DEVICE_RESET_CODE);
+    const serverPlayers = await client.callSandboxLuau('count_players_server', 'fixture-studio');
+    assert.equal(JSON.parse(serverPlayers.content[0].text).arguments.datamodel_type, 'Server');
+    assert.equal(JSON.parse(serverPlayers.content[0].text).arguments.code, SANDBOX_PLAYER_COUNT_CODE);
+    const clientPlayers = await client.callSandboxLuau('count_players_client', 'fixture-studio');
+    assert.equal(JSON.parse(clientPlayers.content[0].text).arguments.datamodel_type, 'Client');
 
     await assert.rejects(() => client.callMutationTool('execute_luau', { studio_id: 'fixture-studio', code: 'return true', datamodel_type: 'Edit' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callMutationTool('execute_luau', { studio_id: 'fixture-studio', code: SANDBOX_DEVICE_SELECT_CODE, datamodel_type: 'Server' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callSandboxLuau('not_registered', 'fixture-studio'), { code: 'STUDIO_SANDBOX_LUAU_INVALID' });
     await assert.rejects(() => client.callMutationTool('multi_edit', { className: SANDBOX_SCRIPT_CLASS, datamodel_type: 'Edit', edits: [{ old_string: '', new_string: 'return true' }], file_path: SANDBOX_SCRIPT_PATH, studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
     await assert.rejects(() => client.callMutationTool('multi_edit', { className: SANDBOX_SCRIPT_CLASS, datamodel_type: 'Edit', edits: [{ old_string: '', new_string: SANDBOX_PROBE_V1 }], file_path: 'game.ServerScriptService.Other', studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
     await assert.rejects(() => client.callMutationTool('upload_image', { imagePaths: ['C:\\Windows\\win.ini'], studio_id: 'fixture-studio' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
@@ -112,6 +126,21 @@ test('uses the stateless MCP protocol when the server advertises the current ver
     assert.equal(status.protocolEra, 'modern');
     assert.equal(status.protocolVersion, '2026-07-28');
     assert.deepEqual(await client.listStudios(), [{ studio_id: 'modern-studio', name: 'Modern Place', place_id: 77 }]);
+  } finally {
+    await client.close();
+  }
+});
+
+test('does not fall back to legacy when modern discovery is delayed past 1.8 seconds', async () => {
+  const client = new StudioMcpClient({
+    command: process.execPath,
+    args: [path.join(here, 'fixtures', 'studio-mcp-delayed-modern-server.js')],
+    timeoutMs: 8000,
+  });
+  try {
+    const status = await client.connect();
+    assert.equal(status.protocolEra, 'modern');
+    assert.equal(status.protocolVersion, '2026-07-28');
   } finally {
     await client.close();
   }

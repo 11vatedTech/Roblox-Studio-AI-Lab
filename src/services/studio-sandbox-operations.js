@@ -26,3 +26,72 @@ end
 target:Destroy()
 return "destroyed"
 `;
+
+// Device selection is fixed to the latest built-in phone. It does not accept a
+// caller-supplied device ID, resolution, or orientation.
+export const SANDBOX_DEVICE_SELECT_CODE = `local simulator = game:GetService("StudioDeviceSimulatorService")
+local ok, devices = pcall(function()
+    return simulator:GetDeviceListAsync()
+end)
+if not ok then
+    return "device-list-error:" .. tostring(devices)
+end
+local selected = nil
+for _, deviceId in ipairs(devices) do
+    local infoOk, info = pcall(function()
+        return simulator:GetDeviceInfoAsync(deviceId)
+    end)
+    if infoOk and info then
+        local form = tostring(info.DeviceForm or info.deviceForm or "")
+        if string.find(form, "Phone", 1, true) then
+            selected = deviceId
+        end
+    end
+end
+if selected == nil then
+    return "no-phone-device"
+end
+local setOk, setError = pcall(function()
+    simulator:SetDeviceAsync(selected)
+end)
+if not setOk then
+    return "device-set-error:" .. tostring(setError)
+end
+task.wait(0.5)
+local camera = workspace.CurrentCamera
+local size = camera and camera.ViewportSize or Vector2.new(0, 0)
+local currentOk, current = pcall(function()
+    return simulator:GetDeviceAsync()
+end)
+return string.format(
+    "selected=%s|device=%s|viewport=%dx%d",
+    tostring(selected),
+    currentOk and tostring(current) or "unknown",
+    math.floor(size.X),
+    math.floor(size.Y)
+)
+`;
+
+export const SANDBOX_DEVICE_RESET_CODE = `local simulator = game:GetService("StudioDeviceSimulatorService")
+local ok, err = pcall(function()
+    simulator:SetDeviceAsync("default")
+end)
+if not ok then
+    return "device-reset-error:" .. tostring(err)
+end
+task.wait(0.25)
+local camera = workspace.CurrentCamera
+local size = camera and camera.ViewportSize or Vector2.new(0, 0)
+return string.format("reset|viewport=%dx%d", math.floor(size.X), math.floor(size.Y))
+`;
+
+// The same read-only probe runs in the Server and Client DataModels. It never
+// creates, moves, or changes a player; it only reports the engine-owned list.
+export const SANDBOX_PLAYER_COUNT_CODE = `local players = game:GetService("Players"):GetPlayers()
+local names = {}
+for _, player in ipairs(players) do
+    table.insert(names, tostring(player.Name))
+end
+table.sort(names)
+return string.format("count=%d|names=%s", #players, table.concat(names, ","))
+`;

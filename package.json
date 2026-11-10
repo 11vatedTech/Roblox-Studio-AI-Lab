@@ -12,6 +12,7 @@
     "studio:playtest": "node scripts/studio-playtest.mjs",
     "studio:inventory": "node scripts/studio-inventory.mjs",
     "studio:sandbox": "node scripts/studio-sandbox-probe.mjs",
+    "studio:gates": "node scripts/studio-gate-probe.mjs",
     "rojo:live-probe": "node scripts/rojo-sync-probe.mjs",
     "review:studio": "node scripts/review-studio-governance.mjs",
     "verify:task-execution": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/verify-task-execution.ps1",
