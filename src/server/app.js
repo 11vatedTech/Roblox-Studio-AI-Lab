@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { collectEnvironmentSnapshot } from '../core/environment.js';
 import { resolveWithin, validateProjectName } from '../core/path-policy.js';
 import { StudioMcpClient } from '../services/studio-mcp-client.js';
+import { StudioGovernance } from '../services/studio-governance.js';
 import { RobloxReferenceClient } from '../services/roblox-reference.js';
 import { analyzeProject } from '../services/quality-analysis.js';
 import { listCaptures, persistStudioCapture, readCapture } from '../services/capture-store.js';
@@ -444,6 +445,7 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
   }
   const root = path.resolve(rootDir);
   const toolRoot = path.resolve(toolRootDir);
+  const studioGovernance = new StudioGovernance({ stateDir: path.join(root, '.lab-runtime', 'studio-governance') });
   let shutdownRequested = false;
   const server = createServer(async (request, response) => {
     setSecurityHeaders(response);
@@ -684,6 +686,12 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
           tools: (connection.tools ?? []).map((name) => ({ name, available: true, operationClass: 'unclassified', dashboardCallable: false, restriction: 'The connected Studio client does not provide tool inventory metadata.', inputSchema: null, inputSchemaStatus: 'not_reported' })),
         };
         return json(response, 200, { connection, toolInventory, launcherInstalled: collectEnvironmentSnapshot({ cwd: root }).robloxStudio.mcpLauncherInstalled });
+      }
+      if (route === 'GET /api/studio/operations') {
+        return json(response, 200, {
+          ...studioGovernance.getMatrix(),
+          audit: await studioGovernance.listAudit(25),
+        });
       }
       if (route === 'POST /api/studio/connect') {
         await readJson(request);

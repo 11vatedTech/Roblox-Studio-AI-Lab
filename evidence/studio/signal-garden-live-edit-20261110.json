@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "unverified",
+  "title": "Read-only Studio connection and Signal Garden build identity (Edit mode)",
+  "capturedAt": "2026-11-10T12:55:28Z",
+  "project": "signal-garden",
+  "scope": "Read-only confirmation that the pinned Rojo build opens as a local Studio place, reports Edit mode, exposes the expected script hierarchy, and returns an empty console. No playtest, player input, DataModel mutation, save, upload, or publish was performed.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "0a2e97d4fa5c001083575a2b151455af99ea6d1b",
+    "treeSha256": "4592c8872563ce0eb30bd2e589056f3fc76d4a6159cfa6d98999519bee99091f",
+    "dirty": true,
+    "sourceFileCount": 258,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots.",
+    "note": "The place was built from 0a2e97d signal-garden sources; the working-tree digest includes the governance files added after the build, so this record is explicitly dirty and does not claim a clean-checkout replay."
+  },
+  "studio": {
+    "instanceId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+    "placeName": "signal-garden-20261110T124445Z.rbxlx",
+    "placeId": null,
+    "protocolEra": "modern",
+    "protocolVersion": "2026-07-28",
+    "mode": "Edit",
+    "discoveredToolCount": 36
+  },
+  "build": {
+    "path": ".lab-runtime/builds/signal-garden-20261110T124445Z.rbxlx",
+    "sha256": "fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0",
+    "bytes": 30071,
+    "builder": "Rojo 7.7.1 (pinned in .tools/)"
+  },
+  "observations": [
+    "The official Studio MCP server negotiated protocol 2026-07-28 and reported 36 tools.",
+    "get_studio_state returned: Current Studio Mode: Edit; Available DataModels: Edit; Focused DataModel in the viewport: Edit.",
+    "Workspace contained only Terrain and Camera, consistent with a world created at runtime by WorldBuilder.",
+    "ServerScriptService contained Bootstrap (Script), GardenService (ModuleScript), and WorldBuilder (ModuleScript).",
+    "ReplicatedStorage contained GardenConfig (ModuleScript).",
+    "StarterPlayer.StarterPlayerScripts contained GardenHud (LocalScript).",
+    "get_console_output returned an empty string.",
+    "The generated place was 30071 bytes with SHA-256 fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0."
+  ],
+  "limitations": [
+    "Read-only session: no playtest, player input, DataModel mutation, save, upload, or publish was performed.",
+    "The Edit-time Workspace is nearly empty because the world is built at runtime; this record does not prove runtime scene construction or gameplay.",
+    "The place is local and unpublished; the read routes did not expose place or game IDs.",
+    "This is a point-in-time Studio observation, not a capability verification.",
+    "No independent reviewer is attached."
+  ]
+}

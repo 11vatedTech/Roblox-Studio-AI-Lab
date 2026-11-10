@@ -45,3 +45,13 @@
 - Verification: `npm test` 105/105; `scripts/test-all.ps1` exit 0 with Luau syntax parsing and 11 Rojo builds; `npm run verify:evidence` 27/27, writing `evidence/p0/lab-evidence-registry-verification-20261110T121613086Z.json`.
 - Hosted proof: GitHub Actions run 42815188795 succeeded on head `9b9836d` (offline suite, evidence checks, portable package, artifact upload). Raw record: `evidence/p0/lab-hosted-ci-20261110.json`.
 - Still unverified: every Studio runtime gate (the Studio application is not running), device and multiplayer certification, independent human review, and the remaining capability criteria. The register still has 0 `VERIFIED` capabilities.
+
+## 2026-11-10 — live Studio session and Studio operation governance
+
+- Roblox Studio was started by the user. `RobloxStudioBeta.exe` (PID 3320) and the official `StudioMCP.exe` bridge are running; the Lab connected over the official stdio MCP and negotiated protocol `2026-07-28` with 36 discovered tools.
+- Built `projects/signal-garden` with pinned Rojo 7.7.1 to `.lab-runtime/builds/signal-garden-20261110T124445Z.rbxlx` (30,071 bytes; SHA-256 `fd15426780e29a140152d39c48552444aa7c09f595634d523ed83b67e2425bc0`) and opened it in a new Studio instance `d5f07df7-b8ce-4c9b-9e56-6891c6172a64`.
+- Read-only verification: `get_studio_state` reported Edit; Workspace contained only Terrain and Camera (runtime world); ServerScriptService contained Bootstrap, GardenService, and WorldBuilder; ReplicatedStorage contained GardenConfig; StarterPlayerScripts contained GardenHud; the console was empty.
+- `LAB-STUDIO-002`: added `src/services/studio-governance.js` with five ordered risk classes, a closed operation catalog, scope-bound single-use approval tokens (project, source revision, Studio instance, place, parameter digest), TTL, replay protection, and an append-only audit log without tokens. Added `GET /api/studio/operations` (matrix plus audit tail, read-only) and 12 adversarial tests. The dashboard remains read-only; no mutation executor or mutation route exists.
+- Verification: `node --test tests/studio-governance.test.js` passed 12/12; `npm test` passed 117/117; `npm run verify:evidence` passed 27/27 with 30 registered records. New record `evidence.studio.signal-garden-live-edit-20261110` is `unverified` and source-bound to `0a2e97d` with a dirty working-tree digest.
+- Not performed: no playtest, player input, DataModel mutation, save, upload, publish, purchase, or permission change. The read-only bridge cannot start Play; that still requires the official Studio playtest integration or a separately approved bounded executor.
+- Remaining Studio gates: Signal Garden full loop, two-client replication, touch/controller, visual review, and the flagship run. All remain unverified.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-08T19:39:38.6533675Z",
+  "updatedAt": "2026-11-10T12:56:35.301Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -454,6 +454,23 @@
         "Hosted GitHub Actions was not run because pushing was not authorized.",
         "The report does not certify Studio gameplay, physical-device behavior, player research, or independent review.",
         "Node.js 20 or newer must already be installed; the runtime is not bundled."
+      ]
+    },
+    {
+      "id": "evidence.studio.signal-garden-live-edit-20261110",
+      "type": "verification-run",
+      "status": "unverified",
+      "title": "Read-only Studio connection and Signal Garden build identity (Edit mode)",
+      "capturedAt": "2026-11-10T12:55:28Z",
+      "project": "signal-garden",
+      "scope": "Read-only confirmation that the pinned Rojo build opens locally, reports Edit mode, contains the expected scripts, and returns an empty console; no runtime or gameplay claim.",
+      "reference": "evidence/studio/signal-garden-live-edit-20261110.json",
+      "referenceSha256": "4971e43ca2accb1c2624db546d00d72d84e441b74322b575f82437e2fa8cd8d4",
+      "limitations": [
+        "Edit-only observation; no playtest, input, save, upload, or publish was performed.",
+        "The runtime world and gameplay are not proven.",
+        "The local place and game IDs were not exposed by the read routes.",
+        "The source snapshot is dirty and no independent review is attached."
       ]
     }
   ]

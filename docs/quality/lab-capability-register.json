@@ -184,8 +184,10 @@
       ],
       "implementationPaths": [
         "src/services/studio-mcp-client.js",
+        "src/services/studio-governance.js",
         "src/server/app.js",
-        "docs/workflows/studio-connect.md"
+        "docs/workflows/studio-connect.md",
+        "tests/studio-governance.test.js"
       ],
       "acceptanceCriteria": [
         "Inspection, reversible mutation, destructive mutation, upload, and publishing operations have separate risk classes.",
@@ -197,11 +199,11 @@
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "The Lab intentionally exposes read operations only; mutation approval and operation-specific audit flows are not implemented."
+          "description": "The five-class matrix, scope-bound single-use approvals, replay protection, and append-only audit model are implemented and exercised with local adversarial tests. The dashboard remains read-only, so no approved live mutation has exercised the gate end to end."
         }
       ],
       "blockers": [
-        "The Lab task server and dashboard deliberately omit a Studio mutation path. Studio-operation auditing cannot be verified until an approved, bounded mutation surface is added with explicit user authorization."
+        "No approved, bounded mutation surface exists yet. The gate has a closed catalog and an executor boundary, but no live high-impact operation has been authorized, executed, and audited against the open place."
       ],
       "approvalRequirements": [
         "Require operation-specific approval for DataModel mutation, destructive actions, asset upload, purchase, publishing, production settings, or live/player-data changes."
