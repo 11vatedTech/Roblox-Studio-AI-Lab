@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "kind": "lab-hosted-ci-verification",
+  "project": "lab",
+  "generatedAt": "2026-11-10T12:23:45Z",
+  "provider": "GitHub Actions",
+  "workflow": ".github/workflows/ci.yml",
+  "runner": "windows-2025",
+  "branch": "codex/lab-recovery-p0",
+  "head": "9b9836d4ca4d02beda603c8c4e51050655cc4b66",
+  "runId": 42815188795,
+  "runUrl": "https://github.com/11vatedTech/Roblox-Studio-AI-Lab/actions/runs/42815188795",
+  "result": "passed",
+  "steps": [
+    "Check out source",
+    "Set up Node.js 24 LTS",
+    "Install pinned Roblox tools",
+    "Capture source identity",
+    "Run offline suite and Rojo builds",
+    "Run evidence registry checks",
+    "Build and verify portable offline package",
+    "Hash built place files",
+    "Upload evidence and build artifacts"
+  ],
+  "priorFailuresInvestigated": [
+    {
+      "runId": 42813351429,
+      "head": "2ae54c0f65b7bf9dc74686dfff84aa856e0524fc",
+      "result": "failed",
+      "finding": "Nine tests passed locally but failed on a clean checkout. Evidence digests were recorded over CRLF worktree bytes while the canonical checkout is LF, and the knowledge loader compared a realpath against an unresolved 8.3 temp alias."
+    },
+    {
+      "runId": 42814691522,
+      "head": "b13188ebaedd2cc3bceb3a4744f2df9ff3db5676",
+      "result": "failed",
+      "finding": "The specialist registry had the same resolved-root comparison defect, returning 400 from the specialists route on the runner."
+    }
+  ],
+  "limitations": [
+    "Hosted CI proves the offline suite, Luau syntax parsing, Rojo builds, evidence checks, and portable package extraction on a Windows runner. It does not prove Roblox Studio runtime behavior, gameplay, visual quality, physical-device performance, multiplayer behavior, or an independent human review.",
+    "The workflow has read-only repository permissions and does not publish a place, upload assets, or use secrets."
+  ]
+}

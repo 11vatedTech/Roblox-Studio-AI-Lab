@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T12:15:20.759Z",
+  "updatedAt": "2026-11-10T12:22:31.459Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -724,7 +724,7 @@
     {
       "id": "LAB-CI-001",
       "title": "Continuous integration and reproducible packaging",
-      "status": "BLOCKED_HUMAN_APPROVAL",
+      "status": "IMPLEMENTED",
       "dependencyIds": [
         "LAB-CORE-001",
         "LAB-EVIDENCE-001",
@@ -741,7 +741,8 @@
         ".github/workflows/ci.yml",
         "docs/workflows/continuous-integration.md",
         "docs/workflows/portable-package.md",
-        "docs/superpowers/plans/2026-11-07-ai-roblox-studio-lab-implementation-roadmap.md"
+        "docs/superpowers/plans/2026-11-07-ai-roblox-studio-lab-implementation-roadmap.md",
+        "evidence/p0/lab-hosted-ci-20261110.json"
       ],
       "acceptanceCriteria": [
         "Approved CI runs the same offline checks and retains artifact/source digests.",
@@ -755,13 +756,11 @@
       ],
       "outstandingDefects": [
         {
-          "severity": "high",
-          "description": "Local package creation, hash checks, and clean-extraction checks pass. The hosted GitHub Actions result is blocked on explicit user authorization to push; Node.js 20 or newer remains a receiving-machine prerequisite and is not bundled."
+          "severity": "medium",
+          "description": "Hosted Windows run 42815188795 passed on head 9b9836d, but no independent review is attached and the release dossier has not archived the artifact identity."
         }
       ],
-      "blockers": [
-        "A hosted GitHub Actions result requires pushing this branch to the existing origin. The user mandate forbids pushing without specific authorization, and no push authorization was given."
-      ],
+      "blockers": [],
       "approvalRequirements": [
         "Obtain explicit user authorization to push this branch to the existing GitHub origin before triggering or claiming the hosted workflow."
       ]

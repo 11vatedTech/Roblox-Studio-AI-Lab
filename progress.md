@@ -35,3 +35,13 @@
 - Package verification supports the local offline checkpoint only. It does not provide live Studio, type-analysis, physical-device, player-study, hosted-CI, or independent human-review evidence.
 - Phase 2 in `task_plan.md` is complete. Phases 3, 4, 5, and 6 remain open; the Lab completion mandate is not complete.
 - The official Studio connector was checked again and returned no connected instances. The branch remains `codex/lab-recovery-p0`, at `b850a18`, 0 ahead/behind its upstream. The checkout remains dirty; no commit or push was made.
+
+## 2026-11-10 — repository synchronization, hosted CI, project state
+
+- Corrected scope: orchestration is provider-independent. No inference server is a completion gate, required dependency, or architectural center.
+- Committed the previously uncommitted work in four cohesive commits and pushed `b850a18..2ae54c0` to `origin/codex/lab-recovery-p0`; the tree is clean and the branch is 0 ahead/behind its upstream.
+- The first hosted Windows run failed nine tests that passed locally. Both causes were portability defects: evidence digests were recorded over CRLF worktree bytes while a clean checkout is LF, and two services compared a realpath against an unresolved 8.3 temp alias. Text evidence is now digested in canonical LF form in the Node loader, the PowerShell verifier, and the evidence contract; knowledge and specialist containment resolve the workspace root first. Twenty registry records were normalized and re-hashed.
+- `LAB-PROJECT-001`: added `src/services/project-store.js` with a versioned per-project manifest (stable identity, bounded settings, revision), atomic settings writes with revision conflicts, ready/legacy/unregistered/incomplete/corrupted/incompatible classification, stale-staging detection, and manifest rebuild that preserves unreadable bytes. New routes: `GET`/`PATCH /api/projects/:slug` and `POST /api/projects/:slug/recover`. Eight new tests.
+- Verification: `npm test` 105/105; `scripts/test-all.ps1` exit 0 with Luau syntax parsing and 11 Rojo builds; `npm run verify:evidence` 27/27, writing `evidence/p0/lab-evidence-registry-verification-20261110T121613086Z.json`.
+- Hosted proof: GitHub Actions run 42815188795 succeeded on head `9b9836d` (offline suite, evidence checks, portable package, artifact upload). Raw record: `evidence/p0/lab-hosted-ci-20261110.json`.
+- Still unverified: every Studio runtime gate (the Studio application is not running), device and multiplayer certification, independent human review, and the remaining capability criteria. The register still has 0 `VERIFIED` capabilities.

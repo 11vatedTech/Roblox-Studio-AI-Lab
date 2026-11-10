@@ -4,10 +4,10 @@ Updated 2026-11-08. This ledger is a working handoff, not a release declaration.
 
 ## Repository checkpoint
 
-- Branch: `codex/lab-recovery-p0`; HEAD: `b850a18e008ba8ce9fd82679dfb743e61689a8da`.
-- Working tree is dirty; no commit or push was made.
+- Branch: `codex/lab-recovery-p0`; HEAD: `9b9836d4ca4d02beda603c8c4e51050655cc4b66`; upstream is identical (0 ahead / 0 behind).
+- The working tree is clean; the previously uncommitted work is now in six reviewed commits and pushed.
 - The 19:13 evidence verification captured source-tree SHA-256 `ac98acfa5c7603e9ad3033242254c1183f30769e52b299d2a1b6ddc73150237b` across 203 files, excluding `evidence/`. That snapshot predates this ledger edit; the final verification report will bind the post-ledger source state.
-- Current scope is not complete: 0 VERIFIED, 2 IMPLEMENTED, 15 IN_PROGRESS, 3 NOT_STARTED, 2 BLOCKED_EXTERNAL, 1 BLOCKED_HUMAN_APPROVAL.
+- Current scope is not complete: 0 VERIFIED, 4 IMPLEMENTED, 14 IN_PROGRESS, 3 NOT_STARTED, 2 BLOCKED_EXTERNAL, 0 BLOCKED_HUMAN_APPROVAL. Hosted CI is green on the current head; Studio runtime, device, and independent-review gates remain open.
 
 ## Work completed in the latest continuation
 
@@ -32,7 +32,7 @@ Updated 2026-11-08. This ledger is a working handoff, not a release declaration.
 | ID | Status | Owner | Completed or observed | Next executable work | Blocker / approval |
 |---|---|---|---|---|---|
 | LAB-CORE-001 | IN_PROGRESS | Codex | Local start/health/stop cycles, occupied-port rejection, stale-PID recovery, failed-start cleanup, current workstation inventory | Exercise killed-process and interrupted-shutdown recovery while a task has staged output; verify task state survives | None currently; task recovery remains unverified |
-| LAB-PROJECT-001 | IN_PROGRESS | Codex | Safe template creation tests exist; projects remain mostly folder-derived | Add persisted project identity/configuration, inspection, duplicate, archive, and restart/restore behavior with traversal/symlink/corruption tests | Require specific approval before destructive project deletion |
+| LAB-PROJECT-001 | IN_PROGRESS | Codex | Persistent manifest identity, bounded settings, revision conflicts, corruption/incompatibility classification, staging recovery, and restart persistence are implemented with local tests | Register source-bound evidence with an independent reviewer; duplicate and archive operations remain unimplemented | Specific approval before destructive project deletion |
 | LAB-ROJO-001 | IN_PROGRESS | Codex | Three pinned local Rojo builds and source/output evidence | Verify pinned executable digest, reproducibility, output tamper handling, concurrent builds, and artifact ID confinement | None currently |
 | LAB-ROJO-002 | NOT_STARTED | Codex | Static builds only; local Studio identity is now known | Implement a named loopback sync lifecycle bound to project, source revision, Studio instance, and place; add conflict and recovery handling | Any DataModel-changing sync needs target-specific approval and audit evidence |
 | LAB-STUDIO-001 | IMPLEMENTED | Codex | Fixture/API allowlist tests; direct host inventory found 36 tools and one local place | Compare the Lab bridge's live descriptors to its fixed read-only allowlist and test schema/disconnect changes | Do not expose arbitrary or newly discovered tool names as callable routes |
@@ -51,7 +51,7 @@ Updated 2026-11-08. This ledger is a working handoff, not a release declaration.
 | LAB-SEC-001 | IN_PROGRESS | Codex + independent reviewer | Local API and server-authority tests exist | Run an adversarial boundary review across API, task execution, Rojo paths, remotes, Studio permissions, and recovery; retest findings | Independent security review is not attached |
 | LAB-PRODUCT-001 | NOT_STARTED | Codex + human researcher | No participant research or live-operations measurement is claimed | Define audience hypotheses, consent, privacy/retention, support, economy ethics, and a small disconfirming playtest | Human approval and real participants required before research or collection |
 | LAB-BENCH-001 | IN_PROGRESS | Codex | Base template, Misprint Menagerie, and Signal Garden exist; Signal Garden remains graybox | Implement eight compact, reproducible benchmark scenarios and a separate audience-tested flagship | Human visual approval and participant evidence remain required for the flagship |
-| LAB-CI-001 | BLOCKED_HUMAN_APPROVAL | Codex + user | Pinned local Windows workflow and portable package pass clean extraction | Obtain explicit authorization to push this branch, then inspect the hosted Windows run and retained artifact | Push is not authorized by the current task |
+| LAB-CI-001 | IMPLEMENTED | Codex | Hosted Windows CI run 42815188795 passed on head `9b9836d`; the same job built and extracted the portable package and uploaded artifacts | Attach independent review and archive the artifact identity in the release dossier | Hosted results remain separate from Studio and device certification |
 | LAB-RECOVERY-001 | IN_PROGRESS | Codex | Fresh source archive, hash-verified restore, traversal/tamper rejection, and package extraction pass | Test interruption, content-level secret screening, independent restore, and a separate-device recovery copy | No off-device target was authorized or tested |
 | LAB-RELEASE-001 | NOT_STARTED | Codex + independent reviewer | No release candidate is claimed | Assemble an unpublished candidate dossier after gameplay, rights, device, security, performance, and review gates | Requires all upstream gates and human approvals; publishing remains unauthorized |
 
