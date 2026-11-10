@@ -19,7 +19,7 @@ The Lab uses Roblox's built-in Studio MCP server. Roblox documents this as a loc
 
 ## Permission boundary
 
-The dashboard's bridge calls only `list_roblox_studios`, `get_studio_state`, `get_console_output`, `search_game_tree`, `inspect_instance`, `script_read`, `script_search`, `script_grep`, `screen_capture`, `http_get`, and `skill`, using named routes with validated inputs. The live inventory may report additional server tools, but they remain blocked by the dashboard and are not assigned a guessed risk class. ChatGPT's official plugin has broader editing and playtest tools; review each in the prompt and leave Open Cloud scopes disabled unless a specific authorized task needs them.
+The dashboard's bridge calls only `list_roblox_studios`, `get_studio_state`, `get_console_output`, `search_game_tree`, `inspect_instance`, `script_read`, and `screen_capture`, using named routes with validated inputs. The live inventory may report additional server tools, but they remain blocked by the dashboard and are not assigned a guessed risk class. Four Studio-read-only tools (`http_get`, `script_grep`, `script_search`, and `skill`) are still not exposed because the Lab has no named route for them. ChatGPT's official plugin has broader editing and playtest tools; review each in the prompt and leave Open Cloud scopes disabled unless a specific authorized task needs them.
 
 ## Operation risk and approval model
 
@@ -33,11 +33,17 @@ The dashboard's bridge calls only `list_roblox_studios`, `get_studio_state`, `ge
 | `upload` | image, mesh, texture, animation, model upload | single-use token |
 | `publishing` | publish place or experience | single-use token |
 
-The catalog is closed. A tool the Studio server reports but the catalog does not name stays unclassified and cannot pass through the gate. Only `inspection` entries are exposed by the dashboard; no mutation executor or HTTP route exists in the Lab.
+The catalog is closed. A tool the Studio server reports but the catalog does not name stays unclassified and cannot pass through the gate. Only `inspection` entries are exposed by the dashboard. There is no dashboard mutation route.
 
 A high-impact approval is a single-use token bound to the operation ID, project, source revision, Studio instance ID, place name and ID, and a SHA-256 digest of the operation parameters. Tokens live 15 seconds to 60 minutes, are stored only as SHA-256 hashes, are consumed by the first authorization, and are refused on replay, scope mismatch, or expiry. Approval issuance, authorization, execution start, result, and denial are appended to `.lab-runtime/studio-governance/audit.jsonl` without the token. `GET /api/studio/operations` shows the matrix and a bounded audit tail; it cannot execute anything.
 
-A live playtest, sync, save, upload, or publish must go through a future registered executor with an operator approval bound to the exact place. The dashboard remains read-only until that surface is separately reviewed.
+The only registered mutation executor is a fixed CLI for the reversible local playtest operation:
+
+```powershell
+npm run studio:playtest -- --action start --project signal-garden --studio <studio-id> --place-name <place.rbxlx> --place-id 0 --revision <full-git-commit>
+```
+
+Use `--action stop` for the reverse operation. The CLI connects to the official Studio MCP server, binds the approval to the exact project, revision, Studio instance, and place, and calls only `start_stop_play` with `{ studio_id, is_start }`. It cannot save, upload, publish, replace a script, execute Luau, or invoke an arbitrary tool. Each start or stop needs its own single-use approval; the CLI issues one only for the exact scope it is given. This is a local reversible playtest, not a DataModel sync. Rojo live sync, save, upload, and publish remain blocked.
 
 Roblox references:
 

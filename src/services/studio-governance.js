@@ -35,8 +35,8 @@ export const STUDIO_OPERATION_CATALOG = Object.freeze([
   operation('studio.inspect_instance', 'inspection', 'inspect_instance', 'Read one instance and its properties.'),
   operation('studio.read_script', 'inspection', 'script_read', 'Read a script source.'),
   operation('studio.capture_viewport', 'inspection', 'screen_capture', 'Capture the local Studio viewport for review.'),
-  operation('studio.start_playtest', 'reversible_mutation', 'start_stop_play', 'Start a local play session without saving the place.'),
-  operation('studio.stop_playtest', 'reversible_mutation', 'start_stop_play', 'Stop a local play session and return to Edit without saving.'),
+  operation('studio.start_playtest', 'reversible_mutation', 'start_stop_play', 'Start a local play session through the fixed CLI after a single-use approval; no save.'),
+  operation('studio.stop_playtest', 'reversible_mutation', 'start_stop_play', 'Stop a local play session through the fixed CLI after a single-use approval; no save.'),
   operation('studio.sync_project', 'reversible_mutation', null, 'Apply declared project source to a bound Studio place through an approved sync workflow.'),
   operation('studio.save_place', 'destructive_mutation', null, 'Save or overwrite the open place file.'),
   operation('studio.replace_script', 'destructive_mutation', 'multi_edit', 'Replace existing script source in the open place.'),
@@ -192,7 +192,7 @@ export class StudioGovernance {
         approvals: 'A high-impact operation requires a single-use token bound to the operation, project, source revision, Studio instance, place, and a digest of its parameters.',
         ttlMs: { min: MIN_TTL_MS, max: MAX_TTL_MS, default: this.defaultTtlMs },
         audit: 'Approval issuance, authorization, execution start, result, and denial are appended to a local audit log without storing the token.',
-        dashboard: 'The dashboard is read-only: no mutation executor is registered or routed.',
+        dashboard: 'The dashboard is read-only. The fixed local CLI is the only registered executor, and it supports only start/stop playtest; no mutation HTTP route exists.',
       },
     };
   }

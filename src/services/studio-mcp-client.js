@@ -17,6 +17,9 @@ const ALLOWED_READ_TOOLS = new Set([
   'script_read',
   'screen_capture',
 ]);
+// The dashboard has no mutation route. The fixed-purpose CLI is the only caller
+// of this set, and the governance layer must authorize it first.
+const ALLOWED_MUTATION_TOOLS = new Set(['start_stop_play']);
 const MAX_MESSAGE_CHARS = 12 * 1024 * 1024;
 
 export function createMinimalChildEnvironment(env = process.env) {
@@ -232,6 +235,32 @@ export class StudioMcpClient {
     }
     if (this.#state !== 'connected') {
       throw Object.assign(new Error('Connect the official Studio MCP server before requesting live Studio data.'), { code: 'STUDIO_NOT_CONNECTED' });
+    }
+    const payload = { name, arguments: args };
+    if (this.#protocolEra === 'modern') payload._meta = this.#metadata();
+    return this.#request('tools/call', payload);
+  }
+
+  async callMutationTool(name, args = {}) {
+    if (!ALLOWED_MUTATION_TOOLS.has(name)) {
+      throw Object.assign(new Error('This Studio mutation is not available through the Lab.'), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    }
+    if (this.#state !== 'connected') {
+      throw Object.assign(new Error('Connect the official Studio MCP server before requesting a Studio mutation.'), { code: 'STUDIO_NOT_CONNECTED' });
+    }
+    if (!this.#tools.includes(name)) {
+      throw Object.assign(new Error('The connected Studio server did not expose this mutation tool.'), { code: 'STUDIO_TOOL_NOT_AVAILABLE' });
+    }
+    if (!args || typeof args !== 'object' || Array.isArray(args)) {
+      throw Object.assign(new Error('Studio mutation arguments must be a plain object.'), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    }
+    if (name === 'start_stop_play') {
+      const keys = Object.keys(args).sort();
+      if (keys.length !== 2 || keys[0] !== 'is_start' || keys[1] !== 'studio_id'
+        || typeof args.is_start !== 'boolean'
+        || typeof args.studio_id !== 'string' || !args.studio_id.trim() || args.studio_id.length > 256 || /[\r\n\0]/.test(args.studio_id)) {
+        throw Object.assign(new Error('start_stop_play requires exactly a boolean is_start and a bounded studio_id.'), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+      }
     }
     const payload = { name, arguments: args };
     if (this.#protocolEra === 'modern') payload._meta = this.#metadata();

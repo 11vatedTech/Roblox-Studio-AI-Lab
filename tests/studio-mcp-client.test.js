@@ -17,7 +17,7 @@ test('initializes the official MCP stdio contract and discovers a real Studio in
     assert.ok(status.tools.includes('list_roblox_studios'));
     assert.deepEqual(await client.listStudios(), [{ studio_id: 'fixture-studio', name: 'Fixture Place', place_id: null }]);
     const inventory = client.getToolInventory();
-    assert.equal(inventory.discoveredToolCount, 3);
+    assert.equal(inventory.discoveredToolCount, 4);
     assert.ok(inventory.discoveredAt);
     const list = inventory.tools.find((tool) => tool.name === 'list_roblox_studios');
     assert.equal(list.operationClass, 'read_only');
@@ -43,6 +43,24 @@ test('does not expose tools outside the explicit read-only allowlist', async () 
     await assert.rejects(() => client.callReadTool('script_grep', { studio_id: 'fixture-studio', pattern: 'x' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
     await assert.rejects(() => client.callReadTool('http_get', { url: 'https://example.com' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
     await assert.rejects(() => client.callReadTool('skill', { name: 'x' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+  } finally {
+    await client.close();
+  }
+});
+
+test('allows only the fixed playtest mutation with exact bounded arguments', async () => {
+  const client = new StudioMcpClient({ command: process.execPath, args: [path.join(here, 'fixtures', 'studio-mcp-server.js')] });
+  try {
+    await client.connect();
+    const mutation = await client.callMutationTool('start_stop_play', { studio_id: 'fixture-studio', is_start: true });
+    const payload = JSON.parse(mutation.content[0].text);
+    assert.equal(payload.ok, true);
+    assert.equal(payload.arguments.is_start, true);
+    assert.equal(payload.arguments.studio_id, 'fixture-studio');
+    await assert.rejects(() => client.callMutationTool('execute_luau', { studio_id: 'fixture-studio', code: 'return true' }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
+    await assert.rejects(() => client.callMutationTool('start_stop_play', { studio_id: 'fixture-studio', is_start: 'yes' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callMutationTool('start_stop_play', { studio_id: 'fixture-studio', is_start: true, code: 'return true' }), { code: 'STUDIO_MUTATION_ARGUMENTS_INVALID' });
+    await assert.rejects(() => client.callReadTool('start_stop_play', { studio_id: 'fixture-studio', is_start: true }), { code: 'STUDIO_TOOL_NOT_ALLOWED' });
   } finally {
     await client.close();
   }
