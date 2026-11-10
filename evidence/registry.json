@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T19:15:08.391Z",
+  "updatedAt": "2026-11-10T19:34:26.687Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -612,9 +612,43 @@
       "limitations": [
         "This is a failed connection attempt, not a live sync; no DataModel was changed.",
         "The plugin search covered the recorded local Roblox plugin roots only; another Studio build or profile may differ.",
-        "The Lab has no supported way to click the plugin Connect control or to install and authorize the session automatically.",
-        "No human independent review is attached; LAB-ROJO-002 remains blocked and is not promoted."
-      ]
-    }
-  ]
+        "The Lab has no supported way to click the plugin Connect control or to install and authorize the session automatically.",      "No human independent review is attached; LAB-ROJO-002 remains blocked and is not promoted."
+    ]
+  },
+  {
+    "id": "evidence.studio.lab-multiplayer-gate-probe-20261110",
+    "type": "verification-run",
+    "status": "blocked",
+    "title": "Single-client Studio gate probe and missing multi-client surface",
+    "capturedAt": "2026-11-10T19:34:10.803Z",
+    "project": "lab",
+    "scope": "One governed local Play session on the disposable lab-empty.rbxlx sandbox at clean source 6fbaac08ab7971b86743c3416cd65cfe360ffc58. Studio reported exactly one Server player and one Client player, both named 11vated_indieGames; start_stop_play accepted only { studio_id, is_start }; the 36-tool MCP surface exposed no player-count, start-server, or additional-client operation. The probe stopped back to Edit and did not save, upload, publish, or mutate a real project.",
+    "reference": "evidence/studio/lab-multiplayer-gate-probe-20261110.json",
+    "referenceSha256": "1be3c7908a79dc1ebfd6856c6a2665f7bba27a8462dcbe67794595da12b3a76b",
+    "limitations": [
+      "This is a single-client observation, not a two-client replication or abuse run; the two-client gate remains blocked.",
+      "The live MCP surface has no operation to start a server with N players or spawn an additional client; Studio's native Clients and Servers UI was not driven.",
+      "No save, upload, publish, Open Cloud call, or real-project mutation was performed.",
+      "The approval issuer is a mission-supplied label and is not cryptographically authenticated.",
+      "No human independent review is attached; LAB-GAME-001, LAB-QA-002, and LAB-SEC-001 are not promoted."
+    ]
+  },
+  {
+    "id": "evidence.studio.lab-device-emulator-probe-20261110",
+    "type": "verification-run",
+    "status": "blocked",
+    "title": "Studio Device Simulator probe and physical-device boundary",
+    "capturedAt": "2026-11-10T19:34:10.803Z",
+    "project": "lab",
+    "scope": "Fixed StudioDeviceSimulatorService Luau selected the latest built-in phone (samsung_galaxy_s25_ultra, viewport 685x338), persisted viewport capture 7aa2283c-392c-4bb8-a5ba-58a95cd31c0c, and reset to the desktop device on the disposable lab-empty.rbxlx sandbox at clean source 6fbaac08ab7971b86743c3416cd65cfe360ffc58. This is emulator-only: no physical phone, touch hardware, thermal session, or 10-15 minute profile was used.",
+    "reference": "evidence/studio/lab-device-emulator-probe-20261110.json",
+    "referenceSha256": "9f7c5336b74b618e9615473c858da466567df05621f83c51d72aed20f59d629e",
+    "limitations": [
+      "A Studio Device Simulator selection is not a physical midrange phone and cannot certify touch hardware, safe areas, thermal behavior, or device performance.",
+      "The viewport is a narrow Studio emulator viewport; no physical-device frame-time, memory, load, network, or thermal measurements were taken.",
+      "The emulator was reset to the default desktop device after the single capture; no place was saved or published.",
+      "No human independent review is attached; LAB-QA-002 and LAB-PERF-001 remain blocked and are not promoted."
+    ]
+  }
+]
 }

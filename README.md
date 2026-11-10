@@ -67,7 +67,7 @@ The local API exposes `GET /api/specialists`, `POST /api/task-plans`, `GET /api/
 
 The Control Room and `GET /api/capabilities` read the validated machine-readable acceptance register in `docs/quality/lab-capability-register.json`. Each requirement has dependencies, implementation paths, acceptance criteria, verification method, status, evidence references, defects, blockers, and approvals. `VERIFIED` requires passing evidence; blocked and deferred rows require a specific reason. The register currently marks the Lab as incomplete.
 
-The typed evidence index at `evidence/registry.json` is validated against its referenced source records. `GET /api/evidence` exposes scoped outcomes and SHA-256 reference checks; the Control Room overview links to the same registry. A passed local multiplayer scenario remains one narrow result, not a multiplayer certification.
+The typed evidence index at `evidence/registry.json` is validated against its referenced source records. `GET /api/evidence` exposes scoped outcomes and SHA-256 reference checks; the Control Room overview links to the same registry. A passed local multiplayer scenario remains one narrow result, not a multiplayer certification. The 2026-11-10 gate probe is explicitly blocked: the live MCP surface observed one Server and one Client and exposes no multi-client operation, and the Device Simulator probe is not a physical-device result.
 
 ## Quality commands
 

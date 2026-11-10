@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T19:15:08.391Z",
+  "updatedAt": "2026-11-10T19:34:26.687Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -505,20 +505,22 @@
         "evidence/p0/lab-studio-solo-playtest-20261108.json",
         "evidence/p0/lab-studio-solo-playtest-attempt-20261108.json",
         "evidence/studio/signal-garden-runtime-20261110.json",
-        "evidence/studio/signal-garden-completed-loop-20261110.json"
+        "evidence/studio/signal-garden-completed-loop-20261110.json",
+        "evidence/studio/lab-multiplayer-gate-probe-20261110.json",
+        "evidence/studio/lab-device-emulator-probe-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "The solo Echo-to-archive-to-route-to-restoration loop is now evidenced by HUD captures at Restorations 1 and 3, but two-client replication, failure/recovery, touch/controller input, and a new-genre brief-to-playable run remain unverified."
+          "description": "The solo Echo-to-archive-to-route-to-restoration loop is evidenced by HUD captures at Restorations 1 and 3. The 2026-11-10 gate probe then observed exactly one Server player and one Client player and confirmed that the live 36-tool MCP surface exposes no player-count, start-server, or additional-client operation; two-client replication, failure/recovery, touch/controller input, and a new-genre brief-to-playable run remain unverified. The device probe used a Studio emulator only, not a physical phone."
         },
         {
           "severity": "high",
-          "description": "No current typed record covers every acceptance criterion for this capability, and no independent reviewer is attached."
+          "description": "No current typed record covers every acceptance criterion for this capability, and no independent reviewer is attached. The gate records are blocked evidence, not passing gameplay or device certification."
         }
       ],
       "blockers": [
-        "Two-client, physical-device, visual-approval, and independent-review gates remain. Only a reversible local playtest CLI is authorized; no gameplay sync or DataModel mutation is certified."
+        "Two-client, physical-device, visual-approval, and independent-review gates remain. The live MCP surface starts only one Server and one Client and has no multi-client or player-count operation; the physical midrange phone is unavailable. Only a reversible local playtest CLI and the fixed Device Simulator operation are authorized; no gameplay sync or DataModel mutation is certified."
       ],
       "approvalRequirements": [
         "Specific user approval is required before saving changes to a live or user-owned DataModel; use an unpublished local test place."
@@ -588,16 +590,18 @@
       "verificationMethod": "Run named Studio server/client scenarios and repeat them on a physical midrange mobile device with captured logs and device identity.",
       "verificationResult": "blocked",
       "evidenceRefs": [
-        "evidence/studio/signal-garden-local-multiplayer-20261107.json"
+        "evidence/studio/signal-garden-local-multiplayer-20261107.json",
+        "evidence/studio/lab-multiplayer-gate-probe-20261110.json",
+        "evidence/studio/lab-device-emulator-probe-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "The current Signal Garden solo loop is complete with three restorations, but historical two-client evidence remains scenario-limited; multi-client UI, touch/controller, physical device, and full certification remain open."
+          "description": "The current Signal Garden solo loop is complete with three restorations, but historical two-client evidence remains scenario-limited. The 2026-11-10 local probe observed exactly one Server player and one Client player and no multi-client operation in 36 tools; it did not run two clients or abuse/replication scenarios. Studio Device Simulator selection and a viewport capture were recorded, but no physical phone, touch hardware, or target-device profile was used."
         }
       ],
       "blockers": [
-        "No confirmed physical midrange mobile device is available. The native Studio app approval for the multi-client UI run timed out; the available MCP play control starts solo only. The completed solo run does not satisfy multi-client, touch/controller, or device criteria."
+        "STUDIO_MULTI_CLIENT_SURFACE_ABSENT: the live MCP start_stop_play schema accepts only is_start and studio_id, and the 36-tool surface has no player-count, start-server, or additional-client operation. PHYSICAL_MIDRANGE_DEVICE_UNAVAILABLE: no physical phone is available, and a Studio emulator is not a substitute. A human must drive Studio's native Clients and Servers UI (or another supported multi-client runner) and attach a named midrange phone with touch and 10-15 minute profile evidence."
       ],
       "approvalRequirements": []
     },
@@ -624,16 +628,17 @@
       "verificationMethod": "Profile named workloads in Roblox Studio and on a physical midrange device; record device, settings, source digest, and measured values.",
       "verificationResult": "blocked",
       "evidenceRefs": [
-        "evidence/p0/lab-signal-garden-desktop-profile-20261108.json"
+        "evidence/p0/lab-signal-garden-desktop-profile-20261108.json",
+        "evidence/studio/lab-device-emulator-probe-20261110.json"
       ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "A single local Studio development sample is recorded, but it is skewed by the high-end laptop and Studio overhead; no target-device profile, thermal session, or validated quality tiers exist."
+          "description": "A single local Studio development sample is recorded, but it is skewed by the high-end laptop and Studio overhead. The 2026-11-10 Device Simulator probe selected samsung_galaxy_s25_ultra at 685x338 and captured a viewport, but it collected no frame-time, memory, load, network, thermal, or quality-tier measurements. No target-device profile or validated quality tiers exist."
         }
       ],
       "blockers": [
-        "No representative physical midrange mobile device is available for device-side frame, memory, and thermal profiling. The recorded Studio desktop sample is not target-device certification."
+        "No representative physical midrange mobile device is available for device-side frame, memory, and thermal profiling. Studio Device Simulator only confirms the emulator surface; it is not target-device performance certification."
       ],
       "approvalRequirements": []
     },
@@ -659,15 +664,17 @@
       ],
       "verificationMethod": "Perform code review and adversarial API/gameplay abuse tests; separate static heuristics from a security pass.",
       "verificationResult": "not_run",
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "evidence/studio/lab-multiplayer-gate-probe-20261110.json"
+      ],
       "outstandingDefects": [
         {
           "severity": "high",
-          "description": "No independent full-platform security audit or complete multiplayer abuse certification has been recorded."
+          "description": "No independent full-platform security audit or complete multiplayer abuse certification has been recorded. The gate probe only recorded one Server player and one Client player and the absence of a multi-client operation; it did not send malformed, unauthorized, out-of-range, stale-state, or rate-abusive requests."
         }
       ],
       "blockers": [
-        "LAB-GAME-001, LAB-QA-001, and LAB-STUDIO-002 are not verified; server-authoritative multiplayer abuse certification cannot be completed without a verified multiplayer gameplay and Studio-operation surface."
+        "LAB-GAME-001, LAB-QA-001, and LAB-STUDIO-002 are not verified. The live 36-tool Studio surface cannot drive two clients, so server-authoritative multiplayer abuse and replication testing remain blocked; no security claim is made from the single-client probe."
       ],
       "approvalRequirements": []
     },

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "7aa2283c-392c-4bb8-a5ba-58a95cd31c0c",
+  "imageName": "7aa2283c-392c-4bb8-a5ba-58a95cd31c0c.jpg",
+  "mimeType": "image/jpeg",
+  "bytes": 48339,
+  "sha256": "c95c11572f111099f251aade2c7db79438b77ae14a382e4088143f73075e6de4",
+  "capturedAt": "2026-11-10T19:34:26.210Z",
+  "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+  "project": "lab-sandbox",
+  "framing": null,
+  "assessment": {
+    "status": "unreviewed",
+    "note": null
+  },
+  "source": "Roblox Studio screen_capture MCP tool"
+}

@@ -2,7 +2,14 @@
 
 ## Status
 
-**BLOCKED_EXTERNAL.** The current Signal Garden run is a single local desktop Studio Play session. It completed the solo loop three times, but it does not establish two-client replication, touch/controller behavior, or physical-device performance.
+**BLOCKED_EXTERNAL.** The 2026-11-10 fixed gate probe drove one local Studio Play session on disposable `lab-empty.rbxlx`. It observed exactly one Server player and one Client player, then stopped back to Edit. The live 36-tool MCP surface exposes no player-count, start-server, or additional-client operation, so this is not a two-client run. The same probe selected the Studio Device Simulator phone `samsung_galaxy_s25_ultra` at `685x338`, captured the viewport, and reset to the desktop device; it did not use a physical phone or measure device performance.
+
+## 2026-11-10 probe result
+
+- Command: `npm run studio:gates -- --studio bacee940-85ac-4899-ba05-a4f923b1d479` at clean source `6fbaac0`.
+- Multiplayer: Server count 1, Client count 1, both `11vated_indieGames`; `start_stop_play` arguments `[is_start, studio_id]`; no multi-client operation in 36 tools; stopped to Edit. Record: `evidence.studio.lab-multiplayer-gate-probe-20261110` (blocked, canonical SHA-256 `1be3c790…`).
+- Device: selected `samsung_galaxy_s25_ultra`, viewport `685x338`, capture `7aa2283c-392c-4bb8-a5ba-58a95cd31c0c` (48,339 bytes, SHA-256 `c95c1157…`), reset to `810x634`. Record: `evidence.studio.lab-device-emulator-probe-20261110` (blocked, canonical SHA-256 `9f7c5336…`).
+- No save, upload, publish, Open Cloud call, or real-project mutation was performed.
 
 ## Prerequisites
 
@@ -39,9 +46,9 @@
 
 ## Current blockers
 
-- Native Studio multi-client UI approval timed out in the earlier attempt.
-- No confirmed physical midrange phone is available.
-- The Lab has only a reversible start/stop playtest CLI; it can start a local play session but cannot drive the native two-client UI or synthesize a second player.
-- No human independent reviewer is appointed; only an automated distinct-process review exists for the reversible playtest evidence.
+- `STUDIO_MULTI_CLIENT_SURFACE_ABSENT`: the live MCP `start_stop_play` schema accepts only `is_start` and `studio_id`; there is no player-count, start-server, or additional-client operation. The native Studio Clients and Servers UI must be driven by a human or another supported multi-client runner.
+- `PHYSICAL_MIDRANGE_DEVICE_UNAVAILABLE`: no confirmed physical midrange phone is available. Studio Device Simulator selection and a viewport capture are emulator-only; they are not touch, thermal, or performance certification.
+- The Lab has only a reversible start/stop playtest CLI and the fixed device-simulator probe; it cannot synthesize a second player or substitute for a physical phone.
+- No human independent reviewer is appointed; only an automated distinct-process review exists for the earlier reversible playtest evidence, and it does not cover these gate records.
 
 A solo desktop pass must never be substituted for this gate.

@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "project": "lab",
+  "capturedAt": "2026-11-10T19:34:10.803Z",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+    "dirty": false,
+    "treeSha256": "4f9753fed9f20978634fa9fa5160acfd76af04e340bc96020c12e70436a0e61c",
+    "sourceFileCount": 269,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "place": {
+    "path": ".lab-runtime/sandbox/lab-empty.rbxlx",
+    "name": "lab-empty.rbxlx",
+    "initialSha256": "fe2e543bf73078a7fde98b0d4c2a2d4695e94d2d6462345d5cf9a1dade9387e5",
+    "finalSha256": "fe2e543bf73078a7fde98b0d4c2a2d4695e94d2d6462345d5cf9a1dade9387e5",
+    "changed": false
+  },
+  "studio": {
+    "instanceId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+    "name": "lab-empty.rbxlx",
+    "placeId": null,
+    "modeBefore": "Edit",
+    "modeAfterStart": "Play",
+    "modeAfterStop": "Edit"
+  },
+  "toolSurface": {
+    "discoveredToolCount": 36,
+    "startStopPlay": {
+      "available": true,
+      "arguments": [
+        "is_start",
+        "studio_id"
+      ],
+      "playerCountParameter": false,
+      "clientSpawnParameter": false
+    },
+    "multiClientOperationNames": [],
+    "multiClientOperationCount": 0,
+    "knownAbsentOperations": [
+      "start_server",
+      "start_player",
+      "start_client",
+      "start_multiplayer",
+      "num_players"
+    ]
+  },
+  "audit": {
+    "path": ".lab-runtime/studio-governance-sandbox/2026-11-10T19-34-10-797Z/audit.jsonl",
+    "bytes": 9901,
+    "sha256": "d218011092f749d1dd070f66271d727dbd64da99b982761ec160535b4042ec15",
+    "entries": [
+      {
+        "schemaVersion": 1,
+        "id": "a818ba6c-50e1-4d28-b820-f7ab51b9b69d",
+        "at": "2026-11-10T19:34:11.022Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "approvalId": "1a463554-87c8-4ea4-a96d-920a1d8f73ed",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "2bfcdb7fdcd36935d40a1f7b9940ecdfadbecb7ba622c8d83fbbf519d52c37e4",
+          "fingerprint": "c689aaae6d7ff6245bbd263690b3189bb90ed4b05edec13501a6215a6498ef8f"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:39:11.015Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "8705311b-eb81-43ca-af47-4eb49b9f4a28",
+        "at": "2026-11-10T19:34:11.035Z",
+        "executionId": "37c6b67e-8503-460c-befe-9015138476e2",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "2bfcdb7fdcd36935d40a1f7b9940ecdfadbecb7ba622c8d83fbbf519d52c37e4"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "1a463554-87c8-4ea4-a96d-920a1d8f73ed",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "2c24cb83-88f1-4256-9ddc-65c9555b125f",
+        "at": "2026-11-10T19:34:18.045Z",
+        "executionId": "37c6b67e-8503-460c-befe-9015138476e2",
+        "operationId": "studio.start_playtest",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "2bfcdb7fdcd36935d40a1f7b9940ecdfadbecb7ba622c8d83fbbf519d52c37e4"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "1a463554-87c8-4ea4-a96d-920a1d8f73ed",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 7019,
+        "resultDigest": "06fe26c32d3fba3ef075d48102648536ae0a18077d58f3acc9e498f187842a7a"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "23276d98-09c3-48aa-ae82-a201659e6257",
+        "at": "2026-11-10T19:34:18.963Z",
+        "executionId": "d40173a4-7146-45c9-89d4-d5887b60d496",
+        "operationId": "studio.inspect_players",
+        "riskClass": "inspection",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7599b6b2e35d149f220c5d617469f2a99ccc674600f6b075da55a16c278109bb"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": null,
+        "approver": null,
+        "durationMs": 54,
+        "resultDigest": "b8e2bcf5b985383363059c205beff825fba28d55fdbc4bb842b37a163b6a70b8"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "3caaddce-f23c-44a4-a4ee-d472eb9ae457",
+        "at": "2026-11-10T19:34:19.029Z",
+        "executionId": "13a829a2-a490-4156-83e4-b1e01bd816cc",
+        "operationId": "studio.inspect_players",
+        "riskClass": "inspection",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7ec1f3f129640505b32de99bf7f158e61396fb9e5876f2cf8710fd4007bc10e3"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": null,
+        "approver": null,
+        "durationMs": 64,
+        "resultDigest": "27fe1318dc0e1d8861c9d31fe862074dad9a7298da8b33f7f39e85c5d2f17994"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "ffb36318-079c-4776-965c-8e40dde0e914",
+        "at": "2026-11-10T19:34:19.058Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "approvalId": "06129b99-6031-4596-83f9-a2ac24c3e93b",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e47ff6c079962efb3d412758e8cc6b2b08e5d1278b04920c98152837fbb051ba",
+          "fingerprint": "7b3b518b4e19ca3a98c38bc3659087db3db8306206674cdfaff76f91eb90612b"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:39:19.031Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "8a6a129c-0590-4054-a8dc-8c828bc3cf3d",
+        "at": "2026-11-10T19:34:19.072Z",
+        "executionId": "6fb47095-c07c-4ad1-9c50-2b416501237b",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e47ff6c079962efb3d412758e8cc6b2b08e5d1278b04920c98152837fbb051ba"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "06129b99-6031-4596-83f9-a2ac24c3e93b",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "d0d2a589-d1c0-46cd-a6c2-a4461e63cef6",
+        "at": "2026-11-10T19:34:21.352Z",
+        "executionId": "6fb47095-c07c-4ad1-9c50-2b416501237b",
+        "operationId": "studio.stop_playtest",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e47ff6c079962efb3d412758e8cc6b2b08e5d1278b04920c98152837fbb051ba"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "06129b99-6031-4596-83f9-a2ac24c3e93b",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 2289,
+        "resultDigest": "c119cffd4bc7e60c7e60b677d48ba1f3fd4011121467e4448f185369f05d2b45"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "dab65826-0d1b-4889-b12d-951d0a755513",
+        "at": "2026-11-10T19:34:22.197Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.select_device_simulator",
+        "riskClass": "reversible_mutation",
+        "approvalId": "d2f460e6-5c84-47a3-ba0d-2d0ae6d06f3f",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "f7cdc523008d87c4669c6d00d0d123e486e9dc6b36bcae844b4dc0b438eb628e",
+          "fingerprint": "69dd43f16b929c080b6374cf05f91f0e7a96ac58f31ce6b07c73744976e7e0a5"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:39:22.176Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "33390eb9-4b8c-4f9c-a5f5-4e5c49ad65ca",
+        "at": "2026-11-10T19:34:22.242Z",
+        "executionId": "610478d5-68e0-4372-aaa6-19369d0a8107",
+        "operationId": "studio.select_device_simulator",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "f7cdc523008d87c4669c6d00d0d123e486e9dc6b36bcae844b4dc0b438eb628e"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "d2f460e6-5c84-47a3-ba0d-2d0ae6d06f3f",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "a84a1c40-8e28-4d01-a325-93de51a8e9dc",
+        "at": "2026-11-10T19:34:25.580Z",
+        "executionId": "610478d5-68e0-4372-aaa6-19369d0a8107",
+        "operationId": "studio.select_device_simulator",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "f7cdc523008d87c4669c6d00d0d123e486e9dc6b36bcae844b4dc0b438eb628e"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "d2f460e6-5c84-47a3-ba0d-2d0ae6d06f3f",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 3379,
+        "resultDigest": "ecf0fc3d2b3bee30e6278145aef4eb2e9d4b9f8f8ffe5514be226e8c99e0e3f3"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "97440f91-0feb-404d-98bd-6f5263b368c9",
+        "at": "2026-11-10T19:34:26.297Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.reset_device_simulator",
+        "riskClass": "reversible_mutation",
+        "approvalId": "a08211e1-a4eb-4914-a3c7-2a470cc63fde",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f5c196831cb45c3d66b147c2e913540b27f89ae56f64cd0edac7b9865dcf2ef",
+          "fingerprint": "6f563f3087d180094920ed895a125356282af5248656e5c5365cd8f6e0f3604a"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:39:26.282Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "6614593b-48f0-4ca5-8606-1cc7c8931872",
+        "at": "2026-11-10T19:34:26.320Z",
+        "executionId": "205ddd18-410e-492e-b994-49f1e4384bc9",
+        "operationId": "studio.reset_device_simulator",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f5c196831cb45c3d66b147c2e913540b27f89ae56f64cd0edac7b9865dcf2ef"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "a08211e1-a4eb-4914-a3c7-2a470cc63fde",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "f1a50dec-3627-4e3c-9210-c1832dbf8e1b",
+        "at": "2026-11-10T19:34:26.687Z",
+        "executionId": "205ddd18-410e-492e-b994-49f1e4384bc9",
+        "operationId": "studio.reset_device_simulator",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "6fbaac08ab7971b86743c3416cd65cfe360ffc58",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f5c196831cb45c3d66b147c2e913540b27f89ae56f64cd0edac7b9865dcf2ef"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "a08211e1-a4eb-4914-a3c7-2a470cc63fde",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 382,
+        "resultDigest": "c9b4798a66b6b0b6dc7f56920bdc8dea11c7c99b03d89fcaa7a843cf8502d56f"
+      }
+    ]
+  },
+  "failures": [],
+  "limitations": [
+    "No save, upload, publish, Open Cloud call, or real-project mutation is performed by this probe.",
+    "The source identity is recorded exactly; dirty evidence cannot support VERIFIED.",
+    "The approval issuer label is supplied by the mission and is not cryptographically authenticated."
+  ],
+  "type": "verification-run",
+  "status": "blocked",
+  "title": "Single-client Studio probe and multi-client surface audit",
+  "scope": "One governed local Play session on the disposable lab-empty.rbxlx sandbox. The probe recorded the engine-owned Server and Client player lists, then stopped back to Edit. It also captured the exact start_stop_play schema and searched the live inventory for a player-count or client-spawn operation.",
+  "capabilityIds": [
+    "LAB-GAME-001",
+    "LAB-QA-002",
+    "LAB-SEC-001"
+  ],
+  "blocker": {
+    "code": "STUDIO_MULTI_CLIENT_SURFACE_ABSENT",
+    "message": "The live MCP surface started one Server and one Client only; it exposes no player-count, start-server, or additional-client operation.",
+    "humanAction": "Use Studio’s native Clients and Servers UI or another supported multi-client runner to start a server with two real clients, then run the gate protocol; the current MCP start_stop_play operation accepts only is_start and studio_id."
+  },
+  "multiplayer": {
+    "observedServerPlayers": 1,
+    "observedClientPlayers": 1,
+    "observedServerText": "count=1|names=11vated_indieGames",
+    "observedClientText": "count=1|names=11vated_indieGames",
+    "startOperation": {
+      "operationId": "studio.start_playtest",
+      "riskClass": "reversible_mutation",
+      "approvalId": "1a463554-87c8-4ea4-a96d-920a1d8f73ed",
+      "executionId": "37c6b67e-8503-460c-befe-9015138476e2",
+      "parameterDigest": "2bfcdb7fdcd36935d40a1f7b9940ecdfadbecb7ba622c8d83fbbf519d52c37e4",
+      "resultDigest": "06fe26c32d3fba3ef075d48102648536ae0a18077d58f3acc9e498f187842a7a",
+      "requestedAt": "2026-11-10T19:34:11.015Z",
+      "expiresAt": "2026-11-10T19:39:11.015Z",
+      "result": {
+        "tool": "start_stop_play",
+        "is_start": true,
+        "text": "Game Started"
+      }
+    },
+    "stopOperation": {
+      "operationId": "studio.stop_playtest",
+      "riskClass": "reversible_mutation",
+      "approvalId": "06129b99-6031-4596-83f9-a2ac24c3e93b",
+      "executionId": "6fb47095-c07c-4ad1-9c50-2b416501237b",
+      "parameterDigest": "e47ff6c079962efb3d412758e8cc6b2b08e5d1278b04920c98152837fbb051ba",
+      "resultDigest": "c119cffd4bc7e60c7e60b677d48ba1f3fd4011121467e4448f185369f05d2b45",
+      "requestedAt": "2026-11-10T19:34:19.031Z",
+      "expiresAt": "2026-11-10T19:39:19.031Z",
+      "result": {
+        "tool": "start_stop_play",
+        "is_start": false,
+        "text": "Game Stopped"
+      }
+    },
+    "startedAndStopped": true
+  }
+}

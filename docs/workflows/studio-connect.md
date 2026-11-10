@@ -37,7 +37,7 @@ The catalog is closed. A tool the Studio server reports but the catalog does not
 
 A high-impact approval is a single-use token bound to the operation ID, project, source revision, Studio instance ID, place name and ID, and a SHA-256 digest of the operation parameters. Tokens live 15 seconds to 60 minutes, are stored only as SHA-256 hashes, are consumed by the first authorization, and are refused on replay, scope mismatch, or expiry. Approval issuance, authorization, execution start, result, and denial are appended to `.lab-runtime/studio-governance/audit.jsonl` without the token. `GET /api/studio/operations` shows the matrix and a bounded audit tail; it cannot execute anything.
 
-The registered mutation executors are fixed CLIs. They are not dashboard routes.
+The registered mutation executors are fixed CLIs. They are not dashboard routes. The multiplayer/device gate executor is also fixed: it starts one local Play session, reads the Server and Client player counts with sealed Luau, stops Play, selects the latest built-in device, captures one viewport, and resets the device. It cannot choose a device ID, spawn a player, save, upload, publish, or call an arbitrary tool.
 
 The playtest executor handles the reversible local operation:
 
@@ -54,6 +54,14 @@ npm run studio:sandbox -- --studio <sandbox-studio-id>
 ```
 
 It refuses to run unless the place is named `lab-empty.rbxlx`, the source revision is clean (or `--allow-dirty` is explicitly recorded), and the target is the fixed `LabSandboxProbe` path. Six single-use approvals drive create V1, replace V2, save with a backup, upload the fixed PNG, delete after checking the exact marker, and save the cleanup. It accepts no arbitrary script text, path, asset, or tool name and cannot publish. Because Roblox exposes no supported API to save a local `.rbxlx`, the save step uses `scripts/save-sandbox-place.ps1` with an exact Studio-window and PID check; it requires an interactive desktop. The rehearsal created `rbxassetid://93133245079921` from the fixed PNG and did not use it in any place.
+
+The fixed multiplayer/device gate is bounded to the disposable sandbox:
+
+```powershell
+npm run studio:gates -- --studio <sandbox-studio-id>
+```
+
+It refuses any place other than `.lab-runtime/sandbox/lab-empty.rbxlx`, checks that the source tree is clean (or records `--allow-dirty`), and writes two evidence records under `evidence/studio/`. The multiplayer record is expected to be `blocked` with `STUDIO_MULTI_CLIENT_SURFACE_ABSENT` on the current 36-tool surface; the device record is `blocked` with `PHYSICAL_MIDRANGE_DEVICE_UNAVAILABLE` because the emulator is not a physical phone. A successful command means the bounded probe ran, not that either gate passed.
 
 Read-only and diagnostic commands:
 
