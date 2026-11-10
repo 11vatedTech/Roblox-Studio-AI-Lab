@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.procedural-world",
+  "title": "Procedural worlds and navigation",
+  "category": "procedural-worlds",
+  "project": "projects/benchmark-procedural-world",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A bounded seeded depth-first graph generator creates a connected room network with open edges, then the server builds room geometry from the generated graph. A seed reproduces the same route; a new seed produces a different connected map rather than selecting a pre-authored layout.",
+  "expectedOutcomes": ["Same seed produces byte-equivalent logical topology.", "Different seeds vary the graph.", "Every generated room is reachable and dimensions are bounded."],
+  "failureCases": ["Invalid dimensions or seed.", "A generated room cannot be reached.", "A missing edge produces a sealed route."],
+  "deviceBudget": { "targets": { "mobile": "<= 32 x 32 cells; <= 4,096 geometry parts", "desktop": "<= 32 x 32 cells; <= 8,192 geometry parts" }, "measurement": "unmeasured; generation time and pathfinding profile pending" },
+  "assets": { "external": false, "source": "Procedurally generated native parts from repository source; no pre-authored room combinations or external assets." },
+  "evidence": { "offlineRules": "tests/world-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "generator rules implemented; runtime and navigation stress pending" }
+}

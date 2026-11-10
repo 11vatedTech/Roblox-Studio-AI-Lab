@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.cinematic-ui",
+  "title": "Cinematic sequencing and accessible UI",
+  "category": "cinematic-ui",
+  "project": "projects/benchmark-cinematic-ui",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A client-only Field Notes reveal sequences readable title, location, and objective cues over the 3D scene. Persistent touch-sized Skip and Reduced Motion controls use GuiButton.Activated; reduced-motion mode shortens the shared rule timing without changing cue order, and completion leaves the objective visible.",
+  "expectedOutcomes": ["Cues play in order and complete within their timing boundaries.", "Skip immediately reaches the objective state.", "Reduced-motion mode reduces transition duration without removing information."],
+  "failureCases": ["Malformed or excessive cue data.", "A cue is interrupted by respawn.", "Small-screen text overflows its layout."],
+  "deviceBudget": { "targets": { "mobile": "text readable at 320 px width; touch target >= 44 px", "desktop": "keyboard and pointer access; reduced-motion setting respected" }, "measurement": "viewport and accessibility review pending" },
+  "assets": { "external": false, "source": "Field Notes UI and sequence authored in projects/benchmark-cinematic-ui/src/client/CinematicIntro.client.luau. Audio synchronization remains unproven because external Roblox sound assets were not imported." },
+  "evidence": { "offlineRules": "tests/cinematic-rules.cli.spec.luau", "clientImplementation": "src/client/CinematicIntro.client.luau", "studio": "not yet captured", "maturity": "client implementation and offline sequence rules authored; live Studio visual, touch/controller, audio, and device review remain pending" }
+}

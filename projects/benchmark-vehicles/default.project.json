@@ -1,0 +1,8 @@
+{
+  "name": "Benchmark — Vehicles",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "BenchmarkShared": { "$path": "src/shared" } },
+    "ServerScriptService": { "BenchmarkServer": { "$path": "src/server" } }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Benchmark — Environment and Quality",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "BenchmarkShared": { "$path": "src/shared" } },
+    "ServerScriptService": { "BenchmarkServer": { "$path": "src/server" } },
+    "StarterPlayer": { "StarterPlayerScripts": { "BenchmarkClient": { "$path": "src/client" } } }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.combat-animation",
+  "title": "Character combat and animation",
+  "category": "character-combat-animation",
+  "project": "projects/benchmark-combat-animation",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A player performs a telegraphed melee strike against a server-owned training target. A procedural local arm pose presents the windup and recovery; the server accepts damage only during the active window and only once per target per swing.",
+  "expectedOutcomes": ["Windup, active, recovery, and cooldown are distinct states.", "Out-of-range, duplicate, and stale hits do not reduce target health.", "Presentation animation does not grant damage authority."],
+  "failureCases": ["Target leaves range before the server resolves a hit.", "Repeated requests during cooldown.", "Character respawn interrupts the local pose."],
+  "deviceBudget": { "targets": { "mobile": "60 FPS; <= 1,000 added instances", "desktop": "60 FPS; <= 1,000 added instances" }, "measurement": "unmeasured on physical devices" },
+  "assets": { "external": false, "source": "Original native Roblox geometry and repository Luau; no external assets." },
+  "evidence": { "offlineRules": "tests/combat-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "source-implemented; runtime and visual review pending" }
+}

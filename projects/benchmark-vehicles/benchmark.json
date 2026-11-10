@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.vehicles",
+  "title": "Vehicle control and recovery",
+  "category": "vehicles",
+  "project": "projects/benchmark-vehicles",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A player drives a small server-owned hover cart through a marked loop. Input is a bounded throttle/steer intent; the server simulates motion, checks route progress, and safely recovers an overturned or stuck cart.",
+  "expectedOutcomes": ["Input stays within throttle/steering bounds and request-rate limits.", "The server owns vehicle simulation and route progress.", "An off-course cart returns to a known safe start."],
+  "failureCases": ["Malformed or excessive client inputs.", "Vehicle exits the course bounds.", "Vehicle makes no progress for the configured recovery interval."],
+  "deviceBudget": { "targets": { "mobile": "60 FPS; <= 1 vehicle per player", "desktop": "60 FPS; <= 1 vehicle per player" }, "measurement": "unmeasured; network stress and physical input pending" },
+  "assets": { "external": false, "source": "Original native parts and repository Luau; no external assets." },
+  "evidence": { "offlineRules": "tests/vehicle-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "rules implemented; physics/runtime and device review pending" }
+}

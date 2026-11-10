@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.movement",
+  "title": "Movement and parkour",
+  "category": "movement",
+  "project": "projects/benchmark-movement",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A player crosses an ordered three-checkpoint parkour route using standard Roblox movement. The server validates checkpoint proximity, order, elapsed time, and displacement before acknowledging progress.",
+  "expectedOutcomes": ["Correct ordered traversal completes the route.", "Skipping or remotely claiming a checkpoint is rejected.", "Impossible displacement is rejected without mutating progress."],
+  "failureCases": ["A missed jump requires returning to the previous platform.", "A long pause expires the route attempt.", "A respawn begins a fresh route attempt."],
+  "deviceBudget": { "targets": { "mobile": "60 FPS; touch targets >= 44 px", "controller": "60 FPS; all actions reachable without cursor" }, "measurement": "unmeasured on physical devices; Studio input review pending" },
+  "assets": { "external": false, "source": "Original native parts and repository Luau; no external assets." },
+  "evidence": { "offlineRules": "tests/movement-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "source-implemented; runtime and input review pending" }
+}

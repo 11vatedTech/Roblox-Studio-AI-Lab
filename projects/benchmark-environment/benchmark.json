@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.environment-quality",
+  "title": "Environment and quality tiers",
+  "category": "environment-quality",
+  "project": "projects/benchmark-environment",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A dense native-part diorama provides a clear spawn, goal, and hazard silhouette. Local quality selection changes decorative detail, distant rings, and dynamic lights while preserving all gameplay landmarks.",
+  "expectedOutcomes": ["Low, medium, and high profiles have explicit detail and lighting budgets.", "The spawn, goal, and hazard remain visible in every profile.", "No external texture or mesh is required to reproduce the scene."],
+  "failureCases": ["Unknown quality profile is rejected.", "A quality reduction hides a required gameplay landmark.", "Decoration count exceeds the selected budget."],
+  "deviceBudget": { "targets": { "mobile": "<= 500 scene parts; 60 FPS target", "desktop": "<= 1,000 scene parts; 60 FPS target" }, "measurement": "unmeasured; physical low-end device and streaming profile pending" },
+  "assets": { "external": false, "source": "Original Luau-generated parts and native materials. PBR texture-map integration remains unproven without a Roblox asset import." },
+  "evidence": { "offlineRules": "tests/environment-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "quality rules implemented; visual/device review pending" }
+}

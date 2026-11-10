@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.creature-ai",
+  "title": "Creature perception and AI state",
+  "category": "creature-npc-ai",
+  "project": "projects/benchmark-creature-ai",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "A native-part creature notices nearby characters, telegraphs a bounded attack, attacks through a visible hit zone, recovers, and returns to idle when the target leaves perception range.",
+  "expectedOutcomes": ["State transitions run on the server and have readable telegraph/recovery windows.", "Targets outside the notice radius do not trigger attacks.", "An unknown AI state fails closed."],
+  "failureCases": ["Target leaves before attack resolution.", "Malformed timing values.", "No target remains in the perception radius."],
+  "deviceBudget": { "targets": { "mobile": "<= 1 active creature per player; 60 FPS target", "desktop": "<= 4 active creatures; 60 FPS target" }, "measurement": "unmeasured on physical devices" },
+  "assets": { "external": false, "source": "Original native parts and repository Luau; no rig, animation, or external asset imported." },
+  "evidence": { "offlineRules": "tests/creature-rules.cli.spec.luau", "studio": "not yet captured", "maturity": "AI rules implemented; pathfinding and animation runtime review pending" }
+}

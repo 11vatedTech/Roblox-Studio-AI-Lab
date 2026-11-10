@@ -1,0 +1,8 @@
+{
+  "name": "Benchmark — Creature AI",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "BenchmarkShared": { "$path": "src/shared" } },
+    "ServerScriptService": { "BenchmarkServer": { "$path": "src/server" } }
+  }
+}

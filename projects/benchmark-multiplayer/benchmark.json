@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "benchmark.multiplayer-replication",
+  "title": "Multiplayer synchronization and validation",
+  "category": "multiplayer-replication",
+  "project": "projects/benchmark-multiplayer",
+  "robloxStudio": "0.746.0.7461269 observed on authoring workstation; recheck on replay",
+  "rojo": "7.7.1",
+  "luau": "0.745",
+  "scenario": "Two distinct players activate separate nearby relay pads during one round. The server owns gate state and replicates completion; a single player cannot trigger both pads or replay stale input.",
+  "expectedOutcomes": ["Distinct in-range players complete the gate and see the same replicated result.", "Same-player, out-of-range, and stale requests are rejected.", "Server state is authoritative."],
+  "failureCases": ["One player leaves before pairing.", "A pad request is duplicated or rate abused.", "The second activation arrives after the pairing window."],
+  "deviceBudget": { "targets": { "mobile": "2-6 clients; <= 1 relay event per action", "desktop": "2-6 clients; bounded replication" }, "measurement": "multi-client runtime and network stress not run" },
+  "assets": { "external": false, "source": "Original native parts and repository Luau; no external assets." },
+  "evidence": { "offlineRules": "tests/multiplayer-rules.cli.spec.luau", "studio": "not yet captured; current bridge supports solo Play only", "maturity": "rules implemented; replication certification blocked" }
+}

@@ -1,0 +1,16 @@
+local Rules = require("../src/shared/MovementRules")
+
+local route = { nextCheckpoint = 1, lastCheckpointAt = 0, finishIndex = 3 }
+route = assert(Rules.validateCheckpoint(route, 1, 4, 3, 6, 20))
+assert(route.nextCheckpoint == 2 and not route.completed, "first checkpoint advances the route")
+local skipped, skippedReason = Rules.validateCheckpoint(route, 3, 4, 4, 6, 20)
+assert(skipped == nil and skippedReason == "out_of_order", "server rejects skipped checkpoints")
+local distant, distantReason = Rules.validateCheckpoint(route, 2, 9, 4, 6, 20)
+assert(distant == nil and distantReason == "too_far", "server rejects remote checkpoint claims")
+route = assert(Rules.validateCheckpoint(route, 2, 5, 5, 6, 20))
+route = assert(Rules.validateCheckpoint(route, 3, 5, 8, 6, 20))
+assert(route.completed, "finishing the ordered parkour route completes the challenge")
+assert(Rules.validateDisplacement(0, 10, 1, 16), "normal sprint displacement is accepted")
+local exploit, exploitReason = Rules.validateDisplacement(0, 40, 1, 16)
+assert(not exploit and exploitReason == "impossible_displacement", "excessive displacement is rejected")
+print("PASS movement checkpoints, route order, and displacement limits")
