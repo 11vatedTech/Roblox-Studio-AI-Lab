@@ -1,0 +1,656 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "passed",
+  "title": "Bounded Studio sandbox mutation, save, upload, and destructive cleanup",
+  "capturedAt": "2026-11-10T19:09:52.878Z",
+  "project": "lab",
+  "scope": "A disposable Rojo-built local place, lab-empty.rbxlx, was mutated only at game.ServerScriptService.LabSandboxProbe through sealed MCP operations. Each operation used a distinct single-use approval bound to the sandbox Studio instance, place, source revision, and parameter digest. The run exercised create, replace, local save, one fixed 1x1 image upload, destructive delete, and cleanup save. No real project place, publication, or Open Cloud write was touched.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+    "dirty": true,
+    "treeSha256": "0bb4ee964b34a71cec95383b94adff89be1eeb66e1ef53033e382e6caa367709",
+    "sourceFileCount": 267,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "authorization": {
+    "source": "user-mission:2026-11-10",
+    "statement": "Treat this mission text as the authorization for that authorization/approval scope; record it as such in the governance evidence with explicit in-scope and out-of-scope operations. Keep the path bounded and safe: scope writes to a disposable/test place or sandbox, make destructive operations reversible or backed up, and do not publish, upload to, or destructively mutate any real user project or public experience.",
+    "inScope": [
+      "create, replace, and delete the fixed LabSandboxProbe in the disposable lab-empty.rbxlx place",
+      "save the disposable local place with a targeted local helper and a file backup",
+      "upload one fixed 1x1 PNG to the account asset inventory without using it in a place",
+      "record every approval, audit entry, tool result, and file hash"
+    ],
+    "outOfScope": [
+      "publishing any place or experience",
+      "uploading or changing any real user project, public experience, or production data",
+      "mutating the Signal Garden project place",
+      "enabling Open Cloud scopes or writing through Open Cloud",
+      "arbitrary Luau, arbitrary script paths, or arbitrary asset uploads"
+    ]
+  },
+  "studio": {
+    "instanceId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+    "name": "lab-empty.rbxlx",
+    "placeId": null,
+    "protocolVersion": "2026-07-28",
+    "modeBefore": "Edit",
+    "modeAfter": "Edit"
+  },
+  "sandbox": {
+    "placeFile": ".lab-runtime/sandbox/lab-empty.rbxlx",
+    "placeName": "lab-empty.rbxlx",
+    "initialSha256": "54d406d4f141798f3b6314fa9d2b46c238e481a6190090bc6105b9cf988f20cd",
+    "finalSha256": "fe2e543bf73078a7fde98b0d4c2a2d4695e94d2d6462345d5cf9a1dade9387e5",
+    "finalBytes": 60790,
+    "fileChanged": true,
+    "markerAbsentAfterCleanup": true
+  },
+  "operations": [
+    {
+      "operationId": "studio.create_sandbox_script",
+      "riskClass": "reversible_mutation",
+      "approvalId": "2c8b8802-39a7-493e-acd9-96c331fbbd6c",
+      "executionId": "842c4211-e614-45c8-ad46-d3ee4855dea4",
+      "parameterDigest": "7f8df50e9e2ad937a22159a6e461759621644a5ace455ebdda532d5ae87aa7f5",
+      "resultDigest": "80fa258bf5c677b64d6d71d4c04d057add3343a7459f7074e8a41509e7406246",
+      "requestedAt": "2026-11-10T19:09:43.373Z",
+      "expiresAt": "2026-11-10T19:14:43.373Z",
+      "result": {
+        "tool": "multi_edit",
+        "action": "create",
+        "sourceSha256": "3c52405e6c9c1c5598ea79a6ee7387c6f3f5198bc710ce701f9b77c468251c61",
+        "readBack": "exact_v1"
+      }
+    },
+    {
+      "operationId": "studio.replace_script",
+      "riskClass": "destructive_mutation",
+      "approvalId": "82cfacfa-bf9c-4079-9f6c-c67f0c977923",
+      "executionId": "fb2fc27d-d50b-492d-954c-021d1879ac48",
+      "parameterDigest": "b9cfe94c947121c42d95cf396e5e14ff15c34272160d29296dda78513b7e5518",
+      "resultDigest": "5704ad0224385067bf173e99bb51ac8b27ff434993b8bf8f417e3f3300b9dedd",
+      "requestedAt": "2026-11-10T19:09:43.458Z",
+      "expiresAt": "2026-11-10T19:14:43.458Z",
+      "result": {
+        "tool": "multi_edit",
+        "action": "replace",
+        "sourceSha256": "224e3b8daf33bdbe5962041e775bfba436c20f5f73cd322c0d9e3f584cbc8426",
+        "readBack": "exact_v2"
+      }
+    },
+    {
+      "operationId": "studio.save_place",
+      "riskClass": "destructive_mutation",
+      "approvalId": "bae8cc46-1c91-4062-9eb1-41b2ac5134b0",
+      "executionId": "4ff860de-17a2-46c1-9ed1-dfc36435dc79",
+      "parameterDigest": "d076e2ae942b1e74b7bdf2324b6c339ce760b7ae91a055300b579cf89380dffe",
+      "resultDigest": "be4ee9604e13bb18e10bb6efeaab5035c10633b4aad18eb7bd3adc7dbba33139",
+      "requestedAt": "2026-11-10T19:09:43.559Z",
+      "expiresAt": "2026-11-10T19:14:43.559Z",
+      "result": {
+        "executor": "scripts/save-sandbox-place.ps1",
+        "beforeSha256": "54d406d4f141798f3b6314fa9d2b46c238e481a6190090bc6105b9cf988f20cd",
+        "afterSha256": "a3b6ad621a002c8c59b805993f207600c723589f261bb39a0b005419065abcc5",
+        "beforeBytes": 508,
+        "afterBytes": 61806,
+        "backupPath": ".lab-runtime/sandbox/backups/lab-empty.rbxlx.20261110T190945441Z.bak.rbxlx",
+        "backupSha256": "54d406d4f141798f3b6314fa9d2b46c238e481a6190090bc6105b9cf988f20cd",
+        "windowTitle": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.lab-runtime\\sandbox\\lab-empty.rbxlx - Roblox Studio",
+        "processId": 1740,
+        "changed": true,
+        "phase": "save-after-replace",
+        "marker": "LAB_SANDBOX_PROBE_V2"
+      }
+    },
+    {
+      "operationId": "studio.upload_image",
+      "riskClass": "upload",
+      "approvalId": "0a9418bb-f5a7-4936-a142-5800e1002b01",
+      "executionId": "4320fdec-2e59-45f1-ab01-8fa1f501cde5",
+      "parameterDigest": "d125b70a60cf7f25626b554af0aa3372019ea263d26b6431a6434b103d4e7100",
+      "resultDigest": "1230c4a577bd98de38e43193617deba504e85d7f30e8491758ebcbb5dbc627ba",
+      "requestedAt": "2026-11-10T19:09:47.815Z",
+      "expiresAt": "2026-11-10T19:14:47.815Z",
+      "result": {
+        "source": "loopback-http",
+        "url": "http://127.0.0.1:63316/lab-upload-probe.png",
+        "sha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+        "assetId": "rbxassetid://93133245079921",
+        "result": "{\"http://127.0.0.1:63316/lab-upload-probe.png\":\"rbxassetid://93133245079921\"}",
+        "externalAssetCreated": true
+      }
+    },
+    {
+      "operationId": "studio.delete_sandbox_script",
+      "riskClass": "destructive_mutation",
+      "approvalId": "7c5682d1-bf30-4279-9fb6-14810d76728a",
+      "executionId": "961e4dc7-3641-448e-8355-b538efd1186f",
+      "parameterDigest": "e4ecebfd0f955b41bb428074fd1d691863244995b24714a8f34f089f894d9e02",
+      "resultDigest": "60f2e0eff7c818a69b1910bf0ef4bbbd72e7b5e658de6bee034c147ebd5f5328",
+      "requestedAt": "2026-11-10T19:09:49.388Z",
+      "expiresAt": "2026-11-10T19:14:49.388Z",
+      "result": {
+        "tool": "execute_luau",
+        "action": "delete",
+        "markerVerified": true,
+        "readBack": "absent",
+        "toolResult": "destroyed"
+      }
+    },
+    {
+      "operationId": "studio.save_place",
+      "riskClass": "destructive_mutation",
+      "approvalId": "ec365ec3-ac62-44cd-a5c5-8407c44bc38d",
+      "executionId": "96b8e34c-e184-4a84-80fa-efb3884bfb73",
+      "parameterDigest": "04b37fb013438351a9aae22e58217a1e2c04305518e9d38f65cc164684d54bea",
+      "resultDigest": "b8b869d45557f61b7884e402dbbcf930bb405bf7ddb23c2fc55d93c8381ece8a",
+      "requestedAt": "2026-11-10T19:09:49.511Z",
+      "expiresAt": "2026-11-10T19:14:49.511Z",
+      "result": {
+        "executor": "scripts/save-sandbox-place.ps1",
+        "beforeSha256": "a3b6ad621a002c8c59b805993f207600c723589f261bb39a0b005419065abcc5",
+        "afterSha256": "fe2e543bf73078a7fde98b0d4c2a2d4695e94d2d6462345d5cf9a1dade9387e5",
+        "beforeBytes": 61806,
+        "afterBytes": 60790,
+        "backupPath": ".lab-runtime/sandbox/backups/lab-empty.rbxlx.20261110T190950935Z.bak.rbxlx",
+        "backupSha256": "a3b6ad621a002c8c59b805993f207600c723589f261bb39a0b005419065abcc5",
+        "windowTitle": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.lab-runtime\\sandbox\\lab-empty.rbxlx - Roblox Studio",
+        "processId": 1740,
+        "changed": true,
+        "phase": "save-after-delete",
+        "marker": "LAB_SANDBOX_PROBE_ABSENT"
+      }
+    }
+  ],
+  "failures": [],
+  "upload": {
+    "imagePath": ".lab-runtime/sandbox/lab-upload-probe.png",
+    "sha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+    "attempts": [
+      {
+        "source": "loopback-http",
+        "url": "http://127.0.0.1:63316/lab-upload-probe.png",
+        "result": "{\"http://127.0.0.1:63316/lab-upload-probe.png\":\"rbxassetid://93133245079921\"}",
+        "isError": false
+      }
+    ],
+    "result": {
+      "source": "loopback-http",
+      "url": "http://127.0.0.1:63316/lab-upload-probe.png",
+      "sha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+      "assetId": "rbxassetid://93133245079921",
+      "result": "{\"http://127.0.0.1:63316/lab-upload-probe.png\":\"rbxassetid://93133245079921\"}",
+      "externalAssetCreated": true
+    },
+    "externalAssetCreated": true,
+    "usedInPlace": false
+  },
+  "cleanup": {
+    "ok": true,
+    "record": {
+      "operationId": "studio.save_place",
+      "riskClass": "destructive_mutation",
+      "approvalId": "ec365ec3-ac62-44cd-a5c5-8407c44bc38d",
+      "executionId": "96b8e34c-e184-4a84-80fa-efb3884bfb73",
+      "parameterDigest": "04b37fb013438351a9aae22e58217a1e2c04305518e9d38f65cc164684d54bea",
+      "resultDigest": "b8b869d45557f61b7884e402dbbcf930bb405bf7ddb23c2fc55d93c8381ece8a",
+      "requestedAt": "2026-11-10T19:09:49.511Z",
+      "expiresAt": "2026-11-10T19:14:49.511Z",
+      "result": {
+        "executor": "scripts/save-sandbox-place.ps1",
+        "beforeSha256": "a3b6ad621a002c8c59b805993f207600c723589f261bb39a0b005419065abcc5",
+        "afterSha256": "fe2e543bf73078a7fde98b0d4c2a2d4695e94d2d6462345d5cf9a1dade9387e5",
+        "beforeBytes": 61806,
+        "afterBytes": 60790,
+        "backupPath": ".lab-runtime/sandbox/backups/lab-empty.rbxlx.20261110T190950935Z.bak.rbxlx",
+        "backupSha256": "a3b6ad621a002c8c59b805993f207600c723589f261bb39a0b005419065abcc5",
+        "windowTitle": "C:\\Users\\11vat\\OneDrive\\ai-Roblox-studio-lab\\.lab-runtime\\sandbox\\lab-empty.rbxlx - Roblox Studio",
+        "processId": 1740,
+        "changed": true,
+        "phase": "save-after-delete",
+        "marker": "LAB_SANDBOX_PROBE_ABSENT"
+      }
+    }
+  },
+  "audit": {
+    "path": ".lab-runtime/studio-governance-sandbox/2026-11-10T19-09-43-146Z/audit.jsonl",
+    "bytes": 12784,
+    "sha256": "a4b9551b6e0d98882791d311187b06dc9cf5f5af325b76409045fb4e6c665b4e",
+    "entries": [
+      {
+        "schemaVersion": 1,
+        "id": "327a092e-05d4-4667-9c07-1334e0fe5f5e",
+        "at": "2026-11-10T19:09:43.382Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.create_sandbox_script",
+        "riskClass": "reversible_mutation",
+        "approvalId": "2c8b8802-39a7-493e-acd9-96c331fbbd6c",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f8df50e9e2ad937a22159a6e461759621644a5ace455ebdda532d5ae87aa7f5",
+          "fingerprint": "e808370fa387bb7b2dfeace966066e081b9179b05bc2c401005f91a64f6036fc"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:43.373Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "1b90ed7a-0c13-4e7e-bf09-92060493967f",
+        "at": "2026-11-10T19:09:43.396Z",
+        "executionId": "842c4211-e614-45c8-ad46-d3ee4855dea4",
+        "operationId": "studio.create_sandbox_script",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f8df50e9e2ad937a22159a6e461759621644a5ace455ebdda532d5ae87aa7f5"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "2c8b8802-39a7-493e-acd9-96c331fbbd6c",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "ef89fa67-04cd-4ac6-a614-d2df00b087e6",
+        "at": "2026-11-10T19:09:43.456Z",
+        "executionId": "842c4211-e614-45c8-ad46-d3ee4855dea4",
+        "operationId": "studio.create_sandbox_script",
+        "riskClass": "reversible_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "7f8df50e9e2ad937a22159a6e461759621644a5ace455ebdda532d5ae87aa7f5"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "2c8b8802-39a7-493e-acd9-96c331fbbd6c",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 70,
+        "resultDigest": "80fa258bf5c677b64d6d71d4c04d057add3343a7459f7074e8a41509e7406246"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "3de79431-7e02-4439-ac26-b44902373ee8",
+        "at": "2026-11-10T19:09:43.484Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.replace_script",
+        "riskClass": "destructive_mutation",
+        "approvalId": "82cfacfa-bf9c-4079-9f6c-c67f0c977923",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "b9cfe94c947121c42d95cf396e5e14ff15c34272160d29296dda78513b7e5518",
+          "fingerprint": "8351eeb2067b222c0c878617f008e7b5bc1b64e355a6ca7fb1d2241564ccce1b"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:43.458Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "fbd75760-5102-47df-af69-308ce8d25b8e",
+        "at": "2026-11-10T19:09:43.494Z",
+        "executionId": "fb2fc27d-d50b-492d-954c-021d1879ac48",
+        "operationId": "studio.replace_script",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "b9cfe94c947121c42d95cf396e5e14ff15c34272160d29296dda78513b7e5518"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "82cfacfa-bf9c-4079-9f6c-c67f0c977923",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "4b36a91d-ccff-4f76-8b0c-54a2300ab752",
+        "at": "2026-11-10T19:09:43.555Z",
+        "executionId": "fb2fc27d-d50b-492d-954c-021d1879ac48",
+        "operationId": "studio.replace_script",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "b9cfe94c947121c42d95cf396e5e14ff15c34272160d29296dda78513b7e5518"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "82cfacfa-bf9c-4079-9f6c-c67f0c977923",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 68,
+        "resultDigest": "5704ad0224385067bf173e99bb51ac8b27ff434993b8bf8f417e3f3300b9dedd"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "55276c43-46c3-428c-9e9b-8e1b4d91196b",
+        "at": "2026-11-10T19:09:43.569Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "approvalId": "bae8cc46-1c91-4062-9eb1-41b2ac5134b0",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d076e2ae942b1e74b7bdf2324b6c339ce760b7ae91a055300b579cf89380dffe",
+          "fingerprint": "7376a25f0b55e798bafcf3c1c7fb3957251bf2769f11ad56afda17a9fae5ea8b"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:43.559Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "0201b76c-eba9-4fe2-b2a0-4b8f003d24c4",
+        "at": "2026-11-10T19:09:43.581Z",
+        "executionId": "4ff860de-17a2-46c1-9ed1-dfc36435dc79",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d076e2ae942b1e74b7bdf2324b6c339ce760b7ae91a055300b579cf89380dffe"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "bae8cc46-1c91-4062-9eb1-41b2ac5134b0",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "5a3bc960-cd75-4c2b-b65c-ee1dfd54bf0d",
+        "at": "2026-11-10T19:09:47.730Z",
+        "executionId": "4ff860de-17a2-46c1-9ed1-dfc36435dc79",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d076e2ae942b1e74b7bdf2324b6c339ce760b7ae91a055300b579cf89380dffe"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "bae8cc46-1c91-4062-9eb1-41b2ac5134b0",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 4158,
+        "resultDigest": "be4ee9604e13bb18e10bb6efeaab5035c10633b4aad18eb7bd3adc7dbba33139"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "c344eecf-a7ae-486e-8646-79a6be0c59ac",
+        "at": "2026-11-10T19:09:47.826Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.upload_image",
+        "riskClass": "upload",
+        "approvalId": "0a9418bb-f5a7-4936-a142-5800e1002b01",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d125b70a60cf7f25626b554af0aa3372019ea263d26b6431a6434b103d4e7100",
+          "fingerprint": "8d56ee4486a1b11501d783032d72f155c8fb35d9700e0ed4da9a8c34b0e38a02"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:47.815Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "ddd6e424-4f2e-492f-8324-88e584c6de7f",
+        "at": "2026-11-10T19:09:47.839Z",
+        "executionId": "4320fdec-2e59-45f1-ab01-8fa1f501cde5",
+        "operationId": "studio.upload_image",
+        "riskClass": "upload",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d125b70a60cf7f25626b554af0aa3372019ea263d26b6431a6434b103d4e7100"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "0a9418bb-f5a7-4936-a142-5800e1002b01",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "b9e54ba4-de24-4a97-aca6-09ce00a5cc55",
+        "at": "2026-11-10T19:09:49.355Z",
+        "executionId": "4320fdec-2e59-45f1-ab01-8fa1f501cde5",
+        "operationId": "studio.upload_image",
+        "riskClass": "upload",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "d125b70a60cf7f25626b554af0aa3372019ea263d26b6431a6434b103d4e7100"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "0a9418bb-f5a7-4936-a142-5800e1002b01",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 1526,
+        "resultDigest": "1230c4a577bd98de38e43193617deba504e85d7f30e8491758ebcbb5dbc627ba"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "0241906c-7b3c-45f1-8777-e4363afe12a2",
+        "at": "2026-11-10T19:09:49.397Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.delete_sandbox_script",
+        "riskClass": "destructive_mutation",
+        "approvalId": "7c5682d1-bf30-4279-9fb6-14810d76728a",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e4ecebfd0f955b41bb428074fd1d691863244995b24714a8f34f089f894d9e02",
+          "fingerprint": "ff7d326412c916a6e59ff353401c5424ce063aa9f87e7f3e806cccbbd4ddff35"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:49.388Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "fd55ad27-9d24-43f7-bf7c-73559af33189",
+        "at": "2026-11-10T19:09:49.407Z",
+        "executionId": "961e4dc7-3641-448e-8355-b538efd1186f",
+        "operationId": "studio.delete_sandbox_script",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e4ecebfd0f955b41bb428074fd1d691863244995b24714a8f34f089f894d9e02"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "7c5682d1-bf30-4279-9fb6-14810d76728a",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "21206e3f-90c7-4e5b-93ee-e6fdc286515a",
+        "at": "2026-11-10T19:09:49.507Z",
+        "executionId": "961e4dc7-3641-448e-8355-b538efd1186f",
+        "operationId": "studio.delete_sandbox_script",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "e4ecebfd0f955b41bb428074fd1d691863244995b24714a8f34f089f894d9e02"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "7c5682d1-bf30-4279-9fb6-14810d76728a",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 107,
+        "resultDigest": "60f2e0eff7c818a69b1910bf0ef4bbbd72e7b5e658de6bee034c147ebd5f5328"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "252d9bd8-f870-4aa0-8067-e92295ef852b",
+        "at": "2026-11-10T19:09:49.521Z",
+        "decision": "approval_issued",
+        "reasonCode": "AWAITING_EXECUTION",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "approvalId": "ec365ec3-ac62-44cd-a5c5-8407c44bc38d",
+        "approver": "project-owner-mission-20261110",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "04b37fb013438351a9aae22e58217a1e2c04305518e9d38f65cc164684d54bea",
+          "fingerprint": "99970e4f43f749c49c499e9f962403e081791ccb5ee33b52feb58bbb30072922"
+        },
+        "durationMs": 0,
+        "detail": "Approval expires at 2026-11-10T19:14:49.511Z."
+      },
+      {
+        "schemaVersion": 1,
+        "id": "e6392e4d-124e-47c3-a998-4cccb5e765aa",
+        "at": "2026-11-10T19:09:49.533Z",
+        "executionId": "96b8e34c-e184-4a84-80fa-efb3884bfb73",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "04b37fb013438351a9aae22e58217a1e2c04305518e9d38f65cc164684d54bea"
+        },
+        "decision": "started",
+        "reasonCode": "APPROVED",
+        "approvalId": "ec365ec3-ac62-44cd-a5c5-8407c44bc38d",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 0
+      },
+      {
+        "schemaVersion": 1,
+        "id": "c47560fc-eceb-44c4-b8ad-2d466e69d7d4",
+        "at": "2026-11-10T19:09:52.822Z",
+        "executionId": "96b8e34c-e184-4a84-80fa-efb3884bfb73",
+        "operationId": "studio.save_place",
+        "riskClass": "destructive_mutation",
+        "scope": {
+          "project": "lab-sandbox",
+          "sourceRevision": "3bb1807f28a98b27d2327fb135b18dae5733f76c",
+          "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+          "placeName": "lab-empty.rbxlx",
+          "placeId": "0",
+          "parameterDigest": "04b37fb013438351a9aae22e58217a1e2c04305518e9d38f65cc164684d54bea"
+        },
+        "decision": "succeeded",
+        "reasonCode": "OK",
+        "approvalId": "ec365ec3-ac62-44cd-a5c5-8407c44bc38d",
+        "approver": "project-owner-mission-20261110",
+        "durationMs": 3298,
+        "resultDigest": "b8b869d45557f61b7884e402dbbcf930bb405bf7ddb23c2fc55d93c8381ece8a"
+      }
+    ]
+  },
+  "localChecks": {
+    "command": "npm run studio:sandbox",
+    "result": "passed",
+    "note": "This probe records the live Studio operations and their governance audit; npm test and verify:evidence are run separately."
+  },
+  "capabilityCoverage": [
+    {
+      "capabilityId": "LAB-STUDIO-002",
+      "acceptanceCriteriaIndexes": [
+        0,
+        1
+      ]
+    }
+  ],
+  "observations": [
+    "Studio instance bacee940-85ac-4899-ba05-a4f923b1d479 reported lab-empty.rbxlx and mode Edit before the run and Edit after it.",
+    "The sealed probe created V1, replaced it with V2, and deleted it only after the marker check; final markerAbsent=true.",
+    "The local save helper changed the sandbox file from 54d406d4f141 to fe2e543bf730; a backup was written before each save.",
+    "Upload attempts: loopback-http=returned.",
+    "Approvals and audit entries: 6 operations, 18 audit lines."
+  ],
+  "limitations": [
+    "The save step uses a targeted Windows keyboard helper because Roblox exposes no supported API to save a local .rbxlx file; it requires an interactive desktop and the named Studio window.",
+    "The upload creates one external account asset; it is not used in any place and cannot be recalled by the Lab. The asset ID is recorded if Studio returned one.",
+    "Publishing was not attempted: the live 36-tool inventory has no publish tool and the mission expressly forbids publishing.",
+    "Rojo live sync is a separate probe; this record does not claim it.",
+    "No human independent review is attached; the capability remains IN_PROGRESS.",
+    "The source identity was dirty=true; a dirty capture cannot support a VERIFIED capability."
+  ],
+  "postCommitVerification": {
+    "commit": "09d4884ae04ce1226da3407284bf099dba05b0b2",
+    "treeSha256": "0bb4ee964b34a71cec95383b94adff89be1eeb66e1ef53033e382e6caa367709",
+    "dirty": false,
+    "capturedDirtyTreeSha256": "0bb4ee964b34a71cec95383b94adff89be1eeb66e1ef53033e382e6caa367709",
+    "matchesCapturedTree": true,
+    "verifiedAt": "2026-11-10T19:15:08.380Z",
+    "note": "The implementation commit was created from the same working tree; evidence files are excluded from the source snapshot. The capture remains recorded as dirty, so it cannot support VERIFIED."
+  }
+}

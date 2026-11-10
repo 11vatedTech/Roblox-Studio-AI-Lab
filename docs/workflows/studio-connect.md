@@ -37,13 +37,30 @@ The catalog is closed. A tool the Studio server reports but the catalog does not
 
 A high-impact approval is a single-use token bound to the operation ID, project, source revision, Studio instance ID, place name and ID, and a SHA-256 digest of the operation parameters. Tokens live 15 seconds to 60 minutes, are stored only as SHA-256 hashes, are consumed by the first authorization, and are refused on replay, scope mismatch, or expiry. Approval issuance, authorization, execution start, result, and denial are appended to `.lab-runtime/studio-governance/audit.jsonl` without the token. `GET /api/studio/operations` shows the matrix and a bounded audit tail; it cannot execute anything.
 
-The only registered mutation executor is a fixed CLI for the reversible local playtest operation:
+The registered mutation executors are fixed CLIs. They are not dashboard routes.
+
+The playtest executor handles the reversible local operation:
 
 ```powershell
 npm run studio:playtest -- --action start --project signal-garden --studio <studio-id> --place-name <place.rbxlx> --place-id 0 --revision <full-git-commit>
 ```
 
-Use `--action stop` for the reverse operation. The CLI connects to the official Studio MCP server, binds the approval to the exact project, revision, Studio instance, and place, and calls only `start_stop_play` with `{ studio_id, is_start }`. It cannot save, upload, publish, replace a script, execute Luau, or invoke an arbitrary tool. Each start or stop needs its own single-use approval; the CLI issues one only for the exact scope it is given. This is a local reversible playtest, not a DataModel sync. Rojo live sync, save, upload, and publish remain blocked.
+Use `--action stop` for the reverse operation. The CLI connects to the official Studio MCP server, binds the approval to the exact project, revision, Studio instance, and place, and calls only `start_stop_play` with `{ studio_id, is_start }`. It cannot save, upload, publish, replace a script, execute Luau, or invoke an arbitrary tool. Each start or stop needs its own single-use approval; the CLI issues one only for the exact scope it is given. This is a local reversible playtest, not a DataModel sync.
+
+The disposable-sandbox executor is sealed to one project, one place, one script path, one fixed 1×1 PNG, and one fixed delete program:
+
+```powershell
+npm run studio:sandbox -- --studio <sandbox-studio-id>
+```
+
+It refuses to run unless the place is named `lab-empty.rbxlx`, the source revision is clean (or `--allow-dirty` is explicitly recorded), and the target is the fixed `LabSandboxProbe` path. Six single-use approvals drive create V1, replace V2, save with a backup, upload the fixed PNG, delete after checking the exact marker, and save the cleanup. It accepts no arbitrary script text, path, asset, or tool name and cannot publish. Because Roblox exposes no supported API to save a local `.rbxlx`, the save step uses `scripts/save-sandbox-place.ps1` with an exact Studio-window and PID check; it requires an interactive desktop. The rehearsal created `rbxassetid://93133245079921` from the fixed PNG and did not use it in any place.
+
+Read-only and diagnostic commands:
+
+- `npm run studio:inventory` captures the current tool list with every input schema and deterministic digests, and diffs it against the prior record.
+- `npm run rojo:live-probe` starts pinned Rojo 7.7.1 serve on `127.0.0.1:34872`, checks loopback readiness and the plugin state, and exits `2` with `ROJO_STUDIO_PLUGIN_ABSENT` when no Studio plugin is connected. It does not write a DataModel.
+
+Rojo live sync, publishing, and arbitrary uploads remain blocked. Publishing is expressly prohibited by the current mission.
 
 Roblox references:
 

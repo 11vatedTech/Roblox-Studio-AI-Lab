@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T18:46:01.198Z",
+  "updatedAt": "2026-11-10T19:15:08.391Z",
   "records": [
     {
       "id": "evidence.studio.signal-garden-local-multiplayer-20261107",
@@ -562,6 +562,58 @@
         "The reviewer is an automated distinct process, not a human; the same operator wrote the implementation, evidence, and review script.",
         "The review did not re-run the live Studio start/stop sequence and did not exercise destructive, upload, publishing, save, or Rojo-sync operations.",
         "The approval issuer label is a local mission label, not a cryptographically authenticated identity."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-studio-sandbox-probe-20261110",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Bounded Studio sandbox mutation, save, upload, and destructive cleanup",
+      "capturedAt": "2026-11-10T19:09:52.878Z",
+      "project": "lab",
+      "scope": "A disposable Rojo-built lab-empty.rbxlx place was mutated only at the fixed LabSandboxProbe path through sealed MCP operations. Six single-use approvals exercised create, replace, local save, one fixed 1x1 PNG upload, marker-checked delete, and cleanup save. The file was backed up before each save and finished with no probe marker. No publication, Open Cloud write, or real project place was touched.",
+      "reference": "evidence/studio/lab-studio-sandbox-probe-20261110.json",
+      "referenceSha256": "af513969cba1bdb4374549a9ed89ad00f562fd20e04578e787e72edc2f838286",
+      "limitations": [
+        "The save step uses a targeted Windows keyboard helper because Roblox exposes no supported API to save a local .rbxlx file; it requires an interactive desktop and the named Studio window.",
+        "One external 1x1 image asset was created (rbxassetid://93133245079921) and was not used in any place; the Lab cannot recall it.",
+        "Publishing was not attempted: the live 36-tool inventory has no publish tool and the mission expressly forbids publishing.",
+        "Rojo live sync is covered by a separate blocked probe, not this record.",
+        "The capture source identity is dirty even though its tree digest matches commit 09d4884; no human independent review is attached."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-live-studio-inventory-20261110-reconciled",
+      "type": "verification-run",
+      "status": "passed",
+      "title": "Fresh live Studio inventory, exact schema baseline, and drift reconciliation",
+      "capturedAt": "2026-11-10T19:12:18.854Z",
+      "project": "lab",
+      "scope": "Read-only capture of the current official Studio MCP inventory with every input schema and deterministic digests. It diffed against the prior 2026-11-10 record: the same 36 tool names, 7 callable, 29 blocked, and 0 missing schemas. The prior record retained no schema bodies, so schema-level drift is not comparable; this record establishes the exact baseline.",
+      "reference": "evidence/studio/lab-live-studio-inventory-20261110-reconciled.json",
+      "referenceSha256": "4845cab43dbb9a514288127ca45630fe4882dcb1302c360f87ab1a191f2bc732",
+      "limitations": [
+        "This is a read-only inventory capture; it does not exercise mutation, save, upload, publishing, or Rojo sync.",
+        "The prior 2026-11-10 record retained no tool schemas, so only names, counts, and callable/blocked labels can be diffed; schema drift begins with this baseline.",
+        "The capture covers the current Studio build and the connected local instances only; a Studio upgrade can change the list.",
+        "The connected sandbox instance is included, but no place was changed by this capture."
+      ]
+    },
+    {
+      "id": "evidence.studio.lab-rojo-live-sync-probe-20261110",
+      "type": "verification-run",
+      "status": "blocked",
+      "title": "Rojo live sync blocked by the absence of a connected Studio plugin",
+      "capturedAt": "2026-11-10T19:12:33.032Z",
+      "project": "lab",
+      "scope": "Pinned Rojo 7.7.1 serve was started on 127.0.0.1:34872 against the disposable sandbox project. The loopback readiness endpoint returned HTTP 200, but no Rojo plugin file was present and no plugin connection appeared. The process was stopped without a DataModel write, publish, or Open Cloud call.",
+      "reference": "evidence/studio/lab-rojo-live-sync-probe-20261110.json",
+      "referenceSha256": "3809d2276fd0818bef2245aaf7da56dae630ffc7218359e46b37ec001c380e82",
+      "limitations": [
+        "This is a failed connection attempt, not a live sync; no DataModel was changed.",
+        "The plugin search covered the recorded local Roblox plugin roots only; another Studio build or profile may differ.",
+        "The Lab has no supported way to click the plugin Connect control or to install and authorize the session automatically.",
+        "No human independent review is attached; LAB-ROJO-002 remains blocked and is not promoted."
       ]
     }
   ]

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "type": "verification-run",
+  "status": "blocked",
+  "title": "Rojo live sync blocked by the absence of a connected Studio plugin",
+  "capturedAt": "2026-11-10T19:12:33.032Z",
+  "project": "lab",
+  "scope": "A pinned Rojo 7.7.1 serve process was started on 127.0.0.1:34872 against the disposable sandbox project. The probe checked the loopback readiness endpoint, waited for a Studio plugin connection, inspected the local plugin directories, and stopped the process. No DataModel write, publish, or Open Cloud call was attempted.",
+  "sourceIdentity": {
+    "branch": "codex/lab-recovery-p0",
+    "commit": "09d4884ae04ce1226da3407284bf099dba05b0b2",
+    "dirty": false,
+    "treeSha256": "0bb4ee964b34a71cec95383b94adff89be1eeb66e1ef53033e382e6caa367709",
+    "sourceFileCount": 267,
+    "excludedRoots": [
+      "evidence"
+    ],
+    "scope": "Git-tracked and nonignored workspace files in their current working-tree contents, excluding the listed artifact roots."
+  },
+  "rojo": {
+    "version": "Rojo 7.7.1",
+    "executable": ".tools/rojo-7.7.1/rojo.exe",
+    "command": "rojo serve --address 127.0.0.1 --port 34872 --color never .",
+    "project": ".lab-runtime/sandbox",
+    "address": "127.0.0.1",
+    "port": 34872,
+    "serverCheck": {
+      "status": 200,
+      "body": "��sessionId�$d3fc1b08-711f-4817-aef5-a6d16d19c391�serverVersion�7.7.1�protocolVersion\u0005�projectName�lab-empty-sandbox�expectedPlaceIds��unexpectedPlaceIds��gameId��placeId��rootInstanceId� 505735e4dfe016959091aa0c80c5714e"
+    },
+    "pluginConnected": false,
+    "stdout": "Rojo server listening:\n  Address: localhost\n  Port:    34872\n\nVisit http://localhost:34872/ in your browser for more information.\n",
+    "stderr": "",
+    "exitCode": null
+  },
+  "studio": {
+    "instances": [
+      {
+        "studioId": "7728ef66-4a93-452f-99be-c528aa2851a7",
+        "name": null,
+        "placeId": null
+      },
+      {
+        "studioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+        "name": "lab-empty.rbxlx",
+        "placeId": null
+      },
+      {
+        "studioId": "d5f07df7-b8ce-4c9b-9e56-6891c6172a64",
+        "name": "signal-garden-20261110T124445Z.rbxlx",
+        "placeId": null
+      }
+    ],
+    "sandboxStudioId": "bacee940-85ac-4899-ba05-a4f923b1d479",
+    "sandboxPlaceName": "lab-empty.rbxlx"
+  },
+  "plugin": {
+    "checkedRoots": [
+      "C:\\Users\\11vat\\AppData\\Local\\Roblox\\Plugins",
+      "C:\\Users\\11vat\\AppData\\Local\\Roblox\\OTAPlugins\\Deployed\\BuiltInPlugins",
+      "C:\\Users\\11vat\\AppData\\Local\\Roblox\\OTAPlugins\\Deployed\\BuiltInStandalonePlugins"
+    ],
+    "rojoPluginFiles": [],
+    "rojoPluginPresent": false
+  },
+  "blocker": {
+    "code": "ROJO_STUDIO_PLUGIN_ABSENT",
+    "detail": "No Rojo Studio plugin file was found in the local plugin roots and no plugin connection appeared on the loopback server. The Lab has no supported way to click the plugin Connect control or install/authorize the plugin session automatically.",
+    "humanAction": "Install the matching Rojo 7.7.1 Studio plugin, open the disposable lab-empty.rbxlx place, click Connect to 127.0.0.1:34872, then rerun the staged sync gate. Do not point it at Signal Garden or any public experience."
+  },
+  "limitations": [
+    "This is a failed connection attempt, not a live sync. No DataModel was changed.",
+    "Rojo serve was reachable or not on loopback only; no external network exposure was configured.",
+    "The plugin may be installed in a Studio build or user profile not covered by the checked local plugin roots; the exact roots are recorded.",
+    "No human independent review is attached; LAB-ROJO-002 remains blocked and is not promoted."
+  ]
+}

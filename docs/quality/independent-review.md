@@ -4,7 +4,7 @@
 
 **APPOINTED — automated distinct process, limited scope (not human).** A separate Node process, `process:lab-review:30676:d370aa77-0904-44b5-b342-ee81eb038626`, reviewed the recorded `LAB-STUDIO-002` evidence on 2026-11-10 and passed 21 of 21 checks, including the full 118-test suite. It is a real separate execution surface, but the same operator wrote the implementation, evidence, and review script; it is not human-independent judgment. The register remains at **0 VERIFIED**.
 
-The project owner has not supplied a human reviewer. This appointment covers the recorded reversible start/stop gate and the approval/audit model only. It does not cover live save, destructive mutation, upload, publishing, or Rojo sync; those executors remain absent. `LAB-STUDIO-002` therefore remains `IN_PROGRESS` with a high open defect.
+The project owner has not supplied a human reviewer. This appointment covers the recorded reversible start/stop gate and the approval/audit model only. A later sealed sandbox run exercised create, replace, save, upload, marker-checked delete, and cleanup, but this review did not inspect or reproduce it; the new record is outside the accepted review scope. `LAB-STUDIO-002` therefore remains `IN_PROGRESS` with a high open defect. Publishing and Rojo sync remain unexercised, and no capability is `VERIFIED`.
 
 ## Eligibility
 
@@ -35,7 +35,7 @@ Fill this before any capability is submitted for `VERIFIED`:
 
 ## Review finding
 
-The automated process passed all 21 checks. It verified the recorded reversible start/stop evidence, the five risk classes, the closed catalog, approval binding, token-free audit, current read-only Studio state, and the full Node suite. It did not re-run the live operation and did not exercise save, destructive mutation, upload, publishing, or Rojo sync. Raw report: `evidence/studio/lab-studio-002-independent-review-20261110.json` (SHA-256 `f82be867be087add867e719189e2d7bdf848fb5b0cd7795006280ddc10ed531a`).
+The automated process passed all 21 checks. It verified the recorded reversible start/stop evidence, the five risk classes, the closed catalog, approval binding, token-free audit, current read-only Studio state, and the full Node suite. It did not re-run the live operation and did not exercise save, destructive mutation, upload, publishing, or Rojo sync. The later `evidence/studio/lab-studio-sandbox-probe-20261110.json` run exercised save, destructive mutation, and upload in a disposable place, but it is outside this review and is not human review. Raw report: `evidence/studio/lab-studio-002-independent-review-20261110.json` (SHA-256 `f82be867be087add867e719189e2d7bdf848fb5b0cd7795006280ddc10ed531a`).
 
 ## Attestation requirements
 
@@ -53,10 +53,11 @@ The evidence source record must include an `independentReview` object with:
 
 ## Immediate consequence
 
-Until the high-impact executors and a human reviewer are in place:
+Until a human reviewer and the remaining external gates are in place:
 
 - no capability may move to `VERIFIED` on this automated review alone;
-- `LAB-STUDIO-002` remains `IN_PROGRESS` with its high open defect;
+- `LAB-STUDIO-002` remains `IN_PROGRESS` with its high open defect; its new sandbox save/destructive/upload evidence is not covered by this review;
+- `LAB-ROJO-002` is `BLOCKED_EXTERNAL` on the absent Studio plugin, not reviewed as a live sync;
 - the four `IMPLEMENTED` capabilities remain evidence-packaged but unreviewed;
-- the solo-loop and live-inventory records support narrow observations only;
+- the solo-loop, inventory, and sandbox records support narrow observations only;
 - `LAB-SEC-001`, `LAB-RELEASE-001`, and every production gate that requires independent review remain open.
