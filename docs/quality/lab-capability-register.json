@@ -530,7 +530,7 @@
         },
         {
           "severity": "medium",
-          "description": "LabKit 1.0 (16 modules) and the LabKit production template are implemented. Hosted Windows CI run 43362332603 on head 33a82e2 passed their five Roblox-free CLI spec suites with pinned Luau 0.745 and built the production template and LabKit package with pinned Rojo 7.7.1. No Studio play, two-client run, DataStore-with-API-access run, or device check of the production template has been performed, and a new-genre brief-to-playable run on the template remains unverified."
+          "description": "LabKit 1.0 (16 modules) and the LabKit production template are implemented. Hosted Windows CI run 43362332603 on head 33a82e2 passed their five Roblox-free CLI spec suites with pinned Luau 0.745 and built the production template and LabKit package with pinned Rojo 7.7.1. No Studio play, two-client run, DataStore-with-API-access run, or device check of the production template has been performed, and a new-genre brief-to-playable run on the template remains unverified. Update 2026-11-12: a first manual Studio solo Play of the production template found and fixed a prompt-range/server-range mismatch; the fixed build then showed server pickup awarding Coins with analytics events, a successful LabKit Net upgrade purchase, an insufficient_funds refusal, and schema rejection of an unknown upgrade ID. These observations are not yet a typed, source-bound evidence record."
         }
       ],
       "blockers": [
