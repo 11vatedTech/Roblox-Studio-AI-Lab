@@ -19,18 +19,19 @@ local GameConfig = {
 		orbHeight = 4,
 		respawnSeconds = 6,
 		baseReward = 5,
-		collectDistance = 14,
+		pickupRadius = 6, -- studs from the character's root at which an orb is collected
+		pickupInterval = 0.15, -- seconds between server pickup scans
 	},
 
 	-- Upgrades are bought with Coins. Each level multiplies the effect.
 	upgrades = {
 		Magnet = {
 			displayName = "Magnet",
-			description = "Collect orbs from farther away.",
+			description = "Pull in orbs from farther away.",
 			maxLevel = 5,
 			baseCost = 50,
 			costGrowth = 2.2,
-			effectPerLevel = 3, -- studs of extra collect distance
+			effectPerLevel = 3, -- studs of extra pickup radius
 		},
 		Value = {
 			displayName = "Orb Value",

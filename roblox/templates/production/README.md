@@ -10,7 +10,7 @@ collect faster. Progress persists across sessions.
 | Concern | Where | How |
 |---|---|---|
 | Persistence | `src/server/DataService.luau` | LabKit `PlayerData` with UpdateAsync session locks, autosave, `BindToClose` release, kick on `session_lost` or newer-schema data; in-memory fallback (logged) when Studio API access is off |
-| Authority | `src/server/GameService.luau` | Orbs are server parts with ProximityPrompts; the server checks prompt, orb state, and server-side character distance. No remote can award currency |
+| Authority | `src/server/GameService.luau` | Orbs are server parts collected by a server-side pickup scan using server character positions (Magnet widens the radius). No client input or remote can award currency |
 | Remotes | `src/shared/Remotes.luau` | LabKit `Net` contracts with schemas and rate limits for buy/settings/state |
 | Economy | `GameService` + `Rules` | LabKit `Economy` purchase with refund-on-failure; AnalyticsService economy events (source/sink) |
 | Monetization | `GameConfig.products` | Disabled by default (nil product IDs). Once the owner creates products, LabKit `Receipts` handles ProcessReceipt idempotently |

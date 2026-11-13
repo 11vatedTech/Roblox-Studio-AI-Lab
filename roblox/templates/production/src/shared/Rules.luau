@@ -24,8 +24,8 @@ function Rules.level(data, upgradeId)
 	return levels[upgradeId] or 0
 end
 
-function Rules.collectDistance(config, data)
-	return config.world.collectDistance + Rules.level(data, "Magnet") * config.upgrades.Magnet.effectPerLevel
+function Rules.pickupRadius(config, data)
+	return config.world.pickupRadius + Rules.level(data, "Magnet") * config.upgrades.Magnet.effectPerLevel
 end
 
 function Rules.orbReward(config, data)
@@ -37,9 +37,9 @@ function Rules.walkSpeed(config, data)
 	return config.baseWalkSpeed + Rules.level(data, "Speed") * config.upgrades.Speed.effectPerLevel
 end
 
--- Validates that a player standing at `playerPosition` may collect an orb at
--- `orbPosition`. Positions are {x, y, z} tables or Vector3 values. A small tolerance
--- covers network latency without letting a client collect across the map.
+-- Decides whether a character whose root is at `playerPosition` (read on the server)
+-- collects an orb at `orbPosition`. Positions are {X, Y, Z} tables or Vector3 values.
+-- Both positions come from the server, so no client value is trusted.
 function Rules.canCollect(config, data, playerPosition, orbPosition, orbActive)
 	if not orbActive then
 		return false, "orb_inactive"
@@ -51,7 +51,7 @@ function Rules.canCollect(config, data, playerPosition, orbPosition, orbActive)
 	if distance ~= distance then
 		return false, "invalid_position"
 	end
-	if distance > Rules.collectDistance(config, data) + 4 then
+	if distance > Rules.pickupRadius(config, data) then
 		return false, "too_far"
 	end
 	return true

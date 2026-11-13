@@ -25,13 +25,16 @@ end
 local data = { upgrades = { Value = 2, Magnet = 1, Speed = 3 }, wallet = { Coins = 120 }, settings = {}, stats = {} }
 assert(Rules.orbReward(GameConfig, data) == 8, "reward scales with Value (5 * 1.5 = 7.5 -> 8)")
 assert(Rules.orbReward(GameConfig, { upgrades = {} }) == GameConfig.world.baseReward, "base reward with no upgrades")
-assert(Rules.collectDistance(GameConfig, data) == GameConfig.world.collectDistance + 3, "magnet adds distance")
+assert(Rules.pickupRadius(GameConfig, data) == GameConfig.world.pickupRadius + 3, "magnet widens pickup radius")
 assert(Rules.walkSpeed(GameConfig, data) == 22, "speed upgrade adds walk speed")
 
 -- Server-side collection validation
-local near = { X = 0, Y = 4, Z = 10 }
+local near = { X = 0, Y = 4.5, Z = 5 }
 local orb = { X = 0, Y = 4, Z = 0 }
 assert(Rules.canCollect(GameConfig, data, near, orb, true) == true, "nearby active orb collectable")
+local edge = Rules.canCollect(GameConfig, { upgrades = {} }, { X = 0, Y = 4, Z = GameConfig.world.pickupRadius + 0.5 }, orb, true)
+assert(edge == false, "just outside the base radius is not collected without Magnet")
+assert(Rules.canCollect(GameConfig, data, { X = 0, Y = 4, Z = GameConfig.world.pickupRadius + 0.5 }, orb, true) == true, "Magnet collects the same orb")
 local far, farReason = Rules.canCollect(GameConfig, data, { X = 0, Y = 4, Z = 200 }, orb, true)
 assert(far == false and farReason == "too_far", "distant collection rejected")
 local inactive, inactiveReason = Rules.canCollect(GameConfig, data, near, orb, false)

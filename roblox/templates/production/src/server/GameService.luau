@@ -1,13 +1,16 @@
 --!strict
 -- Core loop: collect orbs -> earn Coins -> buy upgrades -> collect faster.
--- Orbs are server-owned parts with ProximityPrompts; the server validates distance and
--- orb state on every trigger, so no client remote can award currency. Purchases and
+-- Orbs are server-owned parts. A server scan collects any active orb within each
+-- character's pickup radius (widened by the Magnet upgrade), using server-side positions
+-- only, so no client input or remote can award currency and it works the same on touch,
+-- gamepad, and keyboard. Purchases and
 -- settings go through LabKit.Net contracts. Economy changes are logged to
 -- AnalyticsService economy events when available.
 
 local AnalyticsService = game:GetService("AnalyticsService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
@@ -66,6 +69,8 @@ end
 
 -- World -----------------------------------------------------------------------
 
+local orbs: { BasePart } = {}
+
 local function buildWorld()
 	local existing = Workspace:FindFirstChild("LabProductionField")
 	if existing then
@@ -114,35 +119,26 @@ local function buildWorld()
 		light.Color = orb.Color
 		light.Parent = orb
 
-		local prompt = Instance.new("ProximityPrompt")
-		prompt.ActionText = "Collect"
-		prompt.ObjectText = "Orb"
-		prompt.HoldDuration = 0
-		prompt.RequiresLineOfSight = false
-		prompt.MaxActivationDistance = GameConfig.world.collectDistance + GameConfig.upgrades.Magnet.maxLevel * GameConfig.upgrades.Magnet.effectPerLevel
-		prompt.Parent = orb
-
-		prompt.Triggered:Connect(function(player: Player)
-			GameService.collect(player, orb, prompt)
-		end)
+		table.insert(orbs, orb)
 	end
 	return field
 end
 
-function GameService.collect(player: Player, orb: BasePart, prompt: ProximityPrompt)
+function GameService.collect(player: Player, orb: BasePart, rootPosition: Vector3)
 	local profile = DataService.get(player)
-	local character = player.Character
-	local root = character and character:FindFirstChild("HumanoidRootPart")
-	if profile == nil or root == nil or not root:IsA("BasePart") then
-		return
+	if profile == nil then
+		return false
 	end
-	local ok = Rules.canCollect(GameConfig, profile.Data, root.Position, orb.Position, orb:GetAttribute("Active") == true)
+	local ok = Rules.canCollect(GameConfig, profile.Data, rootPosition, orb.Position, orb:GetAttribute("Active") == true)
 	if not ok then
-		return
+		return false
 	end
 	orb:SetAttribute("Active", false)
 	orb.Transparency = 1
-	prompt.Enabled = false
+	local light = orb:FindFirstChildOfClass("PointLight")
+	if light then
+		light.Enabled = false
+	end
 	local reward = Rules.orbReward(GameConfig, profile.Data)
 	economy:grant(profile.Data, CURRENCY, reward, { reason = "orb" })
 	profile.Data.stats.orbsCollected += 1
@@ -152,7 +148,35 @@ function GameService.collect(player: Player, orb: BasePart, prompt: ProximityPro
 		if orb.Parent then
 			orb:SetAttribute("Active", true)
 			orb.Transparency = 0
-			prompt.Enabled = true
+			if light then
+				light.Enabled = true
+			end
+		end
+	end)
+	return true
+end
+
+-- Scans every loaded player's character against active orbs on a fixed interval.
+local function startPickupScan()
+	local elapsed = 0
+	RunService.Heartbeat:Connect(function(dt)
+		elapsed += dt
+		if elapsed < GameConfig.world.pickupInterval then
+			return
+		end
+		elapsed = 0
+		for _, player in ipairs(Players:GetPlayers()) do
+			local character = player.Character
+			local root = character and character:FindFirstChild("HumanoidRootPart")
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if root and root:IsA("BasePart") and humanoid and humanoid.Health > 0 and DataService.get(player) then
+				local rootPosition = root.Position
+				for _, orb in ipairs(orbs) do
+					if orb:GetAttribute("Active") == true then
+						GameService.collect(player, orb, rootPosition)
+					end
+				end
+			end
 		end
 	end)
 end
@@ -224,6 +248,7 @@ end
 
 function GameService.start()
 	buildWorld()
+	startPickupScan()
 	bindReceipts()
 	DataService.Loaded:Connect(function(player: Player)
 		player.CharacterAdded:Connect(function()

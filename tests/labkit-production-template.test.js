@@ -117,8 +117,9 @@ test('production template keeps currency authority on the server and never trust
   const remotes = await fs.readFile(path.join(repositoryRoot, 'roblox', 'templates', 'production', 'src', 'shared', 'Remotes.luau'), 'utf8');
   const client = await fs.readFile(path.join(repositoryRoot, 'roblox', 'templates', 'production', 'src', 'client', 'Hud.client.luau'), 'utf8');
   assert.doesNotMatch(remotes, /Collect|Grant|AddCoins/i, 'no client remote may award currency');
-  assert.match(server, /prompt\.Triggered:Connect/, 'collection is driven by server-side ProximityPrompt events');
-  assert.match(server, /Rules\.canCollect\(GameConfig, profile\.Data, root\.Position/, 'server validates distance from the server-side character position');
+  assert.match(server, /RunService\.Heartbeat:Connect/, 'collection is driven by a server-side pickup scan');
+  assert.match(server, /local rootPosition = root\.Position/, 'pickup uses the server-side character position');
+  assert.match(server, /Rules\.canCollect\(GameConfig, profile\.Data, rootPosition/, 'server validates the pickup radius before granting');
   assert.doesNotMatch(client, /wallet|economy:grant|DataStore/i, 'client code does not touch the wallet or persistence');
   const data = await fs.readFile(path.join(repositoryRoot, 'roblox', 'templates', 'production', 'src', 'server', 'DataService.luau'), 'utf8');
   assert.match(data, /BindToClose/, 'profiles are released on shutdown');
