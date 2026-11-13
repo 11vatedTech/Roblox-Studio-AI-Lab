@@ -1,0 +1,12 @@
+{
+  "name": "LabKit",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Packages": {
+        "$className": "Folder",
+        "LabKit": { "$path": "src" }
+      }
+    }
+  }
+}
