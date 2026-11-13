@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10T19:34:26.687Z",
+  "updatedAt": "2026-11-13T03:56:56Z",
   "capabilities": [
     {
       "id": "LAB-CORE-001",
@@ -49,7 +49,9 @@
         "tests/lab-server.test.js",
         "tests/backup-scripts.test.js",
         "src/services/project-store.js",
-        "tests/project-store.test.js"
+        "tests/project-store.test.js",
+        "src/services/project-templates.js",
+        "tests/labkit-production-template.test.js"
       ],
       "acceptanceCriteria": [
         "Project creation uses a real local template and rejects unsafe names and paths.",
@@ -62,6 +64,10 @@
         {
           "severity": "medium",
           "description": "Persistent identity, bounded settings with revision conflicts, corruption/incompatibility classification, interrupted-staging recovery, and restart persistence are implemented and locally tested; a source-bound evidence record with an independent reviewer is still required before VERIFIED."
+        },
+        {
+          "severity": "low",
+          "description": "Project creation now selects from a closed template set (base, production). The production template vendors LabKit with a per-file SHA-256 lock and repoints the Rojo tree; manifest recovery infers the template from the lock. LabKit upgrade/drift tooling for already-scaffolded projects is not implemented."
         }
       ],
       "blockers": [],
@@ -492,7 +498,11 @@
         "projects/signal-garden/default.project.json",
         "projects/misprint-menagerie/default.project.json",
         "roblox/templates/base/default.project.json",
-        "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md"
+        "docs/superpowers/specs/2026-11-07-ai-roblox-studio-lab-closure-design.md",
+        "roblox/packages/labkit/src/init.luau",
+        "roblox/templates/production/default.project.json",
+        "src/services/project-templates.js",
+        "tests/labkit-production-template.test.js"
       ],
       "acceptanceCriteria": [
         "Project requirements create server-authoritative gameplay tasks and integrate original assets with explicit device targets.",
@@ -517,6 +527,10 @@
         {
           "severity": "high",
           "description": "No current typed record covers every acceptance criterion for this capability, and no independent reviewer is attached. The gate records are blocked evidence, not passing gameplay or device certification."
+        },
+        {
+          "severity": "medium",
+          "description": "LabKit 1.0 (16 modules: validated Net contracts, session-locked PlayerData, idempotent Receipts, Economy, Inventory, StateMachine, Rng, LootTable, Spring, Theme, Create, Signal, Trove, Retry, RateLimiter, Schema) and the LabKit production template are implemented with Roblox-free CLI specs that passed under a Lua 5.3 translation harness on 2026-11-12. The pinned Luau 0.745 spec run, Rojo builds of the template and package, and any Studio play of the production template have not yet been recorded as evidence; a new-genre brief-to-playable run on the template remains unverified."
         }
       ],
       "blockers": [
@@ -541,7 +555,9 @@
         "scripts/run-luau-specs.ps1",
         "tests",
         "projects/misprint-menagerie/tests",
-        "docs/workflows/release-certification.md"
+        "docs/workflows/release-certification.md",
+        "scripts/run-luau-specs.ps1",
+        "scripts/test-all.ps1"
       ],
       "acceptanceCriteria": [
         "Node, pure Luau CLI specs, Luau syntax, Luau analysis, Rojo, Studio, device, and visual results are reported as separate grades.",
@@ -563,6 +579,10 @@
         {
           "severity": "high",
           "description": "Engine-dependent project .spec.luau files still need a dedicated Studio runner; Luau engine type analysis and runtime/device reporting are also open."
+        },
+        {
+          "severity": "low",
+          "description": "scripts/test-all.ps1 now runs every *.cli.spec.luau under projects/ and roblox/ with the pinned Luau 0.745 (previously specs were a separate manual command); the first hosted-CI run of this change is the verification point."
         }
       ],
       "blockers": [

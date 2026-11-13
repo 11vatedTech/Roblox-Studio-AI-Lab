@@ -17,6 +17,7 @@ import { createTaskPlan, getTaskHandoff, listTaskPlans, readTaskPlan, updateTask
 import { buildRojoProject, getRojoBuildArtifact, inspectRojoProject } from '../services/rojo-workflows.js';
 import { loadCapabilityRegister } from '../services/capability-register.js';
 import { loadEvidenceRegistry } from '../services/evidence-registry.js';
+import { listTemplates, resolveTemplate, vendorLabKit } from '../services/project-templates.js';
 import { createProjectManifest, inspectProject, readProjectManifest, recoverProject, updateProjectSettings } from '../services/project-store.js';
 
 const MAX_BODY_BYTES = 16 * 1024;
@@ -26,7 +27,6 @@ const ALLOWED_TEXT_EXTENSIONS = new Set(['.lua', '.luau', '.json', '.md', '.txt'
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(MODULE_DIR, '../..');
 const DASHBOARD_ROOT = path.join(REPO_ROOT, 'apps', 'control-center', 'public');
-const PROJECT_TEMPLATE = path.join(REPO_ROOT, 'roblox', 'templates', 'base');
 const STUDIO_PATH_PATTERN = /^(?:game|[A-Za-z_][A-Za-z0-9_]*)(?:\.[A-Za-z_][A-Za-z0-9_]*){0,18}$/;
 const KNOWLEDGE_KINDS = new Set(['engine-capability', 'game-family', 'mechanic', 'visual-style', 'animation-domain', 'product-pattern', 'production-pattern', 'failure-pattern']);
 const KNOWLEDGE_PLATFORM_STATES = new Set(['released', 'beta', 'experimental', 'announced', 'delayed', 'deprecated', 'unknown', 'not-applicable']);
@@ -176,8 +176,9 @@ async function listProjects(rootDir) {
   return projects;
 }
 
-async function createProject(rootDir, name, { displayName } = {}) {
+async function createProject(rootDir, name, { displayName, template: templateId } = {}) {
   validateProjectName(name);
+  const template = resolveTemplate(templateId ?? 'base');
   if (displayName !== undefined && (typeof displayName !== 'string' || !displayName.trim() || displayName.length > 80)) {
     throw Object.assign(new Error('A display name must be 1–80 characters when provided.'), { code: 'INVALID_DISPLAY_NAME', status: 400 });
   }
@@ -196,17 +197,18 @@ async function createProject(rootDir, name, { displayName } = {}) {
     if (error.code !== 'ENOENT') throw error;
   }
   try {
-    await fs.cp(PROJECT_TEMPLATE, tempPath, { recursive: true, errorOnExist: true, force: false, verbatimSymlinks: false });
-    const manifest = await createProjectManifest(tempPath, { name, displayName });
+    await fs.cp(template.directory, tempPath, { recursive: true, errorOnExist: true, force: false, verbatimSymlinks: false });
+    const labkit = template.vendorLabKit ? await vendorLabKit(tempPath) : null;
+    const manifest = await createProjectManifest(tempPath, { name, displayName, template: template.manifestTemplate });
     await fs.rename(tempPath, targetPath);
     const files = await walkFiles(targetPath);
-    return { name, path: `projects/${name}`, createdAt: manifest.createdAt, template: manifest.template, fileCount: files.length, projectId: manifest.projectId, revision: manifest.revision };
+    return { name, path: `projects/${name}`, createdAt: manifest.createdAt, template: manifest.template, labkitVersion: labkit?.version ?? null, fileCount: files.length, projectId: manifest.projectId, revision: manifest.revision };
   } catch (error) {
     await fs.rm(tempPath, { recursive: true, force: true }).catch(() => {});
     if (error.code === 'EEXIST' || error.code === 'ENOTEMPTY') {
       throw Object.assign(new Error(`A project named ${name} already exists.`), { code: 'PROJECT_EXISTS', status: 409 });
     }
-    if (error.code === 'ENOENT' && error.path?.startsWith(PROJECT_TEMPLATE)) {
+    if (error.code === 'ENOENT' && error.path?.startsWith(template.directory)) {
       throw Object.assign(new Error('The Roblox base template is missing from this installation.'), { code: 'PROJECT_TEMPLATE_MISSING', status: 500 });
     }
     throw error;
@@ -508,10 +510,11 @@ export function createLabServer({ rootDir = REPO_ROOT, toolRootDir = REPO_ROOT, 
         if ([...url.searchParams.keys()].length) throw Object.assign(new Error('The evidence registry does not accept query parameters.'), { code: 'INVALID_EVIDENCE_FILTER', status: 400 });
         return json(response, 200, await loadEvidenceRegistry(root));
       }
+      if (route === 'GET /api/templates') return json(response, 200, { templates: listTemplates() });
       if (route === 'GET /api/projects') return json(response, 200, { projects: await listProjects(root) });
       if (route === 'POST /api/projects') {
         const body = await readJson(request);
-        const project = await createProject(root, body.name, { displayName: body.displayName });
+        const project = await createProject(root, body.name, { displayName: body.displayName, template: body.template });
         return json(response, 201, { project });
       }
       const projectInspectRoute = url.pathname.match(/^\/api\/projects\/([a-zA-Z0-9][a-zA-Z0-9_-]{0,47})$/);

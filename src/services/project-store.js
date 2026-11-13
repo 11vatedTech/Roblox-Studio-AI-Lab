@@ -228,7 +228,10 @@ export async function inspectProject(rootDir, name) {
   };
 }
 
-export async function createProjectManifest(projectDir, { name, displayName, projectId = randomUUID(), recoveredFrom = null } = {}) {
+const MANIFEST_TEMPLATES = new Set(['roblox-base', 'roblox-production']);
+
+export async function createProjectManifest(projectDir, { name, displayName, projectId = randomUUID(), recoveredFrom = null, template = 'roblox-base' } = {}) {
+  if (!MANIFEST_TEMPLATES.has(template)) throw fail('INVALID_PROJECT_TEMPLATE', 'Unknown project template.');
   const project = validateProjectName(name);
   if (displayName !== undefined && (typeof displayName !== 'string' || !displayName.trim() || displayName.length > 80)) {
     throw fail('INVALID_DISPLAY_NAME', 'A display name must be 1–80 characters when provided.');
@@ -239,7 +242,7 @@ export async function createProjectManifest(projectDir, { name, displayName, pro
     projectId,
     name: project,
     displayName: displayName?.trim() || project,
-    template: 'roblox-base',
+    template,
     createdAt: now,
     updatedAt: now,
     revision: 1,
@@ -350,6 +353,8 @@ export async function recoverProject(rootDir, name, { actions } = {}) {
       name: project,
       displayName: manifestRead.manifest?.displayName ?? undefined,
       recoveredFrom: manifestRead.status === 'missing' ? 'missing' : 'invalid',
+      // A vendored LabKit lock identifies a production-template project after manifest loss.
+      template: (await lstatOrNull(path.join(projectRoot, 'Packages', 'labkit.lock.json')))?.isFile() ? 'roblox-production' : 'roblox-base',
     });
     results.push({ action: 'rebuild-manifest', status: 'rebuilt', projectId: manifest.projectId, revision: manifest.revision });
   }

@@ -15,16 +15,23 @@ if (-not $projectsItem.PSIsContainer -or $projectsItem.LinkType -in @('SymbolicL
     throw 'The projects root must be a real directory.'
 }
 
-$specs = @(Get-ChildItem -LiteralPath $projectsRoot -Recurse -File -Filter '*.cli.spec.luau' | Sort-Object FullName)
-if ($specs.Count -eq 0) { throw 'No Roblox-free Luau CLI specs were found under projects/.' }
+$robloxRoot = Join-Path $root 'roblox'
+$specRoots = @($projectsRoot)
+if (Test-Path -LiteralPath $robloxRoot -PathType Container) { $specRoots += $robloxRoot }
+$specs = @($specRoots | ForEach-Object { Get-ChildItem -LiteralPath $_ -Recurse -File -Filter '*.cli.spec.luau' } | Sort-Object FullName)
+if ($specs.Count -eq 0) { throw 'No Roblox-free Luau CLI specs were found under projects/ or roblox/.' }
 if ($specs.Count -gt 500) { throw 'Luau CLI spec count exceeds the 500-file execution limit.' }
 
-$projectsPrefix = [System.IO.Path]::GetFullPath($projectsRoot).TrimEnd([char[]]@('\', '/')) + [System.IO.Path]::DirectorySeparatorChar
 $passed = 0
 foreach ($spec in $specs) {
     $resolvedSpec = [System.IO.Path]::GetFullPath($spec.FullName)
-    if (-not $resolvedSpec.StartsWith($projectsPrefix, [System.StringComparison]::OrdinalIgnoreCase) -or $spec.LinkType -in @('SymbolicLink', 'Junction', 'HardLink') -or $spec.Length -gt 1024 * 1024) {
-        throw "Luau CLI spec must be a regular in-project file no larger than 1 MiB: $resolvedSpec"
+    $projectsPrefix = $null
+    foreach ($specRoot in $specRoots) {
+        $candidate = [System.IO.Path]::GetFullPath($specRoot).TrimEnd([char[]]@('\', '/')) + [System.IO.Path]::DirectorySeparatorChar
+        if ($resolvedSpec.StartsWith($candidate, [System.StringComparison]::OrdinalIgnoreCase)) { $projectsPrefix = $candidate }
+    }
+    if ($null -eq $projectsPrefix -or $spec.LinkType -in @('SymbolicLink', 'Junction', 'HardLink') -or $spec.Length -gt 1024 * 1024) {
+        throw "Luau CLI spec must be a regular in-repository file no larger than 1 MiB: $resolvedSpec"
     }
 
     $current = Get-Item -LiteralPath $resolvedSpec -Force

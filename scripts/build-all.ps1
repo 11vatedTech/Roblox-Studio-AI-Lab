@@ -18,7 +18,7 @@ if (-not (Test-Path -LiteralPath $rojo)) {
 
 $buildDirectory = Join-Path $root '.lab-runtime\builds'
 New-Item -ItemType Directory -Path $buildDirectory -Force | Out-Null
-$projects = @((Join-Path $root 'roblox\templates\base'))
+$projects = @((Join-Path $root 'roblox\templates\base'), (Join-Path $root 'roblox\templates\production'), (Join-Path $root 'roblox\packages\labkit'))
 $projects += Get-ChildItem -LiteralPath (Join-Path $root 'projects') -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
 $results = @()
 foreach ($projectDirectory in $projects) {

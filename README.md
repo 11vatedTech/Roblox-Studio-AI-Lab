@@ -55,6 +55,10 @@ The Rojo Studio plugin is a separate Studio-side requirement for live source syn
 
 The Projects workbench can inspect a project's `default.project.json` and build an unpublished `.rbxlx` using the pinned Rojo 7.7.1 CLI. Each project also carries a persistent `lab.project.json` identity with bounded settings and a revision: `GET /api/projects/<slug>` reports integrity, corruption, incompatibility, and interrupted-operation state; `PATCH` updates settings with revision conflict detection; and `POST /api/projects/<slug>/recover` removes stale staging output or rebuilds an unreadable manifest while preserving the original bytes. The Lab validates all declared `$path` inputs, copies them into a bounded snapshot, hashes the snapshot and output, and stores the artifact and operation record under ignored `.lab-runtime/`. Use `GET /api/projects/<slug>/rojo` to inspect configuration and recent build state, `POST /api/projects/<slug>/build` with `{}` to run the named build operation, and `GET /api/builds/<id>` to download a successful artifact. It does not start live sync or alter an open Studio place.
 
+## Build a game on LabKit
+
+Create a project from the production template (Workbench, or `POST /api/projects` with `{ "name": "my-game", "template": "production" }`). The project gets a vendored, hash-locked LabKit in `Packages/LabKit` and a working loop: server-validated collection, session-locked persistence, an upgrade shop with refund-safe purchases, AnalyticsService economy events, idempotent developer-product receipts (off until product IDs are configured), and a touch-ready themed HUD. Replace the orb loop with your design and keep the infrastructure. See `roblox/packages/labkit/README.md` and `roblox/templates/production/README.md`; `scripts/test-all.ps1` runs every LabKit and template spec with the pinned Luau and builds both with Rojo.
+
 ## Plan and hand off project work
 
 The Agent Workbench creates versioned task plans under each project at `.lab/task-plans/`. It matches the requested capabilities and artifact types to registered specialists and a compatible reviewer, snapshots selected knowledge, and preserves exact read/write ownership paths.
@@ -87,7 +91,8 @@ The current validation record is `evidence/p0/lab-platform-verification-2026-11-
 
 - `apps/control-center/` — browser dashboard.
 - `src/` — loopback HTTP service, bounded Roblox Studio MCP client, Lab Tasks MCP server, staged task execution/review, quality checks, knowledge records, specialist matching, and project-scoped task plans.
-- `roblox/templates/` — functional Rojo project templates.
+- `roblox/packages/labkit/` — LabKit, the production Luau framework (validated remotes, session-locked saves, receipts, economy, inventory, state machines, seeded RNG, loot odds/pity, springs, UI theme) with Roblox-free specs.
+- `roblox/templates/` — Rojo project templates: `production` (LabKit game loop with persistence, economy, shop, analytics, themed HUD) and `base` (minimal workflow check).
 - `projects/` — local experiences created from templates; the Signal Garden showcase currently runs as a stylized blockout.
 - `skills/` — specialized Roblox production workflows.
 - `.agents/skills/` — Freebuff-compatible entry skill that routes agents into this project's operating contract and playbooks.

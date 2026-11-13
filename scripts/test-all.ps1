@@ -19,5 +19,8 @@ try {
 & (Join-Path $PSScriptRoot 'lint-luau.ps1')
 if ($LASTEXITCODE -ne 0) { throw 'Luau syntax validation failed.' }
 
+& (Join-Path $PSScriptRoot 'run-luau-specs.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'Luau CLI specs failed.' }
+
 & (Join-Path $PSScriptRoot 'build-all.ps1')
 if ($LASTEXITCODE -ne 0) { throw 'Rojo build validation failed.' }

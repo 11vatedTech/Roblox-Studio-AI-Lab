@@ -24,6 +24,26 @@ Use this skill when a task in this repository changes or evaluates a Roblox expe
 - Separate design hypotheses from observed player evidence. Propose the smallest playtest that can disprove a weak hypothesis, then use actual participant feedback and measured behavior.
 - Make monetization legible and optional where the design allows it. Do not add purchases, Robux spending, paid services, or live monetization changes without explicit authorization for that specific action.
 
+## Start new games from the production template and LabKit
+
+- Create new experiences with `POST /api/projects { "name": "...", "template": "production" }` (or the Workbench). This vendors LabKit into `Packages/LabKit` with a hash lock and gives a working persistence/economy/shop/HUD loop. Use the `base` template only for minimal source-workflow tests.
+- Build on LabKit instead of re-implementing infrastructure (see `roblox/packages/labkit/README.md`):
+  - every client→server message is a `Net` contract with `Schema` arguments and a rate limit; never create raw RemoteEvents;
+  - all saved state goes through `PlayerData` profiles; never call `SetAsync`/`GetAsync` for player data;
+  - currencies go through `Economy` (idempotency keys for anything retried); developer products go through `Receipts`;
+  - items through `Inventory`; round/NPC/ability/UI flows through `StateMachine`; procedural content through seeded `Rng`; paid random rewards through `LootTable` with its published `odds()` shown in UI;
+  - UI uses `Theme` tokens, `Create`, and `Spring`, keeps 44 px touch targets, and honours reduced motion.
+- Keep rules in pure modules and ship a `tests/*.cli.spec.luau` for each one; `scripts/test-all.ps1` runs them with the pinned Luau.
+
+## Commercial quality bar (check before calling a slice done)
+
+- First 60 seconds: the player understands the goal, performs the core verb, and sees a reward without reading text walls.
+- Core loop has a meaningful decision and visible progression; a session has a natural stopping point and a reason to return.
+- Every currency source and sink is server-side, logged via AnalyticsService economy events, and covered by a spec.
+- Data survives rejoin, server shutdown, and a second server; no path grants twice.
+- UI readable at 360 px height, works with touch, gamepad, and keyboard, and passes contrast.
+- No errors or warnings in a clean Studio play session; graybox geometry is labelled until replaced with ledger-tracked assets.
+
 ## Build from canonical source
 
 - Use the selected project's `default.project.json`, Luau source, and pinned Rojo toolchain. Treat generated `.rbxlx`, `.rbxl`, and build outputs as disposable outputs; edit canonical source unless the user explicitly targets a generated place.
